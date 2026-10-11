@@ -15,13 +15,66 @@ button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus
 @media(max-width:850px){body{padding:14px}.layout{grid-template-columns:1fr}.sidecol{grid-template-columns:repeat(2,minmax(0,1fr))}.sidecol .card:last-child{grid-column:1/-1}.heading h1{font-size:32px}}
 @media(max-width:540px){body{padding:10px}.topbar{margin-bottom:16px}.brand{font-size:17px}.top-actions .soft-btn{display:none}.layout{gap:13px}.game-card{padding:9px;border-radius:18px}.score-row{gap:6px}.scorebox{padding:9px}.scorebox strong{font-size:20px}.scorebox small{font-size:8px}.game-footer{font-size:10px}.mobile-pad{display:grid}.sidecol{grid-template-columns:1fr}.sidecol .card:last-child{grid-column:auto}.card{padding:15px}.heading{align-items:start}.status{font-size:9px}.game-footer span:last-child{display:none}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+  /* Full-screen Snakefield mode */
+.game-card:fullscreen {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 16px;
+  border: 0;
+  border-radius: 0;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.game-card:fullscreen .board-wrap {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-card:fullscreen .board {
+  width: 100%;
+  height: 100%;
+  max-width: min(100%, calc(100vh - 190px));
+  object-fit: contain;
+  aspect-ratio: 1;
+}
+
+.game-card:fullscreen .mobile-pad {
+  flex-shrink: 0;
+}
+
+.game-card:fullscreen .game-footer {
+  flex-shrink: 0;
+}
+
+@media (max-width: 540px) {
+  .top-actions #fullscreenBtn {
+    display: inline-block;
+    padding: 9px;
+  }
+
+  .game-card:fullscreen {
+    padding: 8px;
+  }
+}
 </style>
 </head>
 <body>
 <div class="app">
   <header class="topbar">
     <div class="brand"><div class="logo">↗</div><div>snakefield<small>the little apple game</small></div></div>
-    <div class="top-actions"><button class="soft-btn" id="restartTop">↻ New run</button><button class="icon-btn" id="soundToggle" aria-label="Toggle sound" title="Toggle sound">♫</button></div>
+  <div class="top-actions">
+  <button class="soft-btn" id="restartTop">↻ New run</button>
+  <button class="soft-btn" id="fullscreenBtn">⛶ Full screen</button>
+  <button class="icon-btn" id="soundToggle" aria-label="Toggle sound" title="Toggle sound">♫</button>
+</div>
   </header>
   <div class="layout">
     <section class="maincol">
@@ -120,6 +173,27 @@ $('playerName').value=playerName;
 document.addEventListener('keydown',e=>{const map={ArrowUp:'up',w:'up',W:'up',ArrowDown:'down',s:'down',S:'down',ArrowLeft:'left',a:'left',A:'left',ArrowRight:'right',d:'right',D:'right'};if(map[e.key]){e.preventDefault();setDir(map[e.key])}if(e.code==='Space'){e.preventDefault();if(state==='playing'||state==='paused')pause()}if(e.key.toLowerCase()==='r'){start()}if(e.key==='Enter'&&(state==='ready'||state==='over'))start()});
 document.querySelectorAll('[data-dir]').forEach(b=>{b.addEventListener('pointerdown',e=>{e.preventDefault();setDir(b.dataset.dir)})});
 let touchStart=null;canvas.addEventListener('pointerdown',e=>{touchStart={x:e.clientX,y:e.clientY}});canvas.addEventListener('pointerup',e=>{if(!touchStart)return;const dx=e.clientX-touchStart.x,dy=e.clientY-touchStart.y;touchStart=null;if(Math.max(Math.abs(dx),Math.abs(dy))<18)return;setDir(Math.abs(dx)>Math.abs(dy)?dx>0?'right':'left':dy>0?'down':'up')});
+  // Full-screen game button
+const fullscreenBtn = $('fullscreenBtn');
+const gameCard = document.querySelector('.game-card');
+
+fullscreenBtn.addEventListener('click', async () => {
+  try {
+    if (!document.fullscreenElement) {
+      await gameCard.requestFullscreen();
+    } else {
+      await document.exitFullscreen();
+    }
+  } catch (error) {
+    say('Full screen is not available in this browser.');
+  }
+});
+
+document.addEventListener('fullscreenchange', () => {
+  const active = document.fullscreenElement === gameCard;
+  fullscreenBtn.textContent = active ? '✕ Exit full screen' : '⛶ Full screen';
+  draw();
+});
 resetRun();refreshStats();renderSkins();renderMissions();renderLeaderboard();persist();
 })();
 </script>
