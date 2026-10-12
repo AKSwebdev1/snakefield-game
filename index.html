@@ -1,81 +1,231 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Snakefield - Free Online Snake Game</title>
-<meta name="description" content="Play Snakefield, a free modern online snake game. Eat apples, grow your snake, beat five increasingly challenging stages, unlock skins and themes, and chase the high score.">
-<meta name="keywords" content="snake game, play snake online, free snake game, browser snake game, classic snake, Snakefield">
-<meta name="robots" content="index,follow,max-image-preview:large">
-<meta name="theme-color" content="#21894b">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Snakefield - Free Online Snake Game">
-<meta property="og:description" content="A modern free snake game with five stages, unlockable skins, themes and a high-score challenge.">
-<meta property="og:url" content="https://akswebdev1.github.io/snakefield-game/">
-<link rel="canonical" href="https://akswebdev1.github.io/snakefield-game/">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%231d8547'/%3E%3Cpath d='M17 23h17a7 7 0 0 1 7 7v4a7 7 0 0 1-7 7H23a6 6 0 0 1-6-6v-1' fill='none' stroke='white' stroke-width='8' stroke-linecap='round'/%3E%3Ccircle cx='42' cy='20' r='7' fill='%23ff5d57'/%3E%3Cpath d='M41 13q2-6 8-5' fill='none' stroke='%23b4f0a5' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Snake Game | Snakefield</title>
 <style>
-:root{--bg:#f2f6f1;--panel:#fff;--ink:#18231c;--muted:#728075;--accent:#2b9b58;--line:#e3ebe3;--board:#e7f0e5;--cell:#dce9d9}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh;transition:background .25s,color .25s}button,select{font:inherit}button{cursor:pointer;border:0}.app{max-width:1180px;margin:auto;padding:22px 20px 34px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:22px}.brand{display:flex;align-items:center;gap:11px}.logo{width:42px;height:42px;border-radius:14px;background:#1d8547;display:grid;place-items:center;color:white;font-size:23px;box-shadow:0 7px 18px #1d85472b}.brand h1{font-size:22px;letter-spacing:-.7px;margin:0}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{padding:10px 14px;border-radius:12px;background:var(--panel);border:1px solid var(--line);color:var(--ink);font-weight:700}.btn.primary{background:#21894b;color:#fff;border-color:#21894b}.btn:hover{filter:brightness(.97)}.layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(275px,.75fr);gap:18px;align-items:start}.panel{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 8px 30px #18341b08}.game-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.eyebrow{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);font-weight:800}.stage{font-size:14px;font-weight:800;margin-top:4px}.status{display:flex;align-items:center;gap:7px;background:var(--bg);border:1px solid var(--line);padding:7px 10px;border-radius:99px;font-size:12px;font-weight:700}.dot{width:7px;height:7px;background:#28a65b;border-radius:50%}.board-wrap{position:relative;background:var(--board);border:1px solid var(--line);border-radius:16px;padding:10px;overflow:hidden}.board{display:block;width:100%;aspect-ratio:1;max-height:610px;border-radius:9px;touch-action:none}.overlay{position:absolute;inset:10px;display:flex;align-items:center;justify-content:center;background:#122117a6;border-radius:9px;color:#fff;text-align:center;padding:20px}.overlay.hidden{display:none}.overlay-box h2{font-size:clamp(22px,4vw,34px);margin:0 0 7px}.overlay-box p{margin:0 0 16px;color:#e0e9e1}.overlay-box .btn{background:#fff;color:#1a3522}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:13px}.stat{background:var(--bg);border:1px solid var(--line);border-radius:13px;padding:12px}.stat span{display:block;color:var(--muted);font-size:11px;font-weight:700}.stat strong{display:block;font-size:23px;letter-spacing:-.7px;margin-top:4px}.under-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;color:var(--muted);font-size:12px}.side{display:grid;gap:14px}.section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}.section-title h2{font-size:15px;margin:0;letter-spacing:-.2px}.pill{font-size:10px;font-weight:800;background:#e3f4e7;color:#21733e;padding:5px 8px;border-radius:99px}.mission{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--line)}.mission:last-child{border-bottom:0;padding-bottom:0}.mission-icon{width:38px;height:38px;border-radius:12px;background:var(--bg);display:grid;place-items:center;font-size:18px}.mission-main{flex:1;min-width:0}.mission-main strong{font-size:12px;display:block}.mission-main small{color:var(--muted);font-size:11px}.progress{height:5px;background:var(--line);border-radius:99px;margin-top:7px;overflow:hidden}.progress i{display:block;height:100%;background:#2b9b58;border-radius:99px;transition:width .2s}.skin-grid,.theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.skin,.theme{border:1px solid var(--line);border-radius:12px;padding:10px 6px;text-align:center;background:var(--panel);color:var(--ink);font-size:11px;font-weight:700}.skin .swatch{height:20px;width:34px;border-radius:7px;margin:0 auto 7px;background:#2b9b58}.skin.selected,.theme.selected{outline:2px solid #2b9b58;border-color:#2b9b58}.skin.locked,.theme.locked{opacity:.45;cursor:not-allowed}.theme .swatch{height:25px;border-radius:7px;margin-bottom:7px}.leader{display:flex;align-items:center;gap:11px;padding:12px;background:var(--bg);border:1px solid var(--line);border-radius:13px}.rank{width:34px;height:34px;border-radius:11px;background:#f7d875;color:#60480b;display:grid;place-items:center;font-weight:900}.leader-main{flex:1}.leader-main strong{display:block;font-size:13px}.leader-main small{font-size:11px;color:var(--muted)}.leader-score{font-size:18px;font-weight:900}.leader-note{font-size:11px;color:var(--muted);line-height:1.5;margin:10px 0 0}.mobile-controls{display:none;grid-template-columns:repeat(3,58px);grid-template-rows:repeat(2,48px);gap:6px;justify-content:center;margin-top:15px}.mobile-controls button{background:var(--bg);border:1px solid var(--line);border-radius:12px;font-size:21px;font-weight:900;color:var(--ink);touch-action:manipulation}.mobile-controls button:nth-child(1){grid-column:2;grid-row:1}.mobile-controls button:nth-child(2){grid-column:1;grid-row:2}.mobile-controls button:nth-child(3){grid-column:2;grid-row:2}.mobile-controls button:nth-child(4){grid-column:3;grid-row:2}.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,20px);background:#15261a;color:#fff;padding:12px 16px;border-radius:12px;font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:.25s;z-index:10;max-width:90vw;text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}.theme-select{width:100%;padding:9px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink)}
-body.stage2{--bg:#e8f7e9;--panel:#fbfffb;--board:#d9f0dc;--cell:#c6e7cb}body.stage3{--bg:#e8f2ff;--panel:#fbfdff;--board:#d9eaff;--cell:#c6dcf7}body.theme-sunset{--bg:#fff0e6;--panel:#fffaf6;--board:#ffe1cc;--cell:#ffd1b1}body.theme-night{--bg:#17221c;--panel:#202e25;--ink:#eef7ef;--muted:#a8b8aa;--line:#34473a;--board:#1a3023;--cell:#203a2a}body.theme-ocean{--bg:#e6f8fb;--panel:#fbffff;--board:#d3f0f5;--cell:#bce6ed}body.theme-lavender{--bg:#f3edff;--panel:#fffaff;--board:#e8ddff;--cell:#d9c9fa}
-@media(max-width:850px){.layout{grid-template-columns:1fr}.side{grid-template-columns:repeat(2,minmax(0,1fr))}.side .panel:last-child{grid-column:1/-1}.board{max-height:none}}@media(max-width:560px){.app{padding:14px 11px 24px}.topbar{align-items:flex-start}.brand h1{font-size:19px}.brand p{font-size:11px}.actions{justify-content:flex-end}.actions .btn{padding:9px 10px;font-size:12px}.panel{padding:13px;border-radius:16px}.stats{grid-template-columns:repeat(2,1fr)}.side{grid-template-columns:1fr}.side .panel:last-child{grid-column:auto}.mobile-controls{display:grid}.under-row{align-items:flex-start;flex-direction:column}.board-wrap{padding:6px}.overlay{inset:6px}}
-</style></head>
-<body><div class="app"><header class="topbar"><div class="brand"><div class="logo">〰</div><div><h1>Snakefield</h1><p>A tiny game. A big high score.</p></div></div><div class="actions"><button class="btn" id="soundBtn" aria-label="Toggle sound">🔊 Sound on</button><button class="btn" id="fullscreenBtn">⛶ Full screen</button><button class="btn primary" id="restartBtn">↻ New run</button></div></header>
-<main class="layout"><section class="panel"><div class="game-head"><div><div class="eyebrow">Your run</div><div class="stage" id="stageLabel">Stage 1 · Warm-up</div></div><div class="status"><span class="dot"></span><span id="stateLabel">Ready to play</span></div></div><div class="board-wrap"><canvas class="board" id="game" width="600" height="600" aria-label="Snake game board"></canvas><div class="overlay" id="overlay"><div class="overlay-box"><h2 id="overlayTitle">Ready, snake?</h2><p id="overlayText">Eat apples, grow longer, beat the stages.</p><button class="btn" id="playBtn">Start game →</button></div></div></div><div class="stats"><div class="stat"><span>SCORE</span><strong id="score">0</strong></div><div class="stat"><span>BEST</span><strong id="best">1</strong></div><div class="stat"><span>APPLES EATEN</span><strong id="apples">0</strong></div><div class="stat"><span>STAGE</span><strong id="stageStat">1 / 5</strong></div></div><div class="under-row"><span>⌨️ Arrow keys or WASD to move · Space to pause</span><span id="stageGoal">Stage goal: 8 apples</span></div><div class="mobile-controls" aria-label="Touch controls"><button data-dir="up" aria-label="Up">↑</button><button data-dir="left" aria-label="Left">←</button><button data-dir="down" aria-label="Down">↓</button><button data-dir="right" aria-label="Right">→</button></div></section>
-<aside class="side"><section class="panel"><div class="section-title"><h2>Today's missions</h2><span class="pill">REWARDS</span></div><div class="mission"><div class="mission-icon">🍎</div><div class="mission-main"><strong>Apple collector</strong><small id="missionApplesText">Eat 10 apples</small><div class="progress"><i id="missionApplesBar" style="width:0%"></i></div></div></div><div class="mission"><div class="mission-icon">🚀</div><div class="mission-main"><strong>Stage climber</strong><small id="missionStagesText">Beat 2 stages</small><div class="progress"><i id="missionStagesBar" style="width:0%"></i></div></div></div><div class="mission"><div class="mission-icon">🏆</div><div class="mission-main"><strong>Rainbow legend</strong><small id="missionRainbowText">Beat Stage 5 to unlock</small><div class="progress"><i id="missionRainbowBar" style="width:0%"></i></div></div></div></section>
-<section class="panel"><div class="section-title"><h2>Snake skins</h2><span class="pill" id="skinPill">1 unlocked</span></div><div class="skin-grid" id="skinGrid"></div></section>
-<section class="panel"><div class="section-title"><h2>Background themes</h2><span class="pill" id="themePill">0 unlocked</span></div><p class="leader-note" style="margin:0 0 12px">Unlock a new theme for every 50 apples eaten across your runs.</p><div class="theme-grid" id="themeGrid"></div></section>
-<section class="panel"><div class="section-title"><h2>Leaderboard</h2><span class="pill">TOP PLAYER</span></div><div class="leader"><div class="rank">#1</div><div class="leader-main"><strong>High score holder</strong><small id="leaderSub">Your local record</small></div><div class="leader-score" id="leaderScore">1</div></div><p class="leader-note">Only the single highest score is saved on this device. Beat it to update the #1 record.</p></section></aside></main></div><div class="toast" id="toast"></div>
+  :root { color-scheme: dark; --bg:#050f20; --panel:#07172b; --line:#15345b; --blue:#1457ad; --green:#35eca0; --text:#f4f8ff; --muted:#a9c3e3; }
+  * { box-sizing: border-box; }
+  body { margin:0; min-height:100vh; background:radial-gradient(ellipse at top,#0b1d34 0%,var(--bg) 62%); color:var(--text); font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; display:flex; justify-content:center; padding:24px 16px; }
+  .app { width:min(100%,1000px); }
+  header { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:22px; flex-wrap:wrap; }
+  .brand { display:flex; align-items:center; gap:13px; }
+  .logo { font-size:42px; line-height:1; }
+  h1 { font-size:clamp(25px,4vw,38px); letter-spacing:-1.4px; margin:0; }
+  h1 span { color:var(--green); }
+  .tagline { color:var(--muted); margin-top:3px; font-size:14px; }
+  .stats { min-width:205px; padding:12px 18px; border:1px solid #17457b; background:#061326b8; border-radius:17px; text-align:center; }
+  .stage { font-size:21px; font-weight:750; }
+  .progress { height:8px; background:#203b60; border-radius:20px; overflow:hidden; margin:9px 0 7px; }
+  .progress > div { height:100%; width:0%; background:linear-gradient(90deg,#26d992,#56f6b3); border-radius:20px; transition:width .15s; }
+  .count { color:var(--muted); font-size:14px; }
+  .actions { display:flex; gap:10px; }
+  button { color:var(--text); background:#0a1b31; border:1px solid #204b7e; border-radius:12px; padding:10px 14px; font:inherit; font-weight:650; cursor:pointer; transition:background .15s,border-color .15s,transform .15s; }
+  button:hover { background:#10294a; border-color:#3b79bd; }
+  button:active { transform:scale(.97); }
+  .iconbtn { font-size:21px; min-width:54px; height:52px; }
+  .board-wrap { padding:6px; border:2px solid #1553a8; background:#06152a; border-radius:23px; box-shadow:0 0 0 1px #0a2446,0 18px 50px #0004; position:relative; }
+  canvas { width:100%; display:block; aspect-ratio:1; border-radius:15px; touch-action:none; }
+  .overlay { position:absolute; inset:6px; display:none; align-items:center; justify-content:center; border-radius:17px; background:#031021bd; backdrop-filter:blur(5px); text-align:center; padding:20px; }
+  .overlay.show { display:flex; }
+  .overlay-card { background:#07172a; border:1px solid #214c7d; padding:25px; border-radius:18px; max-width:340px; }
+  .overlay h2 { margin:0 0 8px; font-size:27px; }
+  .overlay p { color:var(--muted); margin:0 0 17px; }
+  .controls { display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; padding:13px 16px; border:1px solid #17385f; background:#061326a8; border-radius:17px; margin:18px 8px 0; color:var(--muted); font-size:14px; }
+  .keyset { display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+  .key { display:inline-grid; place-items:center; min-width:37px; height:37px; padding:0 9px; border:1px solid #315e91; border-radius:9px; color:white; background:#0a1a30; font-weight:750; }
+  .touch-controls { display:none; grid-template-columns:repeat(3,52px); grid-template-rows:repeat(2,48px); gap:6px; justify-content:center; margin:16px auto 0; }
+  .touch-controls button { padding:0; font-size:21px; }
+  .touch-controls .up { grid-column:2; } .touch-controls .left { grid-column:1; grid-row:2; } .touch-controls .down { grid-column:2; grid-row:2; } .touch-controls .right { grid-column:3; grid-row:2; }
+  .hint { text-align:center; color:#7897bc; font-size:12px; margin:13px 0 0; }
+  @media(max-width:650px) {
+    body { padding:15px 10px; }
+    header { justify-content:center; }
+    .brand { margin-right:auto; }
+    .stats { order:3; width:100%; }
+    .actions { margin-left:auto; }
+    .controls { justify-content:center; }
+    .touch-controls { display:grid; }
+  }
+</style>
+</head>
+<body>
+<main class="app">
+  <header>
+    <div class="brand">
+      <div class="logo" aria-hidden="true">🍎</div>
+      <div><h1>Snake<span>field</span></h1><div class="tagline">The little apple game</div></div>
+    </div>
+    <section class="stats" aria-live="polite">
+      <div class="stage" id="stageLabel">Stage 1</div>
+      <div class="progress"><div id="progressBar"></div></div>
+      <div class="count" id="countLabel">0 / 80 squares</div>
+    </section>
+    <div class="actions">
+      <button class="iconbtn" id="soundBtn" title="Toggle sound" aria-label="Toggle sound">🔊</button>
+      <button class="iconbtn" id="fullBtn" title="Toggle fullscreen" aria-label="Toggle fullscreen">⛶</button>
+    </div>
+  </header>
+
+  <section class="board-wrap" id="boardWrap">
+    <canvas id="game" width="800" height="800" aria-label="Snake game board"></canvas>
+    <div class="overlay show" id="overlay">
+      <div class="overlay-card">
+        <h2 id="overlayTitle">Ready to play?</h2>
+        <p id="overlayText">Eat apples, grow your snake, and reach 80 squares to unlock Stage 2.</p>
+        <button id="startBtn">Start game</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="touch-controls" aria-label="Touch movement controls">
+    <button class="up" data-dir="up" aria-label="Move up">↑</button>
+    <button class="left" data-dir="left" aria-label="Move left">←</button>
+    <button class="down" data-dir="down" aria-label="Move down">↓</button>
+    <button class="right" data-dir="right" aria-label="Move right">→</button>
+  </div>
+
+  <div class="controls">
+    <div class="keyset"><span class="key">↑</span><span class="key">↓</span><span class="key">←</span><span class="key">→</span><span>Move</span></div>
+    <div class="keyset"><span class="key">SPACE</span><span>Pause</span></div>
+    <div class="keyset"><span class="key">R</span><span>Restart</span></div>
+  </div>
+  <p class="hint">Tip: use arrow keys or WASD. On mobile, use the direction buttons.</p>
+</main>
 <script>
-(()=>{
-const canvas=document.getElementById('game'),ctx=canvas.getContext('2d');const N=20,CELL=canvas.width/N;
-const $=id=>document.getElementById(id);const stageNames=['Warm-up','Green trail','Blue rush','Quick turn','Final challenge'];
-const skins=[{id:'green',name:'Classic',color:'#218b4b',unlock:0},{id:'blue',name:'Blue',color:'#3988e8',unlock:50},{id:'purple',name:'Purple',color:'#9663d8',unlock:100},{id:'gold',name:'Gold',color:'#e2ad2b',unlock:150},{id:'rainbow',name:'Rainbow',color:'rainbow',unlock:99999}];
-const themes=[{id:'default',name:'Fresh',unlock:0,swatch:'linear-gradient(135deg,#e7f0e5,#a7d9b0)'},{id:'sunset',name:'Sunset',unlock:50,swatch:'linear-gradient(135deg,#ffb77f,#ffe1cc)'},{id:'ocean',name:'Ocean',unlock:100,swatch:'linear-gradient(135deg,#79d3e4,#d3f0f5)'},{id:'lavender',name:'Lavender',unlock:150,swatch:'linear-gradient(135deg,#bda0ff,#e8ddff)'},{id:'night',name:'Midnight',unlock:200,swatch:'linear-gradient(135deg,#17221c,#3e6349)'}];
-const safeGet=(key,fallback)=>{try{const v=localStorage.getItem(key);return v===null?fallback:JSON.parse(v)}catch{return fallback}};const save=(key,value)=>{try{localStorage.setItem(key,JSON.stringify(value))}catch{}};
-let soundOn=true,score=0,applesRun=0,totalApples=safeGet('snakefield-total-apples',0),best=Math.max(1,safeGet('snakefield-best',1)),stage=1,stagesBeaten=safeGet('snakefield-stages',0),skin=safeGet('snakefield-skin','green'),theme=safeGet('snakefield-theme','default'),running=false,paused=false,over=true,timer=null,lastTick=0,toastTimer=null,audioCtx=null;
-let snake,dir,nextDir,apple;
-function unlockedSkins(){return skins.filter(s=>s.id==='rainbow'?stagesBeaten>=5:totalApples>=s.unlock)}function unlockedThemes(){return themes.filter(t=>totalApples>=t.unlock)}
-function notify(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2200)}
-function beep(freq=550,dur=.06){if(!soundOn)return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.frequency.value=freq;o.type='sine';g.gain.value=.035;o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+dur)}catch{}}
-function randomApple(){let p;do{p={x:Math.floor(Math.random()*N),y:Math.floor(Math.random()*N)}}while(snake.some(s=>s.x===p.x&&s.y===p.y));return p}
-function resetState(){score=0;applesRun=0;stage=1;snake=[{x:9,y:10},{x:8,y:10},{x:7,y:10}];dir={x:1,y:0};nextDir={x:1,y:0};apple=randomApple();running=false;paused=false;over=true;clearInterval(timer);timer=null;applyStageTheme();updateUI();draw();showOverlay('Ready, snake?','Eat apples, grow longer, beat the stages.','Start game →')}
-function showOverlay(title,text,button){$('overlayTitle').textContent=title;$('overlayText').textContent=text;$('playBtn').textContent=button;$('overlay').classList.remove('hidden')}
-function hideOverlay(){$('overlay').classList.add('hidden')}
-function applyStageTheme(){document.body.classList.remove('stage2','stage3');if(theme!=='default')document.body.classList.add('theme-'+theme);else document.body.classList.remove('theme-sunset','theme-ocean','theme-lavender','theme-night');if(stage===2&&theme==='default')document.body.classList.add('stage2');if(stage===3&&theme==='default')document.body.classList.add('stage3')}
-function updateUI(){$('score').textContent=score;$('best').textContent=best;$('apples').textContent=totalApples;$('stageStat').textContent=stage+' / 5';$('stageLabel').textContent='Stage '+stage+' · '+stageNames[stage-1];$('stageGoal').textContent='Stage goal: snake fills '+Math.ceil((N*N)/2)+' cells';$('stateLabel').textContent=running?(paused?'Paused':'Playing'):over?'Ready to play':'Stage cleared';$('leaderScore').textContent=best;$('leaderSub').textContent=best===1?'Starting record · 1 point':'Record saved on this device';$('missionApplesText').textContent='Eat '+Math.min(totalApples,10)+' / 10 apples';$('missionApplesBar').style.width=Math.min(100,totalApples/10*100)+'%';$('missionStagesText').textContent='Beat '+Math.min(stagesBeaten,2)+' / 2 stages';$('missionStagesBar').style.width=Math.min(100,stagesBeaten/2*100)+'%';$('missionRainbowText').textContent=stagesBeaten>=5?'Unlocked! Rainbow snake ready':'Beat Stage 5 to unlock ('+Math.min(stagesBeaten,5)+'/5)';$('missionRainbowBar').style.width=Math.min(100,stagesBeaten/5*100)+'%';renderSkins();renderThemes()}
-function renderSkins(){const u=unlockedSkins();$('skinPill').textContent=u.length+' unlocked';$('skinGrid').innerHTML=skins.map(s=>{const ok=u.some(x=>x.id===s.id),selected=skin===s.id;return `<button class="skin ${selected?'selected':''} ${ok?'':'locked'}" data-skin="${s.id}" ${ok?'':'disabled'}><span class="swatch" style="background:${s.color==='rainbow'?'linear-gradient(90deg,red,orange,yellow,green,blue,violet)':s.color}"></span>${s.name}<br><small>${s.id==='rainbow'?(ok?'Unlocked':'Beat Stage 5'):s.unlock===0?'Ready':ok?'Unlocked':s.unlock+' apples'}</small></button>`}).join('');document.querySelectorAll('[data-skin]').forEach(b=>b.addEventListener('click',()=>{skin=b.dataset.skin;save('snakefield-skin',skin);renderSkins();draw();notify(skin==='rainbow'?'Rainbow snake equipped!':'Skin equipped')}))}
-function renderThemes(){const u=unlockedThemes();$('themePill').textContent=u.length+' unlocked';$('themeGrid').innerHTML=themes.map(t=>{const ok=u.some(x=>x.id===t.id);return `<button class="theme ${theme===t.id?'selected':''} ${ok?'':'locked'}" data-theme="${t.id}" ${ok?'':'disabled'}><div class="swatch" style="background:${t.swatch}"></div>${t.name}<br><small>${ok?'Unlocked':t.unlock+' apples'}</small></button>`}).join('');document.querySelectorAll('[data-theme]').forEach(b=>b.addEventListener('click',()=>{theme=b.dataset.theme;save('snakefield-theme',theme);applyStageTheme();renderThemes();draw();notify('Background theme changed')}))}
-function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);const css=getComputedStyle(document.body),board=css.getPropertyValue('--board').trim()||'#e7f0e5',cell=css.getPropertyValue('--cell').trim()||'#dce9d9';ctx.fillStyle=board;ctx.fillRect(0,0,600,600);ctx.fillStyle=cell;for(let y=0;y<N;y++)for(let x=0;x<N;x++)if((x+y)%2===0)ctx.fillRect(x*CELL,y*CELL,CELL,CELL);
-// apple
-ctx.font='24px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('🍎',apple.x*CELL+CELL/2,apple.y*CELL+CELL/2+1);
-snake.forEach((p,i)=>{let x=p.x*CELL+2,y=p.y*CELL+2,size=CELL-4;if(skin==='rainbow'){const hue=(Date.now()/10+i*23)%360;ctx.fillStyle=`hsl(${hue} 85% 53%)`}else{ctx.fillStyle=skins.find(s=>s.id===skin)?.color||'#218b4b'};ctx.beginPath();ctx.roundRect(x,y,size,size,6);ctx.fill();if(i===0){ctx.fillStyle='#fff';let ex=x+size*(dir.x===1?.69:dir.x===-1?.31:.5),ey=y+size*(dir.y===1?.69:dir.y===-1?.31:.34);ctx.beginPath();ctx.arc(ex-3,ey,2.2,0,Math.PI*2);ctx.arc(ex+3,ey,2.2,0,Math.PI*2);ctx.fill()}})}
-function tick(){
- if(!running||paused)return;
- dir=nextDir;
- const head={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
- if(head.x<0||head.x>=N||head.y<0||head.y>=N||snake.some((p,i)=>i>0&&p.x===head.x&&p.y===head.y)){gameOver();return}
- snake.unshift(head);
- if(head.x===apple.x&&head.y===apple.y){
-  score+=10;applesRun++;totalApples++;save('snakefield-total-apples',totalApples);
-  if(score>best){best=score;save('snakefield-best',best)}
-  beep(760);
-  const newTheme=themes.find(t=>t.unlock===totalApples&&t.unlock>0);if(newTheme)notify('Theme unlocked: '+newTheme.name+'!');
-  const newSkin=skins.find(s=>s.unlock===totalApples&&s.unlock>0&&s.id!=='rainbow');if(newSkin)notify('Skin unlocked: '+newSkin.name+'!');
-  // Advance as soon as the snake fills half of the 20 × 20 board (200 cells).
-  if(snake.length >= Math.ceil((N * N) / 2)){clearStage();return}
-  apple=randomApple();
- }else snake.pop();
- updateUI();draw();
-}
-function setSpeed(){clearInterval(timer);const ms=Math.max(65,165-(stage-1)*22);timer=setInterval(tick,ms)}
-function startGame(){if(running&&!paused)return;if(over){resetState()}running=true;paused=false;over=false;hideOverlay();$('stateLabel').textContent='Playing';setSpeed();beep(440)}
-function gameOver(){running=false;paused=false;over=true;clearInterval(timer);if(score>best){best=score;save('snakefield-best',best)}stage=1;applyStageTheme();updateUI();draw();showOverlay('Run over!','Back to Stage 1. Your best score stays saved.','Try again →');beep(180,.18)}
-function clearStage(){running=false;clearInterval(timer);stagesBeaten=Math.max(stagesBeaten,stage);save('snakefield-stages',stagesBeaten);if(stage>=5){over=true;stage=5;skin='rainbow';save('snakefield-skin',skin);updateUI();draw();showOverlay('You beat Snakefield!','All 5 stages cleared — Rainbow snake unlocked!','Play again →');notify('Rainbow snake unlocked!');beep(900,.16);return}stage++;applesRun=0;snake=[{x:9,y:10},{x:8,y:10},{x:7,y:10}];dir={x:1,y:0};nextDir={x:1,y:0};apple=randomApple();applyStageTheme();updateUI();draw();showOverlay('Stage '+(stage-1)+' cleared!','Welcome to Stage '+stage+'. The snake gets faster!','Continue →');notify('Stage '+(stage-1)+' complete!');beep(850,.12)}
-function changeDir(d){if(d==='up'&&dir.y!==1)nextDir={x:0,y:-1};if(d==='down'&&dir.y!==-1)nextDir={x:0,y:1};if(d==='left'&&dir.x!==1)nextDir={x:-1,y:0};if(d==='right'&&dir.x!==-1)nextDir={x:1,y:0}}
-document.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(['arrowup','arrowdown','arrowleft','arrowright',' '].includes(k))e.preventDefault();if(k==='arrowup'||k==='w')changeDir('up');if(k==='arrowdown'||k==='s')changeDir('down');if(k==='arrowleft'||k==='a')changeDir('left');if(k==='arrowright'||k==='d')changeDir('right');if(k===' '&&running){paused=!paused;$('stateLabel').textContent=paused?'Paused':'Playing';if(paused)showOverlay('Paused','Take a breather. Your run is waiting.','Resume →');else hideOverlay()}});
-document.querySelectorAll('[data-dir]').forEach(b=>{b.addEventListener('pointerdown',e=>{e.preventDefault();changeDir(b.dataset.dir)})});$('playBtn').addEventListener('click',()=>{if(running&&paused){paused=false;hideOverlay();$('stateLabel').textContent='Playing'}else startGame()});$('restartBtn').addEventListener('click',()=>{resetState();startGame()});$('soundBtn').addEventListener('click',()=>{soundOn=!soundOn;$('soundBtn').textContent=soundOn?'🔊 Sound on':'🔇 Sound off';beep()});$('fullscreenBtn').addEventListener('click',async()=>{try{if(!document.fullscreenElement){await (document.documentElement.requestFullscreen?.()||document.documentElement.webkitRequestFullscreen?.())}else{await (document.exitFullscreen?.()||document.webkitExitFullscreen?.())}}catch{notify('Full screen is not available in this browser')} });
-// Keep the rainbow animated while playing.
-function animateRainbow(){if(skin==='rainbow')draw();requestAnimationFrame(animateRainbow)}
-resetState();animateRainbow();
+(() => {
+  const canvas = document.getElementById('game');
+  const ctx = canvas.getContext('2d');
+  const N = 40, CELL = canvas.width / N, TARGET = 80;
+  const stageLabel = document.getElementById('stageLabel');
+  const countLabel = document.getElementById('countLabel');
+  const progressBar = document.getElementById('progressBar');
+  const overlay = document.getElementById('overlay');
+  const overlayTitle = document.getElementById('overlayTitle');
+  const overlayText = document.getElementById('overlayText');
+  const startBtn = document.getElementById('startBtn');
+  let snake, dir, nextDir, apple, stage, running, paused, gameOver, timer, soundOn = true, audioCtx;
+  let score = 0;
+
+  function reset() {
+    clearTimeout(timer);
+    snake = [];
+    for (let i=0;i<5;i++) snake.push({x:17+i,y:20});
+    dir = {x:1,y:0}; nextDir = {x:1,y:0};
+    stage = 1; score = 0; running = false; paused = false; gameOver = false;
+    spawnApple(); updateStats(); draw();
+    showOverlay('Ready to play?', 'Eat apples, grow your snake, and reach 80 squares to unlock Stage 2.', 'Start game');
+  }
+  function showOverlay(title, text, button) {
+    overlayTitle.textContent = title; overlayText.textContent = text; startBtn.textContent = button; overlay.classList.add('show');
+  }
+  function hideOverlay(){ overlay.classList.remove('show'); }
+  function spawnApple() {
+    let p, tries=0;
+    do { p={x:Math.floor(Math.random()*N),y:Math.floor(Math.random()*N)}; tries++; }
+    while(snake.some(s=>s.x===p.x&&s.y===p.y) && tries<2000);
+    apple=p;
+  }
+  function updateStats() {
+    stageLabel.textContent = 'Stage ' + stage;
+    countLabel.textContent = `${snake.length} / ${TARGET} squares`;
+    progressBar.style.width = Math.min(100, snake.length/TARGET*100) + '%';
+  }
+  function beep(freq=600, duration=.06) {
+    if (!soundOn) return;
+    try {
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      const osc=audioCtx.createOscillator(), gain=audioCtx.createGain();
+      osc.frequency.value=freq; osc.type='sine'; gain.gain.value=.035;
+      osc.connect(gain); gain.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime+duration);
+    } catch(e) {}
+  }
+  function start() {
+    if (gameOver) reset();
+    running=true; paused=false; hideOverlay(); schedule();
+  }
+  function schedule() {
+    clearTimeout(timer);
+    if (running && !paused && !gameOver) timer=setTimeout(tick, Math.max(55,125-(stage-1)*12));
+  }
+  function tick() {
+    dir=nextDir;
+    const head={x:snake[snake.length-1].x+dir.x,y:snake[snake.length-1].y+dir.y};
+    const eating=head.x===apple.x && head.y===apple.y;
+    const bodyToCheck=eating?snake:snake.slice(1);
+    if(head.x<0||head.y<0||head.x>=N||head.y>=N||bodyToCheck.some(s=>s.x===head.x&&s.y===head.y)) {
+      running=false; gameOver=true; beep(180,.2);
+      showOverlay('Run complete', `You reached ${snake.length} squares and scored ${score} points.`, 'Play again');
+      return;
+    }
+    snake.push(head);
+    if(!eating) snake.shift();
+    else {
+      score+=10; beep(760,.055); spawnApple();
+      if(snake.length>=TARGET && stage===1) {
+        stage=2; beep(960,.18);
+        showOverlay('Stage 2 unlocked!', 'Amazing! Your snake reached 80 squares. Stage 2 is faster now.', 'Continue');
+        running=false; updateStats(); draw(); return;
+      }
+    }
+    updateStats(); draw(); schedule();
+  }
+  function setDirection(d) {
+    const dirs={up:{x:0,y:-1},down:{x:0,y:1},left:{x:-1,y:0},right:{x:1,y:0}};
+    const nd=dirs[d]; if(!nd) return;
+    if(nd.x===-dir.x && nd.y===-dir.y) return;
+    nextDir=nd;
+    if(!running && !gameOver && !paused) start();
+  }
+  function draw() {
+    const w=canvas.width, h=canvas.height;
+    ctx.clearRect(0,0,w,h);
+    const bg=ctx.createLinearGradient(0,0,w,h); bg.addColorStop(0,'#06172b'); bg.addColorStop(1,'#041124');
+    ctx.fillStyle=bg; ctx.fillRect(0,0,w,h);
+    ctx.strokeStyle='rgba(37,83,133,.30)'; ctx.lineWidth=1;
+    for(let i=0;i<=N;i++){let p=i*CELL;ctx.beginPath();ctx.moveTo(p,0);ctx.lineTo(p,h);ctx.stroke();ctx.beginPath();ctx.moveTo(0,p);ctx.lineTo(w,p);ctx.stroke();}
+    drawApple(apple.x*CELL+CELL/2,apple.y*CELL+CELL/2);
+    // A single continuous path with rounded joins makes the snake smooth and gap-free.
+    ctx.save(); ctx.lineCap='round'; ctx.lineJoin='round'; ctx.lineWidth=CELL*.82;
+    ctx.shadowColor='#31efa0'; ctx.shadowBlur=13;
+    const green=ctx.createLinearGradient(0,0,w,h); green.addColorStop(0,'#27d98d'); green.addColorStop(1,'#55f7b0');
+    ctx.strokeStyle=green; ctx.beginPath();
+    snake.forEach((s,i)=>{const x=s.x*CELL+CELL/2,y=s.y*CELL+CELL/2;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);});
+    ctx.stroke(); ctx.restore();
+    const head=snake[snake.length-1], hx=head.x*CELL+CELL/2, hy=head.y*CELL+CELL/2;
+    // Two small eyes on the head, placed according to direction.
+    const eyeOffset=CELL*.18, eyeR=CELL*.065;
+    ctx.fillStyle='#063321';
+    let e1,e2;
+    if(dir.x!==0){e1={x:hx+dir.x*CELL*.12,y:hy-CELL*.17};e2={x:hx+dir.x*CELL*.12,y:hy+CELL*.17};}
+    else {e1={x:hx-CELL*.17,y:hy+dir.y*CELL*.12};e2={x:hx+CELL*.17,y:hy+dir.y*CELL*.12};}
+    [e1,e2].forEach(e=>{ctx.beginPath();ctx.arc(e.x,e.y,eyeR,0,Math.PI*2);ctx.fill();});
+  }
+  function drawApple(x,y) {
+    ctx.save(); ctx.translate(x,y);
+    ctx.shadowColor='#ff3558'; ctx.shadowBlur=14;
+    ctx.fillStyle='#ff3655'; ctx.beginPath(); ctx.arc(-CELL*.12,CELL*.02,CELL*.23,0,Math.PI*2); ctx.arc(CELL*.12,CELL*.02,CELL*.23,0,Math.PI*2); ctx.lineTo(0,CELL*.32); ctx.closePath(); ctx.fill();
+    ctx.shadowBlur=0; ctx.strokeStyle='#48e79a'; ctx.lineWidth=CELL*.07; ctx.beginPath(); ctx.moveTo(0,-CELL*.17); ctx.quadraticCurveTo(CELL*.02,-CELL*.32,CELL*.13,-CELL*.34); ctx.stroke();
+    ctx.fillStyle='#45e99a'; ctx.beginPath(); ctx.ellipse(-CELL*.07,-CELL*.27,CELL*.14,CELL*.075,-.5,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+  }
+  document.addEventListener('keydown',e=>{
+    const key=e.key.toLowerCase();
+    const map={arrowup:'up',w:'up',arrowdown:'down',s:'down',arrowleft:'left',a:'left',arrowright:'right',d:'right'};
+    if(map[key]){e.preventDefault();setDirection(map[key]);}
+    if(key===' '){e.preventDefault(); if(gameOver)return; if(!running){start();}else{paused=!paused;if(paused){clearTimeout(timer);running=false;showOverlay('Paused','Take your time. Press Continue when you are ready.','Continue');}else{running=true;hideOverlay();schedule();}}}
+    if(key==='r')reset();
+  });
+  document.querySelectorAll('[data-dir]').forEach(b=>b.addEventListener('click',()=>setDirection(b.dataset.dir)));
+  startBtn.addEventListener('click',()=>{if(gameOver)reset();start();});
+  document.getElementById('soundBtn').addEventListener('click',e=>{soundOn=!soundOn;e.currentTarget.textContent=soundOn?'🔊':'🔇';if(soundOn)beep();});
+  document.getElementById('fullBtn').addEventListener('click',async()=>{
+    const target=document.getElementById('boardWrap');
+    try { if(!document.fullscreenElement) await target.requestFullscreen(); else await document.exitFullscreen(); } catch(e) {}
+  });
+  document.addEventListener('fullscreenchange',()=>{document.getElementById('fullBtn').textContent=document.fullscreenElement?'⤢':'⛶';});
+  reset();
 })();
 </script>
 </body>
