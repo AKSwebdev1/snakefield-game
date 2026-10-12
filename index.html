@@ -368,13 +368,14 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
   const CELLS = 20;
   const SIZE = canvas.width / CELLS;
 
-  // IMPORTANT: 60 apples per stage.
+  // One stage advances after 60 apples.
   const APPLES_PER_STAGE = 60;
 
-  // Lower numbers make the snake move faster.
-  const START_SPEED = 70;
-  const MIN_SPEED = 38;
-  const SPEED_PER_STAGE = 4;
+  // SLOWER START: 140 milliseconds between moves.
+  // Every new stage decreases the delay by just 5 milliseconds.
+  const START_SPEED = 140;
+  const MIN_SPEED = 75;
+  const SPEED_PER_STAGE = 5;
 
   const skins = [
     {id:"mint",name:"Mint",color:"#22b876"},
@@ -430,22 +431,22 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
 
   let save;
   try {
-    save = Object.assign(
+    save=Object.assign(
       {},
       defaults,
-      JSON.parse(localStorage.getItem("snakefieldSave") || "{}")
+      JSON.parse(localStorage.getItem("snakefieldSave")||"{}")
     );
   } catch {
-    save = Object.assign({},defaults);
+    save=Object.assign({},defaults);
   }
 
   save.unlocked=[...new Set(["mint","lime",...(save.unlocked||[])])];
   save.completed=save.completed||[];
   save.scores=save.scores||[];
 
-  if (!["light","blue","dark"].includes(save.theme)) save.theme="light";
+  if(!["light","blue","dark"].includes(save.theme)) save.theme="light";
 
-  if (!skins.some(s=>s.id===save.selected && save.unlocked.includes(s.id))) {
+  if(!skins.some(s=>s.id===save.selected&&save.unlocked.includes(s.id))) {
     save.selected="mint";
   }
 
@@ -492,7 +493,8 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
   }
 
   function beep(frequency=550,duration=.06) {
-    if (!save.soundOn) return;
+    if(!save.soundOn) return;
+
     try {
       audioContext ||= new (window.AudioContext||window.webkitAudioContext)();
       const oscillator=audioContext.createOscillator();
@@ -542,7 +544,6 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
     apple=empty[Math.floor(Math.random()*empty.length)];
   }
 
-  // Draw a smooth curved path through the snake's centres.
   function roundedPath(points) {
     if(!points.length) return;
 
@@ -565,7 +566,7 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
     ctx.lineTo(last.x,last.y);
   }
 
-  // Draw once only. The game loop below manages all animation frames.
+  // Draw only. gameLoop controls animation to prevent duplicate loops.
   function draw() {
     const styles=getComputedStyle(document.body);
     const panel=styles.getPropertyValue("--panel").trim();
@@ -608,16 +609,13 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
 
     if(!snake.length) return;
 
-    // Blend the previous positions into the new ones for smooth motion.
+    // Smooth interpolation between grid positions.
     const alpha=active&&!paused
       ?Math.min(1,accumulator/currentSpeed())
       :1;
 
     const points=snake.map((part,index)=>{
-      // The head came from the old head. Every following segment came
-      // from the previous segment's old position.
-      const oldIndex=Math.max(0,index-1);
-      const old=previousSnake[Math.min(oldIndex,previousSnake.length-1)]||part;
+      const old=previousSnake[Math.min(Math.max(0,index-1),previousSnake.length-1)]||part;
 
       return {
         x:(old.x+(part.x-old.x)*alpha)*SIZE+SIZE/2,
@@ -627,7 +625,7 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
 
     const skin=getSkin();
 
-    // Wide stroke and round caps connect the snake body with no gaps.
+    // Thick connected body with round joins and caps.
     if(points.length>1) {
       roundedPath(points);
       ctx.lineCap="round";
@@ -636,15 +634,15 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
       ctx.lineWidth=30;
       ctx.stroke();
 
+      // Gentle highlight.
       roundedPath(points);
       ctx.strokeStyle="rgba(255,255,255,.14)";
       ctx.lineWidth=3;
       ctx.stroke();
     }
 
-    // Round head, not a square block.
+    // Rounded head.
     const head=points[0];
-
     ctx.fillStyle=skin.color;
     ctx.beginPath();
     ctx.arc(head.x,head.y,15,0,Math.PI*2);
@@ -667,6 +665,7 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
     }
 
     ctx.fillStyle="#fff";
+
     for(const eye of [eye1,eye2]) {
       ctx.beginPath();
       ctx.arc(eye.x,eye.y,2.6,0,Math.PI*2);
@@ -682,6 +681,7 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
         save.completed.push(mission.id);
 
         const reward=skins.find(s=>s.name===mission.reward);
+
         if(reward&&!save.unlocked.includes(reward.id)) {
           save.unlocked.push(reward.id);
         }
@@ -718,8 +718,8 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
       const unlocked=save.unlocked.includes(skin.id);
       const selected=save.selected===skin.id;
       const row=document.createElement("div");
-      row.className="skin-row";
 
+      row.className="skin-row";
       row.innerHTML=`
         <div class="skin-info">
           <span class="skin-dot" style="background:${skin.color}"></span>
@@ -752,8 +752,8 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
       const completed=save.completed.includes(mission.id);
       const percent=Math.min(100,mission.progress()/mission.target*100);
       const row=document.createElement("div");
-      row.className="mission-row";
 
+      row.className="mission-row";
       row.innerHTML=`
         <div class="mission-main">
           <div class="mission-name">${completed?"✅ ":""}${mission.name}</div>
@@ -847,15 +847,12 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
   function gameLoop(timestamp) {
     if(!active||paused||ended) return;
 
-    let delta=timestamp-lastStepTime;
+    const delta=Math.min(timestamp-lastStepTime,100);
     lastStepTime=timestamp;
-
-    // Stops a large jump if the browser briefly freezes.
-    accumulator+=Math.min(delta,100);
+    accumulator+=Math.max(0,delta);
 
     const step=currentSpeed();
 
-    // Process at most one movement per animation frame.
     if(accumulator>=step) {
       accumulator-=step;
       tick();
@@ -870,7 +867,6 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
   function tick() {
     if(!active||paused||ended) return;
 
-    // Save the old body for interpolation.
     previousSnake=snake.map(p=>({...p}));
 
     if(directionQueue.length) {
@@ -885,7 +881,6 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
     const eating=apple&&head.x===apple.x&&head.y===apple.y;
     const body=eating?snake:snake.slice(0,-1);
 
-    // Collision detection.
     if(
       head.x<0||head.y<0||
       head.x>=CELLS||head.y>=CELLS||
@@ -938,7 +933,7 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
 
     save.scores.push({
       name:save.playerName||"Player",
-      score:score,
+      score,
       date:Date.now()
     });
 
@@ -973,7 +968,13 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
       cancelAnimationFrame(animationFrame);
       setStatus("PAUSED");
       $("pauseBtn").textContent="▶ Resume";
-      showOverlay("Paused","Ready to get back in the game?","Resume",togglePause);
+
+      showOverlay(
+        "Paused",
+        "Ready to get back in the game?",
+        "Resume",
+        togglePause
+      );
     } else {
       hideOverlay();
       setStatus("IN THE GROOVE");
@@ -983,7 +984,6 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
     }
   }
 
-  // Responsive queued turns. Opposite directions are ignored.
   function changeDirection(next) {
     if(!active||paused||ended) return;
 
@@ -1050,7 +1050,6 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
       :"⛶ Full screen";
   });
 
-  // Keyboard controls react immediately to key presses.
   document.addEventListener("keydown",event=>{
     const key=event.key.toLowerCase();
 
@@ -1068,7 +1067,6 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
     if(key==="f"&&!event.repeat) toggleFullscreen();
   });
 
-  // Mobile directional controls.
   const directions={
     up:{x:0,y:-1},
     down:{x:0,y:1},
@@ -1083,7 +1081,6 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
     });
   });
 
-  // Swipe steering.
   let touchStart=null;
 
   canvas.addEventListener("touchstart",event=>{
@@ -1109,7 +1106,6 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
     touchStart=null;
   },{passive:true});
 
-  // Initial page setup.
   renderPanels();
   updateStageUI();
   draw();
