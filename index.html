@@ -34,14 +34,18 @@ body[data-theme="dark"] {
   --accent:#4e91ff;
   --border:#2b3b52;
 }
+
 * { box-sizing:border-box; }
+
 body {
   margin:0;
   background:var(--bg);
   color:var(--text);
   font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
 }
+
 button,input { font:inherit; }
+
 button {
   border:1px solid var(--border);
   background:var(--panel);
@@ -69,6 +73,7 @@ header {
   gap:15px;
   flex-wrap:wrap;
 }
+
 .logo { font-size:1.5rem; font-weight:900; letter-spacing:-1px; }
 .logo span { color:var(--accent); }
 .subtitle { color:var(--muted); font-size:.82rem; margin-top:3px; }
@@ -82,6 +87,7 @@ main {
   grid-template-columns:minmax(0,1.4fr) minmax(270px,.75fr);
   gap:18px;
 }
+
 .panel {
   min-width:0;
   padding:18px;
@@ -90,6 +96,7 @@ main {
   border-radius:22px;
   box-shadow:0 8px 28px #18345c08;
 }
+
 .game-heading {
   display:flex;
   justify-content:space-between;
@@ -97,6 +104,7 @@ main {
   gap:10px;
   margin-bottom:14px;
 }
+
 .status {
   color:var(--accent);
   font-size:.76rem;
@@ -121,6 +129,7 @@ main {
   font-weight:850;
 }
 .stage-detail { margin-top:5px; color:var(--muted); font-size:.78rem; }
+
 .progress {
   height:7px;
   margin-top:9px;
@@ -133,6 +142,7 @@ main {
   width:0;
   background:var(--accent);
   border-radius:inherit;
+  transition:width .12s linear;
 }
 
 .board-wrap {
@@ -146,12 +156,14 @@ main {
   border-radius:16px;
   background:var(--panel);
 }
+
 canvas {
   display:block;
   width:100%;
   height:100%;
   touch-action:none;
 }
+
 .overlay {
   position:absolute;
   inset:0;
@@ -170,7 +182,11 @@ canvas {
   font-size:clamp(1.6rem,4vw,2.7rem);
   letter-spacing:-1.5px;
 }
-.overlay p { max-width:330px; color:var(--muted); margin:0 0 18px; }
+.overlay p {
+  max-width:330px;
+  color:var(--muted);
+  margin:0 0 18px;
+}
 
 .controls {
   display:flex;
@@ -179,12 +195,23 @@ canvas {
   gap:8px;
   margin-top:14px;
 }
-.hint { color:var(--muted); text-align:center; font-size:.78rem; margin-top:12px; }
+.hint {
+  color:var(--muted);
+  text-align:center;
+  font-size:.78rem;
+  margin-top:12px;
+}
+
 .side { display:flex; flex-direction:column; gap:15px; }
 .section-title { margin:0 0 13px; font-size:1rem; font-weight:900; }
 
 .stats { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.stat { background:var(--bg); border:1px solid var(--border); border-radius:14px; padding:12px; }
+.stat {
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:12px;
+}
 .stat small { display:block; color:var(--muted); }
 .stat strong { display:block; margin-top:4px; font-size:1.5rem; }
 
@@ -198,7 +225,12 @@ canvas {
   color:var(--text);
   padding:10px;
 }
-.skin-list,.missions,.leaderboard { display:flex; flex-direction:column; gap:8px; }
+
+.skin-list,.missions,.leaderboard {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
 .skin-row,.mission-row,.leader-row {
   display:flex;
   justify-content:space-between;
@@ -243,13 +275,20 @@ canvas {
   width:min(100vw,100vh);
   height:min(100vw,100vh);
 }
-footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px 25px; }
+
+footer {
+  text-align:center;
+  color:var(--muted);
+  font-size:.78rem;
+  padding:0 15px 25px;
+}
 
 @media(max-width:850px) {
   main { grid-template-columns:1fr; }
   .side { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); }
   .side>.panel:first-child { grid-column:1/-1; }
 }
+
 @media(max-width:550px) {
   header { padding:16px 12px 10px; }
   main { padding:8px 10px 22px; }
@@ -264,6 +303,7 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
 </head>
 
 <body data-theme="light">
+
 <header>
   <div>
     <div class="logo">🍏 Snakefield <span>— Apple Arcade</span></div>
@@ -278,6 +318,7 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
 
 <main>
   <section class="panel">
+
     <div class="game-heading">
       <div>
         <div class="status" id="status">READY TO PLAY</div>
@@ -291,7 +332,9 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
         <span id="stageNumber">STAGE 1</span>
         <span id="applesLeft">🍎 60 apples left</span>
       </div>
-      <div class="stage-detail" id="stageDetail">Eat 60 apples to reach Stage 2.</div>
+      <div class="stage-detail" id="stageDetail">
+        Eat 60 apples to reach Stage 2.
+      </div>
       <div class="progress">
         <div class="progress-fill" id="stageProgress"></div>
       </div>
@@ -323,11 +366,18 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
   </section>
 
   <aside class="side">
+
     <section class="panel">
       <h3 class="section-title">📊 Your stats</h3>
       <div class="stats">
-        <div class="stat"><small>Personal best</small><strong id="best">0</strong></div>
-        <div class="stat"><small>Runs played</small><strong id="runs">0</strong></div>
+        <div class="stat">
+          <small>Personal best</small>
+          <strong id="best">0</strong>
+        </div>
+        <div class="stat">
+          <small>Runs played</small>
+          <strong id="runs">0</strong>
+        </div>
       </div>
       <div class="name-row">
         <input id="playerName" maxlength="16" placeholder="Player name">
@@ -351,6 +401,7 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
       <div class="leaderboard" id="leaderboard"></div>
       <div class="small">Local leaderboard saved on this device.</div>
     </section>
+
   </aside>
 </main>
 
@@ -368,14 +419,11 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
   const CELLS = 20;
   const SIZE = canvas.width / CELLS;
 
-  // One stage advances after 60 apples.
+  // Stage 1 uses Google's reported Normal speed as the baseline.
   const APPLES_PER_STAGE = 60;
-
-  // SLOWER START: 140 milliseconds between moves.
-  // Every new stage decreases the delay by just 5 milliseconds.
-  const START_SPEED = 140;
-  const MIN_SPEED = 75;
-  const SPEED_PER_STAGE = 5;
+  const START_SPEED = 135;
+  const SPEED_PER_STAGE = 3;
+  const MIN_SPEED = 105;
 
   const skins = [
     {id:"mint",name:"Mint",color:"#22b876"},
@@ -388,30 +436,38 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
 
   const missionDefinitions = [
     {
-      id:"first",name:"First bite",
+      id:"first",
+      name:"First bite",
       description:"Collect 3 apples in one run",
-      reward:"Ocean",target:3,
+      reward:"Ocean",
+      target:3,
       progress:()=>Math.min(apples,3),
       condition:()=>apples>=3
     },
     {
-      id:"chaser",name:"Score chaser",
+      id:"chaser",
+      name:"Score chaser",
       description:"Reach 100 points in one run",
-      reward:"Berry",target:100,
+      reward:"Berry",
+      target:100,
       progress:()=>Math.min(score,100),
       condition:()=>score>=100
     },
     {
-      id:"regular",name:"Back for more",
+      id:"regular",
+      name:"Back for more",
       description:"Play 5 runs in total",
-      reward:"Sunset",target:5,
+      reward:"Sunset",
+      target:5,
       progress:()=>Math.min(save.runs,5),
       condition:()=>save.runs>=5
     },
     {
-      id:"legend",name:"Snake legend",
+      id:"legend",
+      name:"Snake legend",
       description:"Reach 250 points in one run",
-      reward:"Midnight",target:250,
+      reward:"Midnight",
+      target:250,
       progress:()=>Math.min(score,250),
       condition:()=>score>=250
     }
@@ -444,7 +500,9 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
   save.completed=save.completed||[];
   save.scores=save.scores||[];
 
-  if(!["light","blue","dark"].includes(save.theme)) save.theme="light";
+  if(!["light","blue","dark"].includes(save.theme)) {
+    save.theme="light";
+  }
 
   if(!skins.some(s=>s.id===save.selected&&save.unlocked.includes(s.id))) {
     save.selected="mint";
@@ -453,13 +511,16 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
   let snake=[];
   let previousSnake=[];
   let apple=null;
+
   let direction={x:1,y:0};
   let directionQueue=[];
   let score=0;
   let apples=0;
+
   let active=false;
   let paused=false;
   let ended=false;
+
   let lastStepTime=0;
   let accumulator=0;
   let animationFrame=0;
@@ -469,7 +530,7 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
     try {
       localStorage.setItem("snakefieldSave",JSON.stringify(save));
     } catch(error) {
-      console.warn("Save unavailable in this browser.",error);
+      console.warn("Progress could not be saved.",error);
     }
   }
 
@@ -497,6 +558,7 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
 
     try {
       audioContext ||= new (window.AudioContext||window.webkitAudioContext)();
+
       const oscillator=audioContext.createOscillator();
       const gain=audioContext.createGain();
 
@@ -506,6 +568,7 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
 
       oscillator.connect(gain);
       gain.connect(audioContext.destination);
+
       oscillator.start();
       oscillator.stop(audioContext.currentTime+duration);
     } catch {}
@@ -521,7 +584,8 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
       (remaining===1?" apple left":" apples left");
 
     $("stageDetail").textContent=
-      "Eat "+remaining+" more "+(remaining===1?"apple":"apples")+
+      "Eat "+remaining+" more "+
+      (remaining===1?"apple":"apples")+
       " to reach Stage "+(stage+1)+".";
 
     $("stageProgress").style.width=percent+"%";
@@ -532,7 +596,9 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
 
     for(let y=0;y<CELLS;y++) {
       for(let x=0;x<CELLS;x++) {
-        if(!snake.some(p=>p.x===x&&p.y===y)) empty.push({x,y});
+        if(!snake.some(p=>p.x===x&&p.y===y)) {
+          empty.push({x,y});
+        }
       }
     }
 
@@ -544,6 +610,7 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
     apple=empty[Math.floor(Math.random()*empty.length)];
   }
 
+  // Draw a curved continuous line through the snake's segment centres.
   function roundedPath(points) {
     if(!points.length) return;
 
@@ -559,14 +626,19 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
       const mx=(points[i].x+points[i+1].x)/2;
       const my=(points[i].y+points[i+1].y)/2;
 
-      ctx.quadraticCurveTo(points[i].x,points[i].y,mx,my);
+      ctx.quadraticCurveTo(
+        points[i].x,
+        points[i].y,
+        mx,
+        my
+      );
     }
 
     const last=points[points.length-1];
     ctx.lineTo(last.x,last.y);
   }
 
-  // Draw only. gameLoop controls animation to prevent duplicate loops.
+  // Rendering is managed by one animation loop only.
   function draw() {
     const styles=getComputedStyle(document.body);
     const panel=styles.getPropertyValue("--panel").trim();
@@ -576,6 +648,7 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
     ctx.fillStyle=panel;
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
+    // Classic 20 by 20 board.
     ctx.strokeStyle=grid;
     ctx.lineWidth=1;
 
@@ -609,13 +682,13 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
 
     if(!snake.length) return;
 
-    // Smooth interpolation between grid positions.
+    // IMPORTANT: each segment interpolates from its own previous position.
     const alpha=active&&!paused
       ?Math.min(1,accumulator/currentSpeed())
       :1;
 
     const points=snake.map((part,index)=>{
-      const old=previousSnake[Math.min(Math.max(0,index-1),previousSnake.length-1)]||part;
+      const old=previousSnake[index]||part;
 
       return {
         x:(old.x+(part.x-old.x)*alpha)*SIZE+SIZE/2,
@@ -625,7 +698,7 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
 
     const skin=getSkin();
 
-    // Thick connected body with round joins and caps.
+    // A thick stroke with rounded caps avoids gaps between segments.
     if(points.length>1) {
       roundedPath(points);
       ctx.lineCap="round";
@@ -634,15 +707,16 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
       ctx.lineWidth=30;
       ctx.stroke();
 
-      // Gentle highlight.
+      // Gentle shine.
       roundedPath(points);
       ctx.strokeStyle="rgba(255,255,255,.14)";
       ctx.lineWidth=3;
       ctx.stroke();
     }
 
-    // Rounded head.
+    // Round head rather than a square tile.
     const head=points[0];
+
     ctx.fillStyle=skin.color;
     ctx.beginPath();
     ctx.arc(head.x,head.y,15,0,Math.PI*2);
@@ -653,7 +727,7 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
     ctx.arc(head.x-3,head.y-4,5,0,Math.PI*2);
     ctx.fill();
 
-    // Eyes.
+    // Eyes turn with the snake.
     let eye1,eye2;
 
     if(direction.x!==0) {
@@ -710,6 +784,7 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
     $("runs").textContent=save.runs;
     $("playerName").value=save.playerName;
     $("soundBtn").textContent=save.soundOn?"🔊 Sound":"🔇 Sound off";
+
     document.body.dataset.theme=save.theme;
 
     $("skins").innerHTML="";
@@ -737,6 +812,7 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
 
       row.querySelector("button").addEventListener("click",()=>{
         if(!save.unlocked.includes(skin.id)) return;
+
         save.selected=skin.id;
         persist();
         renderPanels();
@@ -750,10 +826,14 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
 
     for(const mission of missionDefinitions) {
       const completed=save.completed.includes(mission.id);
-      const percent=Math.min(100,mission.progress()/mission.target*100);
-      const row=document.createElement("div");
+      const percent=Math.min(
+        100,
+        mission.progress()/mission.target*100
+      );
 
+      const row=document.createElement("div");
       row.className="mission-row";
+
       row.innerHTML=`
         <div class="mission-main">
           <div class="mission-name">${completed?"✅ ":""}${mission.name}</div>
@@ -822,6 +902,7 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
     active=true;
     paused=false;
     ended=false;
+
     accumulator=0;
     lastStepTime=performance.now();
 
@@ -867,6 +948,7 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
   function tick() {
     if(!active||paused||ended) return;
 
+    // Keep the previous positions for the animation between tiles.
     previousSnake=snake.map(p=>({...p}));
 
     if(directionQueue.length) {
@@ -881,6 +963,7 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
     const eating=apple&&head.x===apple.x&&head.y===apple.y;
     const body=eating?snake:snake.slice(0,-1);
 
+    // Classic Snake wall and self-collision behaviour.
     if(
       head.x<0||head.y<0||
       head.x>=CELLS||head.y>=CELLS||
@@ -895,8 +978,8 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
     if(eating) {
       score+=10;
       apples++;
-      $("score").textContent=score;
 
+      $("score").textContent=score;
       updateStageUI();
 
       if(apples%APPLES_PER_STAGE===0) {
@@ -925,8 +1008,8 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
     ended=true;
     active=false;
     paused=false;
-    cancelAnimationFrame(animationFrame);
 
+    cancelAnimationFrame(animationFrame);
     setStatus(won?"GRID CONQUERED":"RUN COMPLETE");
 
     if(score>save.best) save.best=score;
@@ -979,11 +1062,13 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
       hideOverlay();
       setStatus("IN THE GROOVE");
       $("pauseBtn").textContent="Ⅱ Pause";
+
       lastStepTime=performance.now();
       animationFrame=requestAnimationFrame(gameLoop);
     }
   }
 
+  // Responsive input queue: reject direct reversals.
   function changeDirection(next) {
     if(!active||paused||ended) return;
 
@@ -1003,6 +1088,7 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
   function toggleFullscreen() {
     if(!document.fullscreenElement) {
       const request=wrap.requestFullscreen||wrap.webkitRequestFullscreen;
+
       if(request) {
         const result=request.call(wrap);
         if(result&&result.catch) result.catch(()=>{});
@@ -1081,6 +1167,7 @@ footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 15px
     });
   });
 
+  // Swipe control for touchscreens.
   let touchStart=null;
 
   canvas.addEventListener("touchstart",event=>{
