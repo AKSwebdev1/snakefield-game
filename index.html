@@ -4,37 +4,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Snakefield — Apple Arcade</title>
+<meta name="theme-color" content="#eef5ff">
+<title>Snakefield — Play</title>
 
 <style>
 :root {
-  --bg:#f1f6fd;
-  --panel:#fff;
-  --text:#14213a;
-  --muted:#718096;
-  --grid:#e4edf8;
+  --bg:#eef5ff;
+  --panel:#ffffff;
+  --text:#172640;
+  --muted:#75849b;
   --accent:#3478f6;
-  --border:#dfe8f3;
+  --border:#dfe8f4;
 }
-body[data-theme="blue"] {
-  --bg:#dcecff;
-  --panel:#edf5ff;
-  --text:#102c54;
-  --muted:#58779f;
-  --grid:#c8dcf6;
-  --accent:#1769e8;
-  --border:#c6daf3;
-}
-body[data-theme="dark"] {
-  --bg:#0c1423;
-  --panel:#172338;
-  --text:#edf4ff;
-  --muted:#a2b3cb;
-  --grid:#293950;
-  --accent:#4e91ff;
-  --border:#2b3b52;
-}
-
 * { box-sizing:border-box; }
 
 body {
@@ -43,15 +24,13 @@ body {
   color:var(--text);
   font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
 }
-
 button,input { font:inherit; }
-
 button {
   border:1px solid var(--border);
   background:var(--panel);
   color:var(--text);
-  padding:10px 14px;
-  border-radius:12px;
+  padding:11px 15px;
+  border-radius:13px;
   font-weight:750;
   cursor:pointer;
   touch-action:manipulation;
@@ -59,205 +38,272 @@ button {
   -webkit-tap-highlight-color:transparent;
 }
 button:hover { border-color:var(--accent); }
-button:active { filter:brightness(.92); }
-button.primary { background:var(--accent); color:#fff; border-color:transparent; }
-button:disabled { opacity:.55; cursor:not-allowed; }
+button:active { transform:scale(.98); }
+button:disabled { opacity:.48; cursor:not-allowed; }
+.primary {
+  color:white !important;
+  background:var(--accent) !important;
+  border-color:transparent !important;
+}
+.small { color:var(--muted); font-size:.78rem; line-height:1.5; }
+.muted { color:var(--muted); }
+.hidden { display:none !important; }
 
 header {
-  max-width:1250px;
+  max-width:1300px;
+  padding:17px 22px;
   margin:auto;
-  padding:20px 22px 15px;
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  gap:15px;
+  justify-content:space-between;
+  gap:12px;
   flex-wrap:wrap;
 }
-.logo { font-size:1.5rem; font-weight:900; letter-spacing:-1px; }
+.logo { font-size:1.35rem; font-weight:950; letter-spacing:-1px; }
 .logo span { color:var(--accent); }
-.subtitle { color:var(--muted); font-size:.82rem; margin-top:3px; }
 .header-buttons { display:flex; gap:7px; flex-wrap:wrap; }
+.header-buttons button { padding:9px 12px; font-size:.84rem; }
 
 main {
-  max-width:1250px;
-  padding:8px 22px 28px;
+  max-width:1300px;
+  padding:8px 22px 30px;
   margin:auto;
   display:grid;
-  grid-template-columns:minmax(0,1.4fr) minmax(270px,.75fr);
-  gap:18px;
+  grid-template-columns:minmax(0,1.4fr) minmax(275px,.75fr);
+  gap:17px;
 }
-
 .panel {
   min-width:0;
-  padding:18px;
+  padding:17px;
   background:var(--panel);
   border:1px solid var(--border);
-  border-radius:22px;
-  box-shadow:0 8px 28px #18345c08;
+  border-radius:21px;
+  box-shadow:0 8px 30px #19365a08;
 }
 .game-heading {
   display:flex;
   justify-content:space-between;
   align-items:center;
   gap:10px;
-  margin-bottom:14px;
+  margin-bottom:13px;
 }
-.status {
-  color:var(--accent);
-  font-size:.76rem;
-  font-weight:900;
-  letter-spacing:1.3px;
-}
-.score { font-size:1.3rem; font-weight:900; }
+.status { color:var(--accent); font-size:.75rem; font-weight:900; letter-spacing:1.2px; }
+.score { font-size:1.25rem; font-weight:900; }
 
 .stage-info {
-  margin-bottom:12px;
   padding:12px 14px;
+  margin-bottom:12px;
   border:1px solid var(--border);
   border-radius:13px;
   background:var(--bg);
 }
-.stage-line {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  font-size:.88rem;
-  font-weight:850;
-}
-.stage-detail { margin-top:5px; color:var(--muted); font-size:.78rem; }
-
-.progress {
-  height:7px;
-  margin-top:9px;
-  overflow:hidden;
-  background:var(--grid);
-  border-radius:20px;
-}
-.progress-fill {
-  height:100%;
-  width:0;
-  background:var(--accent);
-  border-radius:inherit;
-  transition:width .12s linear;
-}
+.stage-line { display:flex; justify-content:space-between; gap:10px; font-weight:850; font-size:.86rem; }
+.stage-detail { margin-top:5px; color:var(--muted); font-size:.77rem; }
+.progress { height:6px; background:#dce6f3; border-radius:20px; overflow:hidden; margin-top:9px; }
+.progress-fill { height:100%; width:0; background:var(--accent); border-radius:20px; }
 
 .board-wrap {
   position:relative;
   width:100%;
   max-width:680px;
   aspect-ratio:1;
-  margin:auto;
   overflow:hidden;
+  margin:auto;
   border:1px solid var(--border);
   border-radius:16px;
-  background:var(--panel);
+  background:#fff;
 }
-canvas {
-  display:block;
-  width:100%;
-  height:100%;
-  touch-action:none;
-}
+canvas { width:100%; height:100%; display:block; touch-action:none; }
 
-.overlay {
-  position:absolute;
-  inset:0;
-  z-index:2;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  padding:22px;
-  background:color-mix(in srgb,var(--bg) 85%,transparent);
-  backdrop-filter:blur(5px);
-  text-align:center;
-}
-.overlay h2 {
-  margin:0 0 8px;
-  font-size:clamp(1.6rem,4vw,2.7rem);
-  letter-spacing:-1.5px;
-}
-.overlay p { max-width:330px; color:var(--muted); margin:0 0 18px; }
+.controls { display:flex; justify-content:center; flex-wrap:wrap; gap:8px; margin-top:13px; }
+.hint { text-align:center; color:var(--muted); font-size:.77rem; margin-top:11px; }
 
-.controls {
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top:14px;
-}
-.hint { color:var(--muted); text-align:center; font-size:.78rem; margin-top:12px; }
+.side { display:flex; flex-direction:column; gap:14px; }
+.section-title { font-size:1rem; font-weight:900; margin:0 0 12px; }
+.stats { display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+.stat { background:var(--bg); border:1px solid var(--border); border-radius:13px; padding:12px; }
+.stat small { color:var(--muted); display:block; }
+.stat strong { font-size:1.4rem; display:block; margin-top:4px; }
 
-.side { display:flex; flex-direction:column; gap:15px; }
-.section-title { margin:0 0 13px; font-size:1rem; font-weight:900; }
-.stats { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.stat { background:var(--bg); border:1px solid var(--border); border-radius:14px; padding:12px; }
-.stat small { display:block; color:var(--muted); }
-.stat strong { display:block; margin-top:4px; font-size:1.5rem; }
-
-.name-row { display:flex; gap:7px; margin-top:11px; }
+.name-row { display:flex; gap:7px; margin-top:10px; }
 .name-row input {
-  width:100%;
-  min-width:0;
-  border:1px solid var(--border);
-  border-radius:10px;
-  background:var(--bg);
-  color:var(--text);
-  padding:10px;
+  width:100%; min-width:0; padding:10px;
+  background:var(--bg); color:var(--text);
+  border:1px solid var(--border); border-radius:10px;
 }
 
-.skin-list,.missions,.leaderboard { display:flex; flex-direction:column; gap:8px; }
-.skin-row,.mission-row,.leader-row {
+.weekly-card {
+  border:1px solid #bcd4ff;
+  border-radius:15px;
+  padding:13px;
+  background:linear-gradient(135deg,#edf4ff,#f9fbff);
+  color:#172640;
+}
+.weekly-title { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.weekly-title strong { font-size:.91rem; }
+.weekly-reward { font-size:.78rem; margin-top:7px; font-weight:800; }
+.weekly-card .progress { background:#d8e5f7; }
+.weekly-card .progress-fill { background:#2877f6; }
+.weekly-card .small { color:#667894; }
+
+.collection { display:flex; flex-direction:column; gap:8px; }
+.collection-row {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:9px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:9px;
+}
+.collection-info { display:flex; align-items:center; gap:9px; min-width:0; }
+.swatch { width:23px; height:23px; border-radius:8px; flex-shrink:0; border:1px solid #00000010; }
+.collection-name { font-size:.85rem; font-weight:850; }
+.collection-row button { font-size:.75rem; padding:7px 9px; white-space:nowrap; }
+
+.mission-row {
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:10px;
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  padding:10px;
-  border:1px solid var(--border);
-  border-radius:13px;
+  align-items:flex-start;
+  gap:8px;
 }
-.skin-info { display:flex; align-items:center; gap:9px; }
-.skin-dot { width:21px; height:21px; flex-shrink:0; border-radius:7px; }
-.skin-name { font-weight:800; font-size:.88rem; }
-.small { color:var(--muted); font-size:.75rem; margin-top:3px; }
-.skin-row button { padding:7px 10px; font-size:.78rem; }
-.mission-row { align-items:flex-start; }
 .mission-main { flex:1; min-width:0; }
-.mission-name { font-size:.88rem; font-weight:850; }
-.reward { font-size:.75rem; font-weight:800; white-space:nowrap; }
-.leader-row { font-size:.87rem; }
+.mission-name { font-size:.85rem; font-weight:850; }
+.reward { color:var(--muted); font-size:.75rem; white-space:nowrap; }
+.leader-row {
+  display:flex;
+  justify-content:space-between;
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:10px;
+  font-size:.85rem;
+}
+footer { text-align:center; color:var(--muted); font-size:.78rem; padding:0 12px 25px; }
 
 .mobile-pad {
   display:none;
-  grid-template-columns:repeat(3,48px);
+  grid-template-columns:repeat(3,49px);
   gap:6px;
   justify-content:center;
   margin-top:15px;
 }
-.mobile-pad button { height:46px; padding:0; font-size:1.25rem; }
+.mobile-pad button { height:45px; padding:0; font-size:1.2rem; }
 
-.board-wrap:fullscreen {
-  width:100vw;
-  height:100vh;
-  max-width:none;
-  aspect-ratio:auto;
-  border:0;
-  border-radius:0;
+.screen {
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:auto;
+  padding:22px;
+  background:
+    radial-gradient(ellipse at 20% 15%,#cfe2ff 0,transparent 42%),
+    radial-gradient(ellipse at 90% 80%,#d9f5e7 0,transparent 38%),
+    #f5f8ff;
+}
+.screen-card {
+  width:min(100%,460px);
+  padding:32px;
+  background:rgba(255,255,255,.92);
+  border:1px solid #ffffff;
+  box-shadow:0 25px 90px #214b831c;
+  border-radius:28px;
+  text-align:center;
+}
+.hero-icon {
+  width:92px;
+  height:92px;
   display:grid;
   place-items:center;
-  background:var(--bg);
+  margin:0 auto 17px;
+  font-size:3.4rem;
+  border-radius:26px;
+  background:linear-gradient(145deg,#e3f5e8,#d9eaff);
+  box-shadow:0 12px 35px #5083b018;
+}
+.hero-title { font-size:clamp(2.4rem,8vw,3.7rem); font-weight:1000; letter-spacing:-3px; line-height:1; margin:0; }
+.hero-subtitle { color:#718096; margin:12px 0 23px; line-height:1.5; }
+.play-button {
+  min-width:190px;
+  padding:15px 30px;
+  border-radius:16px;
+  font-size:1.12rem;
+  box-shadow:0 9px 22px #3478f632;
+}
+.hero-weekly { text-align:left; margin-top:24px; }
+.hero-bottom { margin-top:18px; color:#8290a4; font-size:.76rem; }
+
+.final-score { font-size:3.5rem; font-weight:1000; letter-spacing:-2px; margin:8px 0; }
+.final-label { color:#718096; font-size:.8rem; font-weight:850; letter-spacing:1.5px; }
+.end-buttons { display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-top:20px; }
+.end-buttons button { padding:13px 9px; }
+.end-buttons .wide { grid-column:1/-1; }
+
+.modal-layer {
+  position:fixed;
+  inset:0;
+  z-index:200;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:15px;
+  background:#0b1734a8;
+  backdrop-filter:blur(5px);
+}
+.modal {
+  width:min(100%,610px);
+  max-height:min(86vh,820px);
+  overflow:auto;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:19px;
+  box-shadow:0 25px 90px #08152a35;
+}
+.modal-heading {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:8px;
+}
+.modal-heading h2 { font-size:1.25rem; margin:0; letter-spacing:-.5px; }
+.modal-intro { color:var(--muted); font-size:.82rem; margin:0 0 15px; line-height:1.5; }
+.modal-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }
+.option-card {
+  min-width:0;
+  padding:11px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  background:var(--panel);
+}
+.option-preview {
+  height:55px;
+  border-radius:9px;
+  margin-bottom:9px;
+  border:1px solid #00000012;
+}
+.option-name { font-size:.84rem; font-weight:850; }
+.option-description { font-size:.73rem; color:var(--muted); margin:3px 0 8px; line-height:1.4; }
+.option-card button { width:100%; padding:8px; font-size:.76rem; }
+.share-fallback { display:flex; flex-direction:column; gap:9px; }
+.share-fallback button { width:100%; text-align:center; }
+.close-button { padding:7px 11px; }
+hr { border:0; border-top:1px solid var(--border); margin:16px 0; }
+
+.board-wrap:fullscreen {
+  width:100vw; height:100vh; max-width:none;
+  aspect-ratio:auto; border:0; border-radius:0;
+  display:grid; place-items:center; background:#fff;
 }
 .board-wrap:fullscreen canvas {
   width:min(100vw,100vh);
   height:min(100vw,100vh);
-}
-
-footer {
-  text-align:center;
-  color:var(--muted);
-  font-size:.78rem;
-  padding:0 15px 25px;
 }
 
 @media(max-width:850px) {
@@ -266,29 +312,32 @@ footer {
   .side>.panel:first-child { grid-column:1/-1; }
 }
 @media(max-width:550px) {
-  header { padding:16px 12px 10px; }
+  header { padding:13px 12px; }
   main { padding:8px 10px 22px; }
   .panel { padding:13px; border-radius:17px; }
   .side { display:flex; }
   .mobile-pad { display:grid; }
   .hint { display:none; }
-  .logo { font-size:1.3rem; }
-  .header-buttons button { font-size:.75rem; padding:9px; }
+  .logo { font-size:1.2rem; }
+  .header-buttons button { font-size:.73rem; padding:8px; }
+  .screen-card { padding:25px 19px; border-radius:23px; }
+  .modal-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
 }
 </style>
 </head>
 
-<body data-theme="light">
+<body>
 
 <header>
   <div>
-    <div class="logo">🍏 Snakefield <span>— Apple Arcade</span></div>
+    <div class="logo">🍏 Snakefield <span>— Play</span></div>
     <div class="subtitle">the little apple game</div>
   </div>
   <div class="header-buttons">
-    <button id="themeBtn">🎨 Theme</button>
-    <button id="soundBtn">🔊 Sound</button>
-    <button id="fullscreenBtn">⛶ Full screen</button>
+    <button id="skinsButton">🎨 Skins</button>
+    <button id="backgroundsButton">🌈 Backgrounds</button>
+    <button id="soundButton">🔊 Sound</button>
+    <button id="fullscreenButton">⛶ Full screen</button>
   </div>
 </header>
 
@@ -297,7 +346,7 @@ footer {
     <div class="game-heading">
       <div>
         <div class="status" id="status">READY TO PLAY</div>
-        <div class="subtitle">Arrows / WASD · Space to pause</div>
+        <div class="subtitle">Arrow keys / WASD · Space to pause</div>
       </div>
       <div class="score">Score <span id="score">0</span></div>
     </div>
@@ -308,24 +357,17 @@ footer {
         <span id="applesLeft">🍎 60 apples left</span>
       </div>
       <div class="stage-detail" id="stageDetail">Eat 60 apples to reach Stage 2.</div>
-      <div class="progress">
-        <div class="progress-fill" id="stageProgress"></div>
-      </div>
+      <div class="progress"><div class="progress-fill" id="stageProgress"></div></div>
     </div>
 
     <div class="board-wrap" id="boardWrap">
-      <canvas id="game" width="600" height="600"></canvas>
-      <div class="overlay" id="overlay">
-        <h2>Ready, set, slither.</h2>
-        <p>Collect apples, unlock new colours and beat your high score.</p>
-        <button class="primary" id="overlayStart">Start game</button>
-      </div>
+      <canvas id="game" width="600" height="600" aria-label="Snakefield game board"></canvas>
     </div>
 
     <div class="controls">
-      <button class="primary" id="newBtn">＋ New run</button>
-      <button id="pauseBtn">Ⅱ Pause</button>
-      <button id="restartBtn">↻ Restart</button>
+      <button class="primary" id="newButton">＋ New run</button>
+      <button id="pauseButton">Ⅱ Pause</button>
+      <button id="restartButton">↻ Restart</button>
     </div>
 
     <div class="mobile-pad">
@@ -335,42 +377,88 @@ footer {
       <button data-direction="right">→</button>
     </div>
 
-    <div class="hint">F = full screen · R = restart · Space = pause</div>
+    <div class="hint">Press F for full screen · R to restart · Space to pause</div>
   </section>
 
   <aside class="side">
     <section class="panel">
       <h3 class="section-title">📊 Your stats</h3>
       <div class="stats">
-        <div class="stat"><small>Personal best</small><strong id="best">0</strong></div>
-        <div class="stat"><small>Runs played</small><strong id="runs">0</strong></div>
+        <div class="stat"><small>Personal best</small><strong id="bestScore">0</strong></div>
+        <div class="stat"><small>Runs played</small><strong id="runsPlayed">0</strong></div>
       </div>
       <div class="name-row">
         <input id="playerName" maxlength="16" placeholder="Player name">
-        <button id="saveName">Save</button>
+        <button id="saveNameButton">Save</button>
       </div>
-      <div class="small">Your scores are saved in this browser.</div>
+      <div class="small">Saved in this browser on this device.</div>
     </section>
 
     <section class="panel">
-      <h3 class="section-title">🎨 Snake skins</h3>
-      <div class="skin-list" id="skins"></div>
+      <h3 class="section-title">🗓️ Weekly challenge</h3>
+      <div id="weeklyChallenge"></div>
     </section>
 
     <section class="panel">
       <h3 class="section-title">🎯 Missions</h3>
-      <div class="missions" id="missions"></div>
+      <div id="missions" class="collection"></div>
     </section>
 
     <section class="panel">
-      <h3 class="section-title">🏆 Leaderboard</h3>
-      <div class="leaderboard" id="leaderboard"></div>
-      <div class="small">Local leaderboard saved on this device.</div>
+      <h3 class="section-title">🏆 Your leaderboard</h3>
+      <div id="leaderboard" class="collection"></div>
+      <div class="small" style="margin-top:9px">Local scores, not a global online leaderboard.</div>
     </section>
   </aside>
 </main>
 
-<footer>Snakefield · A little game, a lot of apples.</footer>
+<footer>Snakefield · Play, beat your best, share the challenge.</footer>
+
+<!-- First screen -->
+<div class="screen" id="startScreen">
+  <div class="screen-card">
+    <div class="hero-icon">🍏</div>
+    <h1 class="hero-title">Snakefield</h1>
+    <p class="hero-subtitle">A little apple game.<br>One more run. One new best.</p>
+    <button class="primary play-button" id="playButton">▶ Play</button>
+    <div class="hero-weekly" id="startWeekly"></div>
+    <div class="hero-bottom">Free to play · Works on desktop and mobile</div>
+  </div>
+</div>
+
+<!-- Death screen -->
+<div class="screen hidden" id="gameOverScreen">
+  <div class="screen-card">
+    <div class="hero-icon" style="background:linear-gradient(145deg,#ffe7e6,#fff0d9)">😵</div>
+    <div class="final-label">RUN COMPLETE</div>
+    <h1 class="hero-title" style="font-size:2.65rem;margin-top:8px">Uh oh!</h1>
+    <p class="hero-subtitle" style="margin-bottom:5px">You crashed. Ready for another go?</p>
+    <div class="final-score" id="finalScore">0</div>
+    <div class="muted">POINTS EARNED</div>
+    <p class="small" id="finalBest"></p>
+
+    <div class="end-buttons">
+      <button class="primary wide" id="shareScoreButton">📤 Share score</button>
+      <button class="primary" id="retryButton">↻ Retry</button>
+      <button id="menuButton">⌂ Main menu</button>
+    </div>
+    <div class="small" style="margin-top:17px">
+      Share your score and challenge your friends to beat it.
+    </div>
+  </div>
+</div>
+
+<!-- Skins/backgrounds and sharing dialogs -->
+<div id="modalLayer" class="modal-layer hidden">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-heading">
+      <h2 id="modalTitle">Collection</h2>
+      <button class="close-button" id="closeModalButton">✕ Close</button>
+    </div>
+    <p class="modal-intro" id="modalIntro"></p>
+    <div id="modalContent"></div>
+  </div>
+</div>
 
 <script>
 (() => {
@@ -379,150 +467,226 @@ footer {
   const $ = id => document.getElementById(id);
   const canvas = $("game");
   const ctx = canvas.getContext("2d");
-  const wrap = $("boardWrap");
-
   const CELLS = 20;
   const SIZE = canvas.width / CELLS;
-
-  // 60 apples per stage.
-  // Google Snake's speed settings can vary; 135ms is used as
-  // a Normal-speed baseline. Stages get gradually faster.
   const APPLES_PER_STAGE = 60;
-  const START_SPEED = 135;
-  const SPEED_PER_STAGE = 3;
-  const MIN_SPEED = 105;
+
+  // A responsive starting speed with gentle increases per stage.
+  // The head changes direction on the next game tick.
+  const START_SPEED = 110;
+  const SPEED_INCREASE = 2;
+  const MIN_SPEED = 88;
+  const WEEKLY_TARGET = 25;
 
   const skins = [
-    {id:"mint",name:"Mint",color:"#22b876"},
-    {id:"lime",name:"Lime",color:"#a5ce39"},
-    {id:"ocean",name:"Ocean",color:"#3187ff"},
-    {id:"berry",name:"Berry",color:"#af62f5"},
-    {id:"sunset",name:"Sunset",color:"#ff894c"},
-    {id:"midnight",name:"Midnight",color:"#40516f"}
+    {id:"mint",name:"Mint",color:"#22b876",kind:"basic"},
+    {id:"lime",name:"Lime",color:"#a5ce39",kind:"basic"},
+    {id:"ocean",name:"Ocean",color:"#3187ff",kind:"mission"},
+    {id:"berry",name:"Berry",color:"#af62f5",kind:"mission"},
+    {id:"sunset",name:"Sunset",color:"#ff894c",kind:"mission"},
+    {id:"midnight",name:"Midnight",color:"#40516f",kind:"mission"},
+    {id:"gold",name:"Golden Apple",color:"#f5bf3d",kind:"weekly"},
+    {id:"coral",name:"Coral",color:"#ff6b80",kind:"weekly"},
+    {id:"galaxy",name:"Galaxy",color:"#7756d9",kind:"weekly"},
+    {id:"sakura",name:"Sakura",color:"#f29fc7",kind:"weekly"},
+    {id:"neon",name:"Neon",color:"#a2e63f",kind:"weekly"}
   ];
 
-  const missionDefinitions = [
+  const boards = [
+    {id:"classic",name:"Classic White",color:"#ffffff",grid:"#e4edf8",kind:"basic"},
+    {id:"blue",name:"Sky Blue",color:"#e3efff",grid:"#c3d9f5",kind:"basic"},
+    {id:"night",name:"Midnight",color:"#111827",grid:"#29364b",kind:"basic"},
+    {id:"mint",name:"Mint Green",color:"#e0f5e9",grid:"#bee7cf",kind:"basic"},
+    {id:"sunset",name:"Sunset Glow",color:"#fff0df",grid:"#ffd7ba",kind:"weekly"},
+    {id:"aurora",name:"Aurora",color:"#e8e4ff",grid:"#c9c0f0",kind:"weekly"},
+    {id:"cosmic",name:"Cosmic Purple",color:"#211b3b",grid:"#443565",kind:"weekly"},
+    {id:"candy",name:"Candy Pink",color:"#ffedf5",grid:"#f3cadd",kind:"weekly"},
+    {id:"ocean",name:"Deep Ocean",color:"#dff8ff",grid:"#b5e9f2",kind:"weekly"}
+  ];
+
+  const missionsDefinitions = [
     {
-      id:"first",name:"First bite",
-      description:"Collect 3 apples in one run",
+      id:"first",name:"First bite",description:"Eat 3 apples in one run",
       reward:"Ocean",target:3,
       progress:()=>Math.min(apples,3),
-      condition:()=>apples>=3
+      complete:()=>apples>=3
     },
     {
-      id:"chaser",name:"Score chaser",
-      description:"Reach 100 points in one run",
+      id:"score",name:"Score chaser",description:"Reach 100 points",
       reward:"Berry",target:100,
       progress:()=>Math.min(score,100),
-      condition:()=>score>=100
+      complete:()=>score>=100
     },
     {
-      id:"regular",name:"Back for more",
-      description:"Play 5 runs in total",
+      id:"regular",name:"Back for more",description:"Play 5 runs",
       reward:"Sunset",target:5,
       progress:()=>Math.min(save.runs,5),
-      condition:()=>save.runs>=5
+      complete:()=>save.runs>=5
     },
     {
-      id:"legend",name:"Snake legend",
-      description:"Reach 250 points in one run",
+      id:"legend",name:"Snake legend",description:"Reach 250 points",
       reward:"Midnight",target:250,
       progress:()=>Math.min(score,250),
-      condition:()=>score>=250
+      complete:()=>score>=250
     }
   ];
 
   const defaults = {
     best:0,
     runs:0,
-    selected:"mint",
-    unlocked:["mint","lime"],
-    completed:[],
-    scores:[],
     playerName:"Player",
     soundOn:true,
-    theme:"light"
+    theme:"light",
+    selectedSkin:"mint",
+    unlockedSkins:["mint","lime"],
+    selectedBoard:"classic",
+    unlockedBoards:["classic","blue","night","mint"],
+    completedMissions:[],
+    scores:[],
+    weekly:null
   };
 
   let save;
   try {
-    save=Object.assign(
+    save = Object.assign(
       {},
       defaults,
-      JSON.parse(localStorage.getItem("snakefieldSave")||"{}")
+      JSON.parse(localStorage.getItem("snakefieldSave") || "{}")
     );
   } catch {
-    save=Object.assign({},defaults);
+    save = Object.assign({},defaults);
   }
 
-  save.unlocked=[...new Set(["mint","lime",...(save.unlocked||[])])];
-  save.completed=save.completed||[];
-  save.scores=save.scores||[];
+  // Migrate saves from earlier Snakefield versions.
+  save.unlockedSkins = [
+    ...new Set([
+      "mint","lime",
+      ...(save.unlockedSkins||[]),
+      ...(save.unlocked||[])
+    ])
+  ];
 
-  if(!["light","blue","dark"].includes(save.theme)) save.theme="light";
-  if(!skins.some(s=>s.id===save.selected&&save.unlocked.includes(s.id))) {
-    save.selected="mint";
+  save.selectedSkin = save.selectedSkin || save.selected || "mint";
+  save.unlockedBoards = [
+    ...new Set(["classic","blue","night","mint",...(save.unlockedBoards||[])])
+  ];
+  save.completedMissions = [
+    ...new Set([...(save.completedMissions||[]),...(save.completed||[])])
+  ];
+  save.scores = Array.isArray(save.scores) ? save.scores : [];
+
+  if (!skins.some(s=>s.id===save.selectedSkin && save.unlockedSkins.includes(s.id))) {
+    save.selectedSkin = "mint";
   }
+  if (!boards.some(b=>b.id===save.selectedBoard && save.unlockedBoards.includes(b.id))) {
+    save.selectedBoard = "classic";
+  }
+  if (!["light","blue","dark"].includes(save.theme)) save.theme="light";
 
   let snake=[];
-  let history=[];
+  let headHistory=[];
   let apple=null;
   let direction={x:1,y:0};
-
-  // Keep ONE pending turn, not a long queue of old key presses.
   let pendingDirection=null;
-
   let score=0;
   let apples=0;
   let active=false;
   let paused=false;
   let ended=false;
   let hasMoved=false;
-
-  let lastFrameTime=0;
   let accumulator=0;
-  let animationFrame=0;
+  let lastFrame=0;
+  let animation=0;
   let audioContext=null;
+  let lastResult=null;
+  let shareCardBlob=null;
+  let shareCardUrl=null;
 
   function persist() {
     try {
       localStorage.setItem("snakefieldSave",JSON.stringify(save));
-    } catch(error) {
-      console.warn("Progress could not be saved.",error);
+    } catch(e) {
+      console.warn("Could not save progress.",e);
     }
   }
 
-  function currentStage() {
+  function getWeekKey(date=new Date()) {
+    const monday = new Date(Date.UTC(
+      date.getUTCFullYear(),
+      date.getUTCMonth(),
+      date.getUTCDate()
+    ));
+    const day=(monday.getUTCDay()+6)%7;
+    monday.setUTCDate(monday.getUTCDate()-day);
+    return monday.toISOString().slice(0,10);
+  }
+
+  function rewardPool() {
+    const pool=[];
+
+    for(const skin of skins) {
+      if(skin.kind==="weekly" && !save.unlockedSkins.includes(skin.id)) {
+        pool.push({type:"skin",id:skin.id,name:skin.name});
+      }
+    }
+    for(const board of boards) {
+      if(board.kind==="weekly" && !save.unlockedBoards.includes(board.id)) {
+        pool.push({type:"board",id:board.id,name:board.name});
+      }
+    }
+    return pool;
+  }
+
+  function initialiseWeeklyChallenge() {
+    const key=getWeekKey();
+    if(save.weekly && save.weekly.key===key) return;
+
+    const pool=rewardPool();
+    const reward=pool.length
+      ?pool[Math.floor(Math.random()*pool.length)]
+      :{type:"bonus",id:"bonus",name:"Bonus points"};
+
+    save.weekly={
+      key,
+      progress:0,
+      target:WEEKLY_TARGET,
+      claimed:false,
+      reward
+    };
+    persist();
+  }
+
+  initialiseWeeklyChallenge();
+
+  function getSkin() {
+    return skins.find(s=>s.id===save.selectedSkin)||skins[0];
+  }
+
+  function getBoard() {
+    return boards.find(b=>b.id===save.selectedBoard)||boards[0];
+  }
+
+  function stage() {
     return Math.floor(apples/APPLES_PER_STAGE)+1;
   }
 
-  function applesUntilNextStage() {
+  function speed() {
+    return Math.max(MIN_SPEED,START_SPEED-(stage()-1)*SPEED_INCREASE);
+  }
+
+  function applesRemaining() {
     return APPLES_PER_STAGE-(apples%APPLES_PER_STAGE);
   }
 
-  function currentSpeed() {
-    return Math.max(
-      MIN_SPEED,
-      START_SPEED-(currentStage()-1)*SPEED_PER_STAGE
-    );
-  }
-
-  function getSkin() {
-    return skins.find(s=>s.id===save.selected)||skins[0];
-  }
-
-  function beep(frequency=550,duration=.06) {
+  function beep(frequency=500,duration=.06) {
     if(!save.soundOn) return;
-
     try {
       audioContext ||= new (window.AudioContext||window.webkitAudioContext)();
       const oscillator=audioContext.createOscillator();
       const gain=audioContext.createGain();
-
       oscillator.type="sine";
       oscillator.frequency.value=frequency;
       gain.gain.value=.035;
-
       oscillator.connect(gain);
       gain.connect(audioContext.destination);
       oscillator.start();
@@ -530,44 +694,36 @@ footer {
     } catch {}
   }
 
+  function setStatus(text) {
+    $("status").textContent=text;
+  }
+
   function updateStageUI() {
-    const stage=currentStage();
-    const remaining=applesUntilNextStage();
-    const percent=(apples%APPLES_PER_STAGE)/APPLES_PER_STAGE*100;
-
-    $("stageNumber").textContent="STAGE "+stage;
-    $("applesLeft").textContent="🍎 "+remaining+
-      (remaining===1?" apple left":" apples left");
-
+    const left=applesRemaining();
+    $("stageNumber").textContent="STAGE "+stage();
+    $("applesLeft").textContent="🍎 "+left+(left===1?" apple left":" apples left");
     $("stageDetail").textContent=
-      "Eat "+remaining+" more "+(remaining===1?"apple":"apples")+
-      " to reach Stage "+(stage+1)+".";
-
-    $("stageProgress").style.width=percent+"%";
+      "Eat "+left+" more "+(left===1?"apple":"apples")+
+      " to reach Stage "+(stage()+1)+".";
+    $("stageProgress").style.width=(apples%APPLES_PER_STAGE)/APPLES_PER_STAGE*100+"%";
   }
 
   function placeApple() {
     const empty=[];
-
     for(let y=0;y<CELLS;y++) {
       for(let x=0;x<CELLS;x++) {
-        if(!snake.some(p=>p.x===x&&p.y===y)) {
-          empty.push({x,y});
-        }
+        if(!snake.some(p=>p.x===x&&p.y===y)) empty.push({x,y});
       }
     }
-
     if(!empty.length) {
       finishGame(true);
       return;
     }
-
     apple=empty[Math.floor(Math.random()*empty.length)];
   }
 
-  function smoothPath(points) {
+  function roundedPath(points) {
     if(!points.length) return;
-
     ctx.beginPath();
     ctx.moveTo(points[0].x,points[0].y);
 
@@ -579,7 +735,6 @@ footer {
     for(let i=1;i<points.length-1;i++) {
       const mx=(points[i].x+points[i+1].x)/2;
       const my=(points[i].y+points[i+1].y)/2;
-
       ctx.quadraticCurveTo(points[i].x,points[i].y,mx,my);
     }
 
@@ -587,17 +742,15 @@ footer {
     ctx.lineTo(last.x,last.y);
   }
 
-  // A single animation loop calls draw(). draw() never creates another loop.
+  // Draw one frame only; the game loop is responsible for animation.
   function draw() {
-    const styles=getComputedStyle(document.body);
-    const panel=styles.getPropertyValue("--panel").trim();
-    const grid=styles.getPropertyValue("--grid").trim();
+    const board=getBoard();
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle=panel;
+    ctx.fillStyle=board.color;
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    ctx.strokeStyle=grid;
+    ctx.strokeStyle=board.grid;
     ctx.lineWidth=1;
 
     for(let i=0;i<=CELLS;i++) {
@@ -612,40 +765,35 @@ footer {
       ctx.stroke();
     }
 
-    // Apple.
     if(apple) {
-      const ax=apple.x*SIZE+SIZE/2;
-      const ay=apple.y*SIZE+SIZE/2;
+      const x=apple.x*SIZE+SIZE/2;
+      const y=apple.y*SIZE+SIZE/2;
 
-      ctx.fillStyle="#ff4b61";
+      ctx.fillStyle="#ff4e63";
       ctx.beginPath();
-      ctx.arc(ax,ay+2,11,0,Math.PI*2);
+      ctx.arc(x,y+2,11,0,Math.PI*2);
       ctx.fill();
 
-      ctx.fillStyle="#239b59";
+      ctx.fillStyle="#299b58";
       ctx.beginPath();
-      ctx.ellipse(ax+5,ay-10,5,2.5,-.65,0,Math.PI*2);
+      ctx.ellipse(x+5,y-10,5,2.5,-.65,0,Math.PI*2);
       ctx.fill();
     }
 
     if(!snake.length) return;
 
-    const alpha=hasMoved&&active&&!paused
-      ?Math.min(1,accumulator/currentSpeed())
+    const alpha=active&&!paused&&hasMoved
+      ?Math.min(1,accumulator/speed())
       :1;
 
-    // The history records where the head has been.
-    // Each body point smoothly follows the position in front of it.
     const points=snake.map((part,index)=>{
       if(!hasMoved) {
-        return {
-          x:part.x*SIZE+SIZE/2,
-          y:part.y*SIZE+SIZE/2
-        };
+        return {x:part.x*SIZE+SIZE/2,y:part.y*SIZE+SIZE/2};
       }
 
-      const current=history[index]||part;
-      const previous=history[index+1]||current;
+      // The head's past positions form the path for every body segment.
+      const current=headHistory[index]||part;
+      const previous=headHistory[index+1]||current;
 
       return {
         x:(previous.x+(current.x-previous.x)*alpha)*SIZE+SIZE/2,
@@ -656,45 +804,41 @@ footer {
     const skin=getSkin();
 
     if(points.length>1) {
-      smoothPath(points);
+      roundedPath(points);
       ctx.lineCap="round";
       ctx.lineJoin="round";
       ctx.strokeStyle=skin.color;
       ctx.lineWidth=30;
       ctx.stroke();
 
-      smoothPath(points);
-      ctx.strokeStyle="rgba(255,255,255,.14)";
+      roundedPath(points);
+      ctx.strokeStyle="rgba(255,255,255,.13)";
       ctx.lineWidth=3;
       ctx.stroke();
     }
 
     const head=points[0];
-
     ctx.fillStyle=skin.color;
     ctx.beginPath();
     ctx.arc(head.x,head.y,15,0,Math.PI*2);
     ctx.fill();
 
-    ctx.fillStyle="rgba(255,255,255,.18)";
+    ctx.fillStyle="rgba(255,255,255,.2)";
     ctx.beginPath();
     ctx.arc(head.x-3,head.y-4,5,0,Math.PI*2);
     ctx.fill();
 
-    // Eyes face the direction currently being requested.
-    const face=pendingDirection||direction;
+    const facing=pendingDirection||direction;
     let eye1,eye2;
-
-    if(face.x!==0) {
-      eye1={x:head.x+face.x*5,y:head.y-5};
-      eye2={x:head.x+face.x*5,y:head.y+5};
+    if(facing.x!==0) {
+      eye1={x:head.x+facing.x*5,y:head.y-5};
+      eye2={x:head.x+facing.x*5,y:head.y+5};
     } else {
-      eye1={x:head.x-5,y:head.y+face.y*5};
-      eye2={x:head.x+5,y:head.y+face.y*5};
+      eye1={x:head.x-5,y:head.y+facing.y*5};
+      eye2={x:head.x+5,y:head.y+facing.y*5};
     }
 
     ctx.fillStyle="#fff";
-
     for(const eye of [eye1,eye2]) {
       ctx.beginPath();
       ctx.arc(eye.x,eye.y,2.6,0,Math.PI*2);
@@ -702,20 +846,54 @@ footer {
     }
   }
 
-  function refreshMissions() {
+  function applyWeeklyReward() {
+    const w=save.weekly;
+    if(!w || w.claimed || w.progress<w.target) return;
+
+    w.claimed=true;
+    const reward=w.reward;
+
+    if(reward.type==="skin" && skins.some(s=>s.id===reward.id)) {
+      if(!save.unlockedSkins.includes(reward.id)) save.unlockedSkins.push(reward.id);
+    } else if(reward.type==="board" && boards.some(b=>b.id===reward.id)) {
+      if(!save.unlockedBoards.includes(reward.id)) save.unlockedBoards.push(reward.id);
+    } else {
+      save.best+=10;
+    }
+
+    persist();
+    beep(950,.18);
+    renderPanels();
+
+    const name=reward.name;
+    setStatus("WEEKLY REWARD UNLOCKED!");
+    showMessageModal(
+      "🎉 Weekly reward unlocked!",
+      "You earned "+name+". Open Skins or Backgrounds to equip your reward.",
+      "Awesome"
+    );
+  }
+
+  function recordWeeklyApple() {
+    if(!save.weekly || save.weekly.claimed) return;
+    save.weekly.progress=Math.min(save.weekly.target,save.weekly.progress+1);
+    persist();
+    if(save.weekly.progress>=save.weekly.target) applyWeeklyReward();
+    renderWeekly();
+  }
+
+  function checkMissions() {
     let changed=false;
 
-    for(const mission of missionDefinitions) {
-      if(!save.completed.includes(mission.id)&&mission.condition()) {
-        save.completed.push(mission.id);
-
-        const reward=skins.find(s=>s.name===mission.reward);
-        if(reward&&!save.unlocked.includes(reward.id)) {
-          save.unlocked.push(reward.id);
+    for(const m of missionsDefinitions) {
+      if(!save.completedMissions.includes(m.id)&&m.complete()) {
+        save.completedMissions.push(m.id);
+        const skin=skins.find(s=>s.name===m.reward);
+        if(skin&&!save.unlockedSkins.includes(skin.id)) {
+          save.unlockedSkins.push(skin.id);
         }
-
         changed=true;
-        beep(850,.15);
+        beep(820,.12);
       }
     }
 
@@ -723,125 +901,183 @@ footer {
     renderPanels();
   }
 
-  function escapeHTML(value) {
-    return String(value).replace(/[&<>"']/g,char=>({
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#39;"
-    })[char]);
+  function escapeHTML(s) {
+    return String(s).replace(/[&<>"']/g,c=>({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    })[c]);
+  }
+
+  function renderWeekly() {
+    const w=save.weekly;
+    if(!w) return;
+
+    const percent=Math.min(100,w.progress/w.target*100);
+    const markup=`
+      <div class="weekly-card">
+        <div class="weekly-title">
+          <strong>${w.claimed?"✅ Challenge completed":"🍏 Eat "+w.target+" apples"}</strong>
+          <span>${w.progress}/${w.target}</span>
+        </div>
+        <div class="small" style="margin-top:6px">
+          ${w.claimed?"You've earned this week's reward!":"Eat apples across runs before the week resets."}
+        </div>
+        <div class="progress"><div class="progress-fill" style="width:${percent}%"></div></div>
+        <div class="weekly-reward">🎁 Reward: ${escapeHTML(w.reward.name)}</div>
+        <div class="small" style="margin-top:7px">New challenge every Monday.</div>
+      </div>
+    `;
+    $("weeklyChallenge").innerHTML=markup;
+    $("startWeekly").innerHTML=markup;
   }
 
   function renderPanels() {
-    $("best").textContent=save.best;
-    $("runs").textContent=save.runs;
+    $("bestScore").textContent=save.best;
+    $("runsPlayed").textContent=save.runs;
     $("playerName").value=save.playerName;
-    $("soundBtn").textContent=save.soundOn?"🔊 Sound":"🔇 Sound off";
 
-    document.body.dataset.theme=save.theme;
-    $("skins").innerHTML="";
-
-    for(const skin of skins) {
-      const unlocked=save.unlocked.includes(skin.id);
-      const selected=save.selected===skin.id;
-      const row=document.createElement("div");
-
-      row.className="skin-row";
-      row.innerHTML=`
-        <div class="skin-info">
-          <span class="skin-dot" style="background:${skin.color}"></span>
-          <div>
-            <div class="skin-name">${skin.name}</div>
-            <div class="small">${
-              selected?"Equipped":unlocked?"Unlocked":"Mission reward"
-            }</div>
-          </div>
-        </div>
-        <button ${unlocked?"":"disabled"}>${
-          selected?"✓ Selected":unlocked?"Use":"🔒 Locked"
-        }</button>
-      `;
-
-      row.querySelector("button").addEventListener("click",()=>{
-        if(!save.unlocked.includes(skin.id)) return;
-        save.selected=skin.id;
-        persist();
-        renderPanels();
-        draw();
-      });
-
-      $("skins").appendChild(row);
-    }
+    $("skinsButton").textContent="🎨 Skins";
+    $("backgroundsButton").textContent="🌈 Backgrounds";
 
     $("missions").innerHTML="";
-
-    for(const mission of missionDefinitions) {
-      const completed=save.completed.includes(mission.id);
-      const percent=Math.min(100,mission.progress()/mission.target*100);
-      const row=document.createElement("div");
-
-      row.className="mission-row";
-      row.innerHTML=`
+    for(const m of missionsDefinitions) {
+      const done=save.completedMissions.includes(m.id);
+      const progress=Math.min(100,m.progress()/m.target*100);
+      const div=document.createElement("div");
+      div.className="mission-row";
+      div.innerHTML=`
         <div class="mission-main">
-          <div class="mission-name">${completed?"✅ ":""}${mission.name}</div>
-          <div class="small">${mission.description}</div>
-          <div class="progress">
-            <div class="progress-fill" style="width:${completed?100:percent}%"></div>
-          </div>
+          <div class="mission-name">${done?"✅ ":""}${m.name}</div>
+          <div class="small">${m.description}</div>
+          <div class="progress"><div class="progress-fill" style="width:${done?100:progress}%"></div></div>
         </div>
-        <div class="reward">${completed?"Unlocked":"🎁 "+mission.reward}</div>
+        <div class="reward">${done?"Unlocked":"🎁 "+m.reward}</div>
       `;
-
-      $("missions").appendChild(row);
+      $("missions").appendChild(div);
     }
 
     $("leaderboard").innerHTML="";
-
-    const scores=[...save.scores]
-      .sort((a,b)=>b.score-a.score)
-      .slice(0,5);
-
-    if(!scores.length) {
-      $("leaderboard").innerHTML=
-        '<div class="small">Play a run to set your first score.</div>';
+    const ranked=[...save.scores].sort((a,b)=>b.score-a.score).slice(0,5);
+    if(!ranked.length) {
+      $("leaderboard").innerHTML='<div class="small">Your scores will appear here.</div>';
     } else {
-      scores.forEach((entry,index)=>{
-        const row=document.createElement("div");
-        row.className="leader-row";
-        row.innerHTML=`
-          <span>${index+1}. ${escapeHTML(entry.name)}</span>
-          <strong>${entry.score}</strong>
-        `;
-        $("leaderboard").appendChild(row);
+      ranked.forEach((s,i)=>{
+        const div=document.createElement("div");
+        div.className="leader-row";
+        div.innerHTML=`<span>${i+1}. ${escapeHTML(s.name)}</span><strong>${s.score}</strong>`;
+        $("leaderboard").appendChild(div);
       });
     }
+
+    renderWeekly();
   }
 
-  function showOverlay(title,message,buttonText,action) {
-    $("overlay").style.display="flex";
-    $("overlay").innerHTML=`
-      <h2>${title}</h2>
-      <p>${message}</p>
-      <button class="primary" id="overlayAction">${buttonText}</button>
-    `;
-    $("overlayAction").onclick=action;
+  function openModal(title,intro) {
+    $("modalTitle").textContent=title;
+    $("modalIntro").textContent=intro;
+    $("modalContent").innerHTML="";
+    $("modalLayer").classList.remove("hidden");
   }
 
-  function hideOverlay() {
-    $("overlay").style.display="none";
+  function closeModal() {
+    $("modalLayer").classList.add("hidden");
+  }
+
+  function showMessageModal(title,message,buttonText) {
+    openModal(title,message);
+    const button=document.createElement("button");
+    button.className="primary";
+    button.textContent=buttonText;
+    button.style.marginTop="6px";
+    button.onclick=closeModal;
+    $("modalContent").appendChild(button);
+  }
+
+  function showSkins() {
+    openModal("All Snakefield Skins","Choose an unlocked skin. Complete missions or weekly challenges to unlock more.");
+
+    const grid=document.createElement("div");
+    grid.className="modal-grid";
+
+    for(const skin of skins) {
+      const unlocked=save.unlockedSkins.includes(skin.id);
+      const selected=save.selectedSkin===skin.id;
+
+      let description="Weekly reward";
+      if(skin.id==="mint"||skin.id==="lime") description="Available from the start";
+      if(skin.kind==="mission") {
+        const mission=missionsDefinitions.find(m=>m.reward===skin.name);
+        if(mission) description="Mission: "+mission.description;
+      }
+
+      const card=document.createElement("div");
+      card.className="option-card";
+      card.innerHTML=`
+        <div class="option-preview" style="background:${skin.color};display:flex;align-items:center;justify-content:center">
+          <div style="width:68%;height:12px;border-radius:20px;background:${skin.color};border:3px solid rgba(255,255,255,.75)"></div>
+        </div>
+        <div class="option-name">${skin.name}</div>
+        <div class="option-description">${unlocked?"Unlocked":description}</div>
+        <button ${unlocked?"":"disabled"}>${selected?"✓ Equipped":unlocked?"Equip":"🔒 Locked"}</button>
+      `;
+
+      card.querySelector("button").onclick=()=>{
+        if(!unlocked) return;
+        save.selectedSkin=skin.id;
+        persist();
+        closeModal();
+        renderPanels();
+        draw();
+      };
+
+      grid.appendChild(card);
+    }
+
+    $("modalContent").appendChild(grid);
+  }
+
+  function showBackgrounds() {
+    openModal("Board Backgrounds","Choose the colour of the area where your snake moves. Special styles can be earned in weekly challenges.");
+
+    const grid=document.createElement("div");
+    grid.className="modal-grid";
+
+    for(const board of boards) {
+      const unlocked=save.unlockedBoards.includes(board.id);
+      const selected=save.selectedBoard===board.id;
+
+      const card=document.createElement("div");
+      card.className="option-card";
+      card.innerHTML=`
+        <div class="option-preview" style="background:${board.color};border-color:${board.grid}">
+          <div style="height:100%;background-image:linear-gradient(${board.grid} 1px,transparent 1px),linear-gradient(90deg,${board.grid} 1px,transparent 1px);background-size:14px 14px;border-radius:8px"></div>
+        </div>
+        <div class="option-name">${board.name}</div>
+        <div class="option-description">${unlocked?"Available": "Unlock through a weekly challenge"}</div>
+        <button ${unlocked?"":"disabled"}>${selected?"✓ Selected":unlocked?"Use background":"🔒 Locked"}</button>
+      `;
+
+      card.querySelector("button").onclick=()=>{
+        if(!unlocked) return;
+        save.selectedBoard=board.id;
+        persist();
+        closeModal();
+        renderPanels();
+        draw();
+      };
+
+      grid.appendChild(card);
+    }
+
+    $("modalContent").appendChild(grid);
   }
 
   function startGame() {
-    cancelAnimationFrame(animationFrame);
+    cancelAnimationFrame(animation);
+    closeModal();
 
-    snake=[
-      {x:9,y:10},
-      {x:8,y:10},
-      {x:7,y:10}
-    ];
+    snake=[{x:9,y:10},{x:8,y:10},{x:7,y:10}];
+    headHistory=snake.map(p=>({...p}));
 
-    history=snake.map(p=>({...p}));
     direction={x:1,y:0};
     pendingDirection=null;
 
@@ -852,54 +1088,50 @@ footer {
     ended=false;
     hasMoved=false;
     accumulator=0;
+    lastFrame=performance.now();
 
-    lastFrameTime=performance.now();
     $("score").textContent="0";
-    $("pauseBtn").textContent="Ⅱ Pause";
+    $("pauseButton").textContent="Ⅱ Pause";
 
     save.runs++;
     persist();
-
     placeApple();
-    hideOverlay();
-    setStatus("IN THE GROOVE");
 
+    $("startScreen").classList.add("hidden");
+    $("gameOverScreen").classList.add("hidden");
+
+    setStatus("IN THE GROOVE");
     updateStageUI();
-    refreshMissions();
     renderPanels();
     draw();
 
-    animationFrame=requestAnimationFrame(gameLoop);
-    beep(650);
+    animation=requestAnimationFrame(gameLoop);
+    beep(640);
   }
 
   function gameLoop(timestamp) {
     if(!active||paused||ended) return;
 
-    // A single requestAnimationFrame loop controls both timing and drawing.
-    const elapsed=Math.max(0,Math.min(timestamp-lastFrameTime,100));
-    lastFrameTime=timestamp;
+    const elapsed=Math.max(0,Math.min(timestamp-lastFrame,100));
+    lastFrame=timestamp;
     accumulator+=elapsed;
 
     let steps=0;
-
-    // Never process a large backlog after a slow browser frame.
-    while(accumulator>=currentSpeed()&&steps<2&&active&&!paused&&!ended) {
-      accumulator-=currentSpeed();
+    while(accumulator>=speed()&&steps<2&&active&&!paused&&!ended) {
+      accumulator-=speed();
       tick();
       steps++;
     }
 
     if(active&&!paused&&!ended) {
       draw();
-      animationFrame=requestAnimationFrame(gameLoop);
+      animation=requestAnimationFrame(gameLoop);
     }
   }
 
   function tick() {
     if(!active||paused||ended) return;
 
-    // Apply the newest valid keydown request at the next grid position.
     if(pendingDirection) {
       direction=pendingDirection;
       pendingDirection=null;
@@ -914,46 +1146,39 @@ footer {
     const body=eating?snake:snake.slice(0,-1);
 
     if(
-      head.x<0||head.y<0||
-      head.x>=CELLS||head.y>=CELLS||
-      body.some(part=>part.x===head.x&&part.y===head.y)
+      head.x<0||head.y<0||head.x>=CELLS||head.y>=CELLS||
+      body.some(p=>p.x===head.x&&p.y===head.y)
     ) {
       finishGame(false);
       return;
     }
 
     snake.unshift(head);
+    if(!eating) snake.pop();
 
-    if(!eating) {
-      snake.pop();
-    } else {
+    headHistory.unshift({...head});
+    while(headHistory.length>snake.length+1) headHistory.pop();
+    hasMoved=true;
+
+    if(eating) {
       score+=10;
       apples++;
       $("score").textContent=score;
-    }
 
-    // Store the route travelled by the head.
-    // The body is drawn from this route, giving smooth connected motion.
-    history.unshift({...head});
-    hasMoved=true;
-
-    while(history.length>snake.length+1) {
-      history.pop();
-    }
-
-    if(eating) {
+      // Weekly progress persists even when the player restarts.
+      recordWeeklyApple();
       updateStageUI();
+      checkMissions();
 
       if(apples%APPLES_PER_STAGE===0) {
-        setStatus("STAGE "+currentStage()+" UNLOCKED!");
-        beep(980,.12);
+        setStatus("STAGE "+stage()+" UNLOCKED!");
+        beep(950,.12);
       } else {
         setStatus("IN THE GROOVE");
-        beep(720);
+        beep(700);
       }
 
       placeApple();
-      refreshMissions();
       renderPanels();
     }
 
@@ -968,7 +1193,7 @@ footer {
     ended=true;
     active=false;
     paused=false;
-    cancelAnimationFrame(animationFrame);
+    cancelAnimationFrame(animation);
 
     setStatus(won?"GRID CONQUERED":"RUN COMPLETE");
 
@@ -979,27 +1204,39 @@ footer {
       score,
       date:Date.now()
     });
-
     save.scores.sort((a,b)=>b.score-a.score);
     save.scores=save.scores.slice(0,20);
-
     persist();
-    refreshMissions();
+
+    lastResult={
+      score,
+      best:save.best,
+      stage:stage(),
+      apples,
+      won
+    };
+
+    $("finalScore").textContent=score;
+    $("finalBest").textContent=
+      score>=save.best?"🏆 New personal best!":"Personal best: "+save.best;
+
+    $("gameOverScreen").classList.remove("hidden");
     renderPanels();
     draw();
-
-    showOverlay(
-      won?"Grid conquered! 🏆":"Run complete!",
-      "You scored "+score+". Personal best: "+save.best+".",
-      "Play again",
-      startGame
-    );
-
-    beep(220,.2);
+    beep(200,.18);
   }
 
-  function setStatus(text) {
-    $("status").textContent=text;
+  function changeDirection(next) {
+    if(!active||paused||ended) return;
+
+    const reference=pendingDirection||direction;
+
+    // A direct reverse would make the snake hit itself.
+    if(next.x===-reference.x&&next.y===-reference.y) return;
+
+    // Register the new direction on keydown, not keyup.
+    pendingDirection=next;
+    draw();
   }
 
   function togglePause() {
@@ -1008,115 +1245,275 @@ footer {
     paused=!paused;
 
     if(paused) {
-      cancelAnimationFrame(animationFrame);
+      cancelAnimationFrame(animation);
       setStatus("PAUSED");
-      $("pauseBtn").textContent="▶ Resume";
-      showOverlay(
-        "Paused",
-        "Ready to get back in the game?",
-        "Resume",
-        togglePause
-      );
+      $("pauseButton").textContent="▶ Resume";
     } else {
-      hideOverlay();
       setStatus("IN THE GROOVE");
-      $("pauseBtn").textContent="Ⅱ Pause";
-      lastFrameTime=performance.now();
-      animationFrame=requestAnimationFrame(gameLoop);
+      $("pauseButton").textContent="Ⅱ Pause";
+      lastFrame=performance.now();
+      animation=requestAnimationFrame(gameLoop);
     }
-  }
 
-  // Capture the keydown event immediately. No waiting for keyup,
-  // and no queue of old turns to make the snake feel delayed.
-  function changeDirection(next) {
-    if(!active||paused||ended) return;
+    // Use a small in-game pause banner rather than resetting the run.
+    $("pauseBanner")?.remove();
 
-    // Reject turns directly opposite to the current movement.
-    if(next.x===-direction.x&&next.y===-direction.y) return;
-
-    // Keep only the newest valid direction request.
-    pendingDirection=next;
-
-    // Update the eyes at once to show the requested direction.
-    draw();
+    if(paused) {
+      const banner=document.createElement("div");
+      banner.id="pauseBanner";
+      banner.style.cssText=
+        "position:absolute;inset:0;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;background:#eaf1f5df;z-index:3;color:#172640";
+      banner.innerHTML="<strong style='font-size:2rem'>Paused</strong><span>Take a breath.</span><button id='resumeBanner' class='primary'>Resume</button>";
+      $("boardWrap").appendChild(banner);
+      $("resumeBanner").onclick=togglePause;
+    }
   }
 
   function toggleFullscreen() {
     if(!document.fullscreenElement) {
-      const request=wrap.requestFullscreen||wrap.webkitRequestFullscreen;
-
+      const request=$("boardWrap").requestFullscreen;
       if(request) {
-        const result=request.call(wrap);
+        const result=request.call($("boardWrap"));
         if(result&&result.catch) result.catch(()=>{});
       }
     } else {
-      const exit=document.exitFullscreen||document.webkitExitFullscreen;
-      if(exit) exit.call(document);
+      document.exitFullscreen?.();
     }
   }
 
-  $("overlayStart").onclick=startGame;
-  $("newBtn").onclick=startGame;
-  $("restartBtn").onclick=startGame;
-  $("pauseBtn").onclick=togglePause;
-  $("fullscreenBtn").onclick=toggleFullscreen;
+  // Generate a branded score image with a snapshot of the real game board.
+  function createShareCard() {
+    return new Promise(resolve=>{
+      const card=document.createElement("canvas");
+      card.width=1080;
+      card.height=1350;
+      const c=card.getContext("2d");
+      const board=getBoard();
 
-  $("themeBtn").onclick=()=>{
-    const themes=["light","blue","dark"];
-    save.theme=themes[(themes.indexOf(save.theme)+1)%themes.length];
-    persist();
-    renderPanels();
-    draw();
+      c.fillStyle=board.color;
+      c.fillRect(0,0,card.width,card.height);
+
+      const gradient=c.createLinearGradient(0,0,1080,1350);
+      gradient.addColorStop(0,"rgba(68,126,248,.15)");
+      gradient.addColorStop(1,"rgba(48,196,139,.13)");
+      c.fillStyle=gradient;
+      c.fillRect(0,0,1080,1350);
+
+      c.fillStyle="#182943";
+      c.font="bold 44px system-ui";
+      c.fillText("🍏 SNAKEFIELD",76,105);
+
+      c.fillStyle="#667894";
+      c.font="25px system-ui";
+      c.fillText("My latest run",78,150);
+
+      // A screenshot of the current game board.
+      c.fillStyle="#ffffff";
+      c.shadowColor="#18375b20";
+      c.shadowBlur=30;
+      c.beginPath();
+      c.roundRect(65,195,950,790,28);
+      c.fill();
+      c.shadowBlur=0;
+
+      c.save();
+      c.beginPath();
+      c.roundRect(80,210,920,760,18);
+      c.clip();
+      c.drawImage(canvas,80,210,920,760);
+      c.restore();
+
+      const result=lastResult||{score,best:save.best,stage:stage(),apples};
+
+      c.fillStyle="#182943";
+      c.font="bold 30px system-ui";
+      c.fillText("SCORE",80,1050);
+
+      c.font="900 115px system-ui";
+      c.fillText(String(result.score),75,1165);
+
+      c.fillStyle="#526983";
+      c.font="bold 28px system-ui";
+      c.fillText("STAGE "+result.stage,560,1080);
+      c.fillText("BEST "+result.best,560,1135);
+
+      c.fillStyle="#3478f6";
+      c.font="bold 28px system-ui";
+      c.fillText("Can you beat my score?",78,1250);
+
+      c.fillStyle="#64748b";
+      c.font="22px system-ui";
+      c.fillText(location.href.split("#")[0],78,1295);
+
+      card.toBlob(blob=>resolve(blob),"image/png");
+    });
+  }
+
+  function downloadBlob(blob,filename) {
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url;
+    a.download=filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),30000);
+  }
+
+  async function shareScore() {
+    if(!lastResult) return;
+
+    const message=
+      "I scored "+lastResult.score+" on Snakefield! 🍏 Can you beat me? "+location.href.split("#")[0];
+
+    try {
+      shareCardBlob=await createShareCard();
+
+      if(!shareCardBlob) throw new Error("Could not create score image.");
+
+      const file=new File([shareCardBlob],"snakefield-score.png",{type:"image/png"});
+
+      // Supported phones can send the actual PNG through the native
+      // share sheet, which can include WhatsApp and other installed apps.
+      if(navigator.canShare && navigator.canShare({files:[file]}) && navigator.share) {
+        try {
+          await navigator.share({
+            files:[file],
+            title:"My Snakefield score",
+            text:message
+          });
+          return;
+        } catch(error) {
+          if(error.name==="AbortError") return;
+        }
+      }
+
+      // Fallback: show explicit share options and a downloadable score card.
+      showShareFallback(message);
+    } catch(error) {
+      console.error(error);
+      openModal("Share your score","Your share image could not be created. You can still share the game link.");
+      showShareLinks(message);
+    }
+  }
+
+  function showShareLinks(message) {
+    const box=document.createElement("div");
+    box.className="share-fallback";
+
+    const wa=document.createElement("button");
+    wa.className="primary";
+    wa.textContent="Share through WhatsApp";
+    wa.onclick=()=>window.open(
+      "https://wa.me/?text="+encodeURIComponent(message),
+      "_blank","noopener,noreferrer"
+    );
+
+    const telegram=document.createElement("button");
+    telegram.textContent="Share through Telegram";
+    telegram.onclick=()=>window.open(
+      "https://t.me/share/url?url="+encodeURIComponent(location.href.split("#")[0])+
+      "&text="+encodeURIComponent(message),
+      "_blank","noopener,noreferrer"
+    );
+
+    const copy=document.createElement("button");
+    copy.textContent="📋 Copy game link";
+    copy.onclick=async()=>{
+      try {
+        await navigator.clipboard.writeText(message);
+        copy.textContent="✓ Copied";
+      } catch {
+        prompt("Copy your challenge message:",message);
+      }
+    };
+
+    box.append(wa,telegram,copy);
+    $("modalContent").appendChild(box);
+  }
+
+  function showShareFallback(message) {
+    openModal(
+      "Share your score",
+      "Your score card is ready. Download the image, then share it with friends."
+    );
+
+    const box=document.createElement("div");
+    box.className="share-fallback";
+
+    const download=document.createElement("button");
+    download.className="primary";
+    download.textContent="⬇ Download score card image";
+    download.onclick=()=>downloadBlob(shareCardBlob,"snakefield-score.png");
+
+    box.appendChild(download);
+    $("modalContent").appendChild(box);
+    showShareLinks(message);
+  }
+
+  $("playButton").onclick=startGame;
+  $("newButton").onclick=startGame;
+  $("restartButton").onclick=startGame;
+  $("retryButton").onclick=startGame;
+
+  $("menuButton").onclick=()=>{
+    $("gameOverScreen").classList.add("hidden");
+    $("startScreen").classList.remove("hidden");
+    renderWeekly();
   };
 
-  $("soundBtn").onclick=()=>{
+  $("shareScoreButton").onclick=shareScore;
+  $("skinsButton").onclick=showSkins;
+  $("backgroundsButton").onclick=showBackgrounds;
+  $("closeModalButton").onclick=closeModal;
+
+  $("modalLayer").addEventListener("click",event=>{
+    if(event.target===$("modalLayer")) closeModal();
+  });
+
+  $("pauseButton").onclick=togglePause;
+  $("fullscreenButton").onclick=toggleFullscreen;
+
+  $("soundButton").onclick=()=>{
     save.soundOn=!save.soundOn;
+    $("soundButton").textContent=save.soundOn?"🔊 Sound":"🔇 Sound";
     persist();
-    renderPanels();
     beep(650);
   };
 
-  $("saveName").onclick=()=>{
+  $("saveNameButton").onclick=()=>{
     save.playerName=$("playerName").value.trim().slice(0,16)||"Player";
     persist();
     renderPanels();
   };
 
   $("playerName").addEventListener("keydown",event=>{
-    if(event.key==="Enter") $("saveName").click();
+    if(event.key==="Enter") $("saveNameButton").click();
   });
 
   document.addEventListener("fullscreenchange",()=>{
-    $("fullscreenBtn").textContent=document.fullscreenElement
+    $("fullscreenButton").textContent=document.fullscreenElement
       ?"⛶ Exit full screen"
       :"⛶ Full screen";
   });
 
-  // Use keydown, which fires as soon as the key is actuated.
-  // Ignore browser auto-repeat; one press is one input.
   document.addEventListener("keydown",event=>{
     if(event.target instanceof HTMLInputElement) return;
 
     const key=event.key.toLowerCase();
-    const movementKeys=[
-      "arrowup","arrowdown","arrowleft","arrowright",
-      "w","a","s","d"," "
-    ];
+    const keys=["arrowup","arrowdown","arrowleft","arrowright","w","a","s","d"," "];
 
-    if(movementKeys.includes(key)) {
-      event.preventDefault();
-    }
+    if(keys.includes(key)) event.preventDefault();
+    if(event.repeat) return;
 
-    if(!event.repeat) {
-      if(key==="arrowup"||key==="w") changeDirection({x:0,y:-1});
-      if(key==="arrowdown"||key==="s") changeDirection({x:0,y:1});
-      if(key==="arrowleft"||key==="a") changeDirection({x:-1,y:0});
-      if(key==="arrowright"||key==="d") changeDirection({x:1,y:0});
+    if(key==="arrowup"||key==="w") changeDirection({x:0,y:-1});
+    if(key==="arrowdown"||key==="s") changeDirection({x:0,y:1});
+    if(key==="arrowleft"||key==="a") changeDirection({x:-1,y:0});
+    if(key==="arrowright"||key==="d") changeDirection({x:1,y:0});
 
-      if(key===" "&&active) togglePause();
-      if(key==="r") startGame();
-      if(key==="f") toggleFullscreen();
-    }
+    if(key===" "&&active) togglePause();
+    if(key==="r"&&active) startGame();
+    if(key==="f") toggleFullscreen();
   },{capture:true});
 
   const directions={
@@ -1154,7 +1551,6 @@ footer {
         changeDirection({x:0,y:dy>0?1:-1});
       }
     }
-
     touchStart=null;
   },{passive:true});
 
