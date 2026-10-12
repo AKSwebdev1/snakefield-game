@@ -12,7 +12,7 @@
   --panel: #ffffff;
   --text: #14213a;
   --muted: #718096;
-  --grid: #e3ebf6;
+  --grid: #e4edf8;
   --accent: #3478f6;
   --border: #dfe8f3;
 }
@@ -53,19 +53,23 @@ button {
   color: var(--text);
   padding: 10px 14px;
   border-radius: 12px;
-  font-weight: 700;
+  font-weight: 750;
   cursor: pointer;
-  transition: transform .15s, opacity .15s;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .15s;
 }
 
-button:hover { transform: translateY(-1px); }
-button:disabled { cursor: not-allowed; opacity: .55; }
+button:hover { border-color: var(--accent); }
+button:active { filter: brightness(.92); }
 button.primary { background: var(--accent); color: white; border-color: transparent; }
+button:disabled { opacity: .55; cursor: not-allowed; }
 
 header {
   max-width: 1250px;
   margin: auto;
-  padding: 22px 22px 15px;
+  padding: 20px 22px 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -73,14 +77,10 @@ header {
   flex-wrap: wrap;
 }
 
-.logo {
-  font-size: 1.5rem;
-  font-weight: 900;
-  letter-spacing: -1px;
-}
+.logo { font-size: 1.5rem; font-weight: 900; letter-spacing: -1px; }
 .logo span { color: var(--accent); }
 .subtitle { color: var(--muted); font-size: .82rem; margin-top: 3px; }
-.header-buttons { display: flex; flex-wrap: wrap; gap: 7px; }
+.header-buttons { display: flex; gap: 7px; flex-wrap: wrap; }
 
 main {
   max-width: 1250px;
@@ -92,29 +92,54 @@ main {
 }
 
 .panel {
+  min-width: 0;
+  padding: 18px;
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 22px;
-  padding: 18px;
-  min-width: 0;
   box-shadow: 0 8px 28px #18345c08;
 }
 
 .game-heading {
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.status { color: var(--accent); font-size: .76rem; font-weight: 900; letter-spacing: 1.3px; }
+.score { font-size: 1.3rem; font-weight: 900; }
+
+.stage-info {
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: var(--bg);
+}
+.stage-line {
+  display: flex;
   justify-content: space-between;
   gap: 10px;
-  margin-bottom: 15px;
+  align-items: center;
+  font-size: .88rem;
+  font-weight: 850;
 }
-
-.status {
-  color: var(--accent);
-  font-size: .76rem;
-  font-weight: 900;
-  letter-spacing: 1.4px;
+.stage-detail { margin-top: 5px; color: var(--muted); font-size: .78rem; }
+.progress {
+  height: 7px;
+  margin-top: 9px;
+  overflow: hidden;
+  background: var(--grid);
+  border-radius: 20px;
 }
-.score { font-size: 1.3rem; font-weight: 900; }
+.progress-fill {
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+  border-radius: inherit;
+  transition: width .12s linear;
+}
 
 .board-wrap {
   position: relative;
@@ -127,7 +152,6 @@ main {
   border-radius: 16px;
   background: var(--panel);
 }
-
 canvas {
   display: block;
   width: 100%;
@@ -141,48 +165,33 @@ canvas {
   z-index: 2;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   padding: 22px;
-  text-align: center;
   background: color-mix(in srgb, var(--bg) 85%, transparent);
   backdrop-filter: blur(5px);
+  text-align: center;
 }
-
 .overlay h2 {
   margin: 0 0 8px;
   font-size: clamp(1.6rem, 4vw, 2.7rem);
   letter-spacing: -1.5px;
 }
-.overlay p {
-  color: var(--muted);
-  margin: 0 0 18px;
-  max-width: 330px;
-}
+.overlay p { max-width: 330px; color: var(--muted); margin: 0 0 18px; }
 
 .controls {
   display: flex;
   justify-content: center;
-  gap: 8px;
   flex-wrap: wrap;
+  gap: 8px;
   margin-top: 14px;
 }
 .hint { color: var(--muted); text-align: center; font-size: .78rem; margin-top: 12px; }
 
 .side { display: flex; flex-direction: column; gap: 15px; }
 .section-title { margin: 0 0 13px; font-size: 1rem; font-weight: 900; }
-
-.stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-.stat {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 12px;
-}
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.stat { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 12px; }
 .stat small { display: block; color: var(--muted); }
 .stat strong { display: block; margin-top: 4px; font-size: 1.5rem; }
 
@@ -197,50 +206,26 @@ canvas {
   padding: 10px;
 }
 
-.skin-list, .missions, .leaderboard {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
+.skin-list, .missions, .leaderboard { display: flex; flex-direction: column; gap: 8px; }
 .skin-row, .mission-row, .leader-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
   padding: 10px;
   border: 1px solid var(--border);
   border-radius: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
 }
-
 .skin-info { display: flex; align-items: center; gap: 9px; }
-.skin-dot { width: 21px; height: 21px; border-radius: 7px; flex-shrink: 0; }
+.skin-dot { width: 21px; height: 21px; flex-shrink: 0; border-radius: 7px; }
 .skin-name { font-weight: 800; font-size: .88rem; }
 .small { color: var(--muted); font-size: .75rem; margin-top: 3px; }
 .skin-row button { padding: 7px 10px; font-size: .78rem; }
-
 .mission-row { align-items: flex-start; }
 .mission-main { flex: 1; min-width: 0; }
 .mission-name { font-size: .88rem; font-weight: 850; }
-.progress {
-  width: 100%;
-  height: 6px;
-  overflow: hidden;
-  background: var(--grid);
-  border-radius: 10px;
-  margin-top: 8px;
-}
-.progress-fill {
-  height: 100%;
-  background: var(--accent);
-  border-radius: 10px;
-  transition: width .2s;
-}
 .reward { font-size: .75rem; font-weight: 800; white-space: nowrap; }
-
 .leader-row { font-size: .87rem; }
-.leader-row strong { font-size: .95rem; }
-footer { text-align: center; color: var(--muted); font-size: .78rem; padding: 0 15px 25px; }
 
 .mobile-pad {
   display: none;
@@ -249,39 +234,40 @@ footer { text-align: center; color: var(--muted); font-size: .78rem; padding: 0 
   justify-content: center;
   margin-top: 15px;
 }
-.mobile-pad button { height: 44px; padding: 0; font-size: 1.25rem; }
+.mobile-pad button { height: 46px; padding: 0; font-size: 1.25rem; }
 
 .board-wrap:fullscreen {
   width: 100vw;
   height: 100vh;
   max-width: none;
   aspect-ratio: auto;
-  display: grid;
-  place-items: center;
   border: 0;
   border-radius: 0;
+  display: grid;
+  place-items: center;
   background: var(--bg);
 }
 .board-wrap:fullscreen canvas {
   width: min(100vw, 100vh);
   height: min(100vw, 100vh);
 }
-.board-wrap:fullscreen .overlay { position: absolute; }
 
-@media (max-width: 850px) {
+footer { text-align: center; color: var(--muted); font-size: .78rem; padding: 0 15px 25px; }
+
+@media(max-width:850px) {
   main { grid-template-columns: 1fr; }
-  .side { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .side { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
   .side > .panel:first-child { grid-column: 1 / -1; }
 }
-@media (max-width: 550px) {
-  header { padding: 17px 13px 10px; }
+@media(max-width:550px) {
+  header { padding: 16px 12px 10px; }
   main { padding: 8px 10px 22px; }
   .panel { padding: 13px; border-radius: 17px; }
   .side { display: flex; }
   .mobile-pad { display: grid; }
   .hint { display: none; }
   .logo { font-size: 1.3rem; }
-  .header-buttons button { font-size: .76rem; padding: 9px; }
+  .header-buttons button { font-size: .75rem; padding: 9px; }
 }
 </style>
 </head>
@@ -304,16 +290,29 @@ footer { text-align: center; color: var(--muted); font-size: .78rem; padding: 0 
     <div class="game-heading">
       <div>
         <div class="status" id="status">READY TO PLAY</div>
-        <div class="subtitle">Arrows / WASD to move · Space to pause</div>
+        <div class="subtitle">Arrows / WASD · Space to pause</div>
       </div>
       <div class="score">Score <span id="score">0</span></div>
+    </div>
+
+    <div class="stage-info">
+      <div class="stage-line">
+        <span id="stageNumber">STAGE 1</span>
+        <span id="applesLeft">🍎 5 apples left</span>
+      </div>
+      <div class="stage-detail" id="stageDetail">
+        Eat 5 apples to reach Stage 2.
+      </div>
+      <div class="progress">
+        <div class="progress-fill" id="stageProgress"></div>
+      </div>
     </div>
 
     <div class="board-wrap" id="boardWrap">
       <canvas id="game" width="600" height="600"></canvas>
       <div class="overlay" id="overlay">
         <h2>Ready, set, slither.</h2>
-        <p>Collect apples, unlock colours and beat your high score.</p>
+        <p>Collect apples, unlock new colours and beat your high score.</p>
         <button class="primary" id="overlayStart">Start game</button>
       </div>
     </div>
@@ -324,14 +323,14 @@ footer { text-align: center; color: var(--muted); font-size: .78rem; padding: 0 
       <button id="restartBtn">↻ Restart</button>
     </div>
 
-    <div class="mobile-pad" aria-label="Mobile movement controls">
+    <div class="mobile-pad">
       <span></span><button data-direction="up">↑</button><span></span>
       <button data-direction="left">←</button>
       <button data-direction="down">↓</button>
       <button data-direction="right">→</button>
     </div>
 
-    <div class="hint">Press F for full screen · R to restart · Space to pause</div>
+    <div class="hint">F = full screen · R = restart · Space = pause</div>
   </section>
 
   <aside class="side">
@@ -345,7 +344,7 @@ footer { text-align: center; color: var(--muted); font-size: .78rem; padding: 0 
         <input id="playerName" maxlength="16" placeholder="Player name">
         <button id="saveName">Save</button>
       </div>
-      <div class="small">Your progress is saved in this browser.</div>
+      <div class="small">Your scores are saved in this browser.</div>
     </section>
 
     <section class="panel">
@@ -361,7 +360,7 @@ footer { text-align: center; color: var(--muted); font-size: .78rem; padding: 0 
     <section class="panel">
       <h3 class="section-title">🏆 Leaderboard</h3>
       <div class="leaderboard" id="leaderboard"></div>
-      <div class="small">Local leaderboard: scores saved on this device.</div>
+      <div class="small">Leaderboard saved locally on this device.</div>
     </section>
   </aside>
 </main>
@@ -377,255 +376,360 @@ footer { text-align: center; color: var(--muted); font-size: .78rem; padding: 0 
   const ctx = canvas.getContext("2d");
   const wrap = $("boardWrap");
 
-  // The classic board: 20 columns × 20 rows = 400 cells.
   const CELLS = 20;
   const SIZE = canvas.width / CELLS;
+  const APPLES_PER_STAGE = 60;
+
+  // Smaller delay means faster movement.
+  const START_SPEED = 70;
+  const MIN_SPEED = 38;
+  const SPEED_PER_STAGE = 4;
 
   const skins = [
-    { id: "mint", name: "Mint", color: "#22b876" },
-    { id: "lime", name: "Lime", color: "#a5ce39" },
-    { id: "ocean", name: "Ocean", color: "#3187ff" },
-    { id: "berry", name: "Berry", color: "#af62f5" },
-    { id: "sunset", name: "Sunset", color: "#ff894c" },
-    { id: "midnight", name: "Midnight", color: "#40516f" }
+    { id:"mint", name:"Mint", color:"#22b876" },
+    { id:"lime", name:"Lime", color:"#a5ce39" },
+    { id:"ocean", name:"Ocean", color:"#3187ff" },
+    { id:"berry", name:"Berry", color:"#af62f5" },
+    { id:"sunset", name:"Sunset", color:"#ff894c" },
+    { id:"midnight", name:"Midnight", color:"#40516f" }
   ];
 
   const missionDefinitions = [
     {
-      id: "first",
-      name: "First bite",
-      description: "Collect 3 apples in one run",
-      reward: "Ocean",
-      progress: () => Math.min(apples, 3),
-      target: 3,
-      condition: () => apples >= 3
+      id:"first", name:"First bite",
+      description:"Collect 3 apples in one run",
+      reward:"Ocean", target:3,
+      progress:()=>Math.min(apples,3),
+      condition:()=>apples>=3
     },
     {
-      id: "chaser",
-      name: "Score chaser",
-      description: "Reach 100 points in one run",
-      reward: "Berry",
-      progress: () => Math.min(score, 100),
-      target: 100,
-      condition: () => score >= 100
+      id:"chaser", name:"Score chaser",
+      description:"Reach 100 points in one run",
+      reward:"Berry", target:100,
+      progress:()=>Math.min(score,100),
+      condition:()=>score>=100
     },
     {
-      id: "regular",
-      name: "Back for more",
-      description: "Play 5 runs in total",
-      reward: "Sunset",
-      progress: () => Math.min(save.runs, 5),
-      target: 5,
-      condition: () => save.runs >= 5
+      id:"regular", name:"Back for more",
+      description:"Play 5 runs in total",
+      reward:"Sunset", target:5,
+      progress:()=>Math.min(save.runs,5),
+      condition:()=>save.runs>=5
     },
     {
-      id: "legend",
-      name: "Snake legend",
-      description: "Reach 250 points in one run",
-      reward: "Midnight",
-      progress: () => Math.min(score, 250),
-      target: 250,
-      condition: () => score >= 250
+      id:"legend", name:"Snake legend",
+      description:"Reach 250 points in one run",
+      reward:"Midnight", target:250,
+      progress:()=>Math.min(score,250),
+      condition:()=>score>=250
     }
   ];
 
-  const defaultSave = {
-    best: 0,
-    runs: 0,
-    selected: "mint",
-    unlocked: ["mint", "lime"],
-    completed: [],
-    scores: [],
-    playerName: "Player",
-    soundOn: true,
-    theme: "light"
+  const defaults = {
+    best:0,
+    runs:0,
+    selected:"mint",
+    unlocked:["mint","lime"],
+    completed:[],
+    scores:[],
+    playerName:"Player",
+    soundOn:true,
+    theme:"light"
   };
 
   let save;
   try {
     save = Object.assign(
-      {},
-      defaultSave,
+      {}, defaults,
       JSON.parse(localStorage.getItem("snakefieldSave") || "{}")
     );
   } catch {
-    save = Object.assign({}, defaultSave);
+    save = Object.assign({}, defaults);
   }
 
-  save.unlocked = [...new Set(["mint", "lime", ...(save.unlocked || [])])];
-  if (!["light", "blue", "dark"].includes(save.theme)) save.theme = "light";
+  save.unlocked = [...new Set(["mint","lime",...(save.unlocked || [])])];
+  save.completed = save.completed || [];
+  save.scores = save.scores || [];
+
+  if (!["light","blue","dark"].includes(save.theme)) save.theme = "light";
   if (!skins.some(s => s.id === save.selected && save.unlocked.includes(s.id))) {
     save.selected = "mint";
   }
 
   let snake = [];
+  let previousSnake = [];
   let apple = null;
-  let direction = { x: 1, y: 0 };
-  let nextDirection = { x: 1, y: 0 };
+
+  let direction = {x:1,y:0};
+  let directionQueue = [];
+
   let score = 0;
   let apples = 0;
   let active = false;
   let paused = false;
-  let gameOver = false;
-  let gameTimer = null;
+  let ended = false;
+
+  let lastStepTime = 0;
+  let accumulator = 0;
+  let animationFrame = 0;
   let audioContext = null;
 
   function persist() {
     try {
       localStorage.setItem("snakefieldSave", JSON.stringify(save));
     } catch (error) {
-      console.warn("Progress could not be saved in this browser.", error);
+      console.warn("Save unavailable in this browser.", error);
     }
   }
 
-  function beep(frequency = 550, duration = 0.07) {
-    if (!save.soundOn) return;
+  function currentStage() {
+    return Math.floor(apples / APPLES_PER_STAGE) + 1;
+  }
 
-    try {
-      audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
-      const oscillator = audioContext.createOscillator();
-      const gain = audioContext.createGain();
+  function applesUntilNextStage() {
+    return APPLES_PER_STAGE - (apples % APPLES_PER_STAGE);
+  }
 
-      oscillator.type = "sine";
-      oscillator.frequency.value = frequency;
-      gain.gain.value = 0.04;
-
-      oscillator.connect(gain);
-      gain.connect(audioContext.destination);
-
-      oscillator.start();
-      oscillator.stop(audioContext.currentTime + duration);
-    } catch {
-      // The game still works if browser audio is unavailable.
-    }
+  function currentSpeed() {
+    return Math.max(
+      MIN_SPEED,
+      START_SPEED - (currentStage() - 1) * SPEED_PER_STAGE
+    );
   }
 
   function getSkin() {
     return skins.find(s => s.id === save.selected) || skins[0];
   }
 
-  function placeApple() {
-    const emptyCells = [];
+  function beep(frequency=550, duration=.06) {
+    if (!save.soundOn) return;
 
-    for (let y = 0; y < CELLS; y++) {
-      for (let x = 0; x < CELLS; x++) {
-        if (!snake.some(part => part.x === x && part.y === y)) {
-          emptyCells.push({ x, y });
+    try {
+      audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+
+      oscillator.type = "sine";
+      oscillator.frequency.value = frequency;
+      gain.gain.value = .035;
+
+      oscillator.connect(gain);
+      gain.connect(audioContext.destination);
+
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + duration);
+    } catch {}
+  }
+
+  function updateStageUI() {
+    const stage = currentStage();
+    const remaining = applesUntilNextStage();
+    const progress = (apples % APPLES_PER_STAGE) / APPLES_PER_STAGE * 100;
+
+    $("stageNumber").textContent = "STAGE " + stage;
+    $("applesLeft").textContent =
+      "🍎 " + remaining + (remaining === 1 ? " apple left" : " apples left");
+
+    $("stageDetail").textContent =
+      "Eat " + remaining + " more " +
+      (remaining === 1 ? "apple" : "apples") +
+      " to reach Stage " + (stage + 1) + ".";
+
+    $("stageProgress").style.width = progress + "%";
+  }
+
+  function placeApple() {
+    const empty = [];
+
+    for (let y=0; y<CELLS; y++) {
+      for (let x=0; x<CELLS; x++) {
+        if (!snake.some(p => p.x===x && p.y===y)) {
+          empty.push({x,y});
         }
       }
     }
 
-    if (emptyCells.length === 0) {
+    if (!empty.length) {
       finishGame(true);
       return;
     }
 
-    apple = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+    apple = empty[Math.floor(Math.random() * empty.length)];
   }
 
-  function setStatus(text) {
-    $("status").textContent = text;
+  function roundedPath(points) {
+    if (!points.length) return;
+
+    ctx.beginPath();
+    ctx.moveTo(points[0].x, points[0].y);
+
+    if (points.length === 1) {
+      ctx.lineTo(points[0].x + .1, points[0].y);
+      return;
+    }
+
+    for (let i=1; i<points.length-1; i++) {
+      const midpointX = (points[i].x + points[i+1].x) / 2;
+      const midpointY = (points[i].y + points[i+1].y) / 2;
+
+      ctx.quadraticCurveTo(
+        points[i].x,
+        points[i].y,
+        midpointX,
+        midpointY
+      );
+    }
+
+    const last = points[points.length-1];
+    ctx.lineTo(last.x,last.y);
   }
 
-  function draw() {
+  function draw(timestamp=performance.now()) {
     const styles = getComputedStyle(document.body);
     const panel = styles.getPropertyValue("--panel").trim();
     const grid = styles.getPropertyValue("--grid").trim();
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.fillStyle = panel;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    // Draw all 400 small squares.
+    // Subtle grid behind the continuously drawn snake.
     ctx.strokeStyle = grid;
     ctx.lineWidth = 1;
 
-    for (let i = 0; i <= CELLS; i++) {
+    for (let i=0; i<=CELLS; i++) {
       ctx.beginPath();
-      ctx.moveTo(i * SIZE, 0);
-      ctx.lineTo(i * SIZE, canvas.height);
+      ctx.moveTo(i*SIZE,0);
+      ctx.lineTo(i*SIZE,canvas.height);
       ctx.stroke();
 
       ctx.beginPath();
-      ctx.moveTo(0, i * SIZE);
-      ctx.lineTo(canvas.width, i * SIZE);
+      ctx.moveTo(0,i*SIZE);
+      ctx.lineTo(canvas.width,i*SIZE);
       ctx.stroke();
     }
 
+    // Apple.
     if (apple) {
-      const ax = apple.x * SIZE;
-      const ay = apple.y * SIZE;
+      const ax = apple.x*SIZE + SIZE/2;
+      const ay = apple.y*SIZE + SIZE/2;
 
-      // Apple body.
-      ctx.fillStyle = "#ff4d62";
+      ctx.fillStyle = "#ff4b61";
       ctx.beginPath();
-      ctx.arc(ax + SIZE / 2, ay + SIZE / 2 + 2, SIZE * .34, 0, Math.PI * 2);
+      ctx.arc(ax,ay+2,11,0,Math.PI*2);
       ctx.fill();
 
-      // Leaf.
       ctx.fillStyle = "#239b59";
       ctx.beginPath();
-      ctx.ellipse(ax + SIZE * .62, ay + SIZE * .19, 5, 2.5, -.5, 0, Math.PI * 2);
+      ctx.ellipse(ax+5,ay-10,5,2.5,-.65,0,Math.PI*2);
       ctx.fill();
     }
+
+    if (!snake.length) return;
+
+    // Interpolate all body points between movement steps.
+    // This creates smooth motion instead of block-by-block jumps.
+    const speed = currentSpeed();
+    const alpha = active && !paused
+      ? Math.min(1, accumulator/speed)
+      : 1;
+
+    const points = snake.map((part,index) => {
+      const old = previousSnake[Math.min(index,previousSnake.length-1)] || part;
+
+      return {
+        x: (old.x + (part.x-old.x)*alpha)*SIZE + SIZE/2,
+        y: (old.y + (part.y-old.y)*alpha)*SIZE + SIZE/2
+      };
+    });
 
     const skin = getSkin();
 
-    snake.forEach((part, index) => {
-      const inset = index === 0 ? 2.5 : 4;
-      const x = part.x * SIZE + inset;
-      const y = part.y * SIZE + inset;
-      const length = SIZE - inset * 2;
+    if (points.length > 1) {
+      roundedPath(points);
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
 
-      ctx.fillStyle = skin.color;
+      // Understroke hides seams and guarantees that the body joins up.
+      ctx.strokeStyle = skin.color;
+      ctx.lineWidth = 27;
+      ctx.stroke();
+
+      // Subtle highlight for a softer, polished body.
+      roundedPath(points);
+      ctx.strokeStyle = "rgba(255,255,255,0.15)";
+      ctx.lineWidth = 3;
+      ctx.stroke();
+    }
+
+    // Round head: no individual square blocks.
+    const head = points[0];
+    ctx.fillStyle = skin.color;
+    ctx.beginPath();
+    ctx.arc(head.x,head.y,13.5,0,Math.PI*2);
+    ctx.fill();
+
+    // Head shine.
+    ctx.fillStyle = "rgba(255,255,255,0.18)";
+    ctx.beginPath();
+    ctx.arc(head.x-3,head.y-4,5,0,Math.PI*2);
+    ctx.fill();
+
+    // Eyes face the direction of movement.
+    const eyeOffset = 4.5;
+    let eye1,eye2;
+
+    if (direction.x !== 0) {
+      eye1 = {x:head.x+direction.x*5,y:head.y-eyeOffset};
+      eye2 = {x:head.x+direction.x*5,y:head.y+eyeOffset};
+    } else {
+      eye1 = {x:head.x-eyeOffset,y:head.y+direction.y*5};
+      eye2 = {x:head.x+eyeOffset,y:head.y+direction.y*5};
+    }
+
+    ctx.fillStyle = "#ffffff";
+    for (const eye of [eye1,eye2]) {
       ctx.beginPath();
-      ctx.roundRect(x, y, length, length, 7);
+      ctx.arc(eye.x,eye.y,2.6,0,Math.PI*2);
       ctx.fill();
+    }
 
-      // Eyes on the head.
-      if (index === 0) {
-        ctx.fillStyle = "#ffffff";
-        const cx = part.x * SIZE + SIZE / 2 + direction.x * 4;
-        const cy = part.y * SIZE + SIZE / 2 + direction.y * 4;
-
-        ctx.beginPath();
-        ctx.arc(cx - (direction.y !== 0 ? 4 : 2), cy - (direction.x !== 0 ? 4 : 2), 2, 0, Math.PI * 2);
-        ctx.arc(cx + (direction.y !== 0 ? 4 : 2), cy + (direction.x !== 0 ? 4 : 2), 2, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    });
+    // Keep animating between each grid movement.
+    if (active && !paused) {
+      animationFrame = requestAnimationFrame(draw);
+    }
   }
 
-  function refreshMissions() {
+  function updateMissions() {
     let changed = false;
 
     for (const mission of missionDefinitions) {
       if (!save.completed.includes(mission.id) && mission.condition()) {
         save.completed.push(mission.id);
 
-        const rewardSkin = skins.find(s => s.name === mission.reward);
+        const rewardSkin = skins.find(s => s.name===mission.reward);
+
         if (rewardSkin && !save.unlocked.includes(rewardSkin.id)) {
           save.unlocked.push(rewardSkin.id);
         }
 
         changed = true;
-        beep(850, 0.16);
+        beep(850,.15);
       }
     }
 
-    if (changed) {
-      persist();
-      renderPanels();
-    }
+    if (changed) persist();
+    renderPanels();
   }
 
   function escapeHTML(value) {
     return String(value).replace(/[&<>"']/g, char => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;"
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
     })[char]);
   }
 
@@ -633,36 +737,37 @@ footer { text-align: center; color: var(--muted); font-size: .78rem; padding: 0 
     $("best").textContent = save.best;
     $("runs").textContent = save.runs;
     $("playerName").value = save.playerName;
+
     $("soundBtn").textContent = save.soundOn ? "🔊 Sound" : "🔇 Sound off";
     document.body.dataset.theme = save.theme;
 
-    // Skins: locked colours only become available by completing their mission.
     $("skins").innerHTML = "";
 
     for (const skin of skins) {
       const unlocked = save.unlocked.includes(skin.id);
-      const selected = save.selected === skin.id;
+      const selected = save.selected===skin.id;
+
       const row = document.createElement("div");
       row.className = "skin-row";
-
-      let unlockText = "Locked";
-      const mission = missionDefinitions.find(m => m.reward === skin.name);
-      if (!unlocked && mission) unlockText = "Quest reward";
 
       row.innerHTML = `
         <div class="skin-info">
           <span class="skin-dot" style="background:${skin.color}"></span>
           <div>
             <div class="skin-name">${skin.name}</div>
-            <div class="small">${unlocked ? (selected ? "Currently equipped" : "Unlocked") : unlockText}</div>
+            <div class="small">${
+              selected ? "Equipped" : unlocked ? "Unlocked" : "Mission reward"
+            }</div>
           </div>
         </div>
-        <button ${unlocked ? "" : "disabled"}>${selected ? "✓ Selected" : unlocked ? "Use" : "🔒 Locked"}</button>
+        <button ${unlocked ? "" : "disabled"}>${
+          selected ? "✓ Selected" : unlocked ? "Use" : "🔒 Locked"
+        }</button>
       `;
 
-      const button = row.querySelector("button");
-      button.addEventListener("click", () => {
+      row.querySelector("button").addEventListener("click",() => {
         if (!save.unlocked.includes(skin.id)) return;
+
         save.selected = skin.id;
         persist();
         renderPanels();
@@ -672,62 +777,62 @@ footer { text-align: center; color: var(--muted); font-size: .78rem; padding: 0 
       $("skins").appendChild(row);
     }
 
-    // Mission progress and rewards.
     $("missions").innerHTML = "";
 
     for (const mission of missionDefinitions) {
       const completed = save.completed.includes(mission.id);
-      const progress = Math.min(
+      const percent = Math.min(
         100,
-        (mission.progress() / mission.target) * 100
+        mission.progress()/mission.target*100
       );
 
       const row = document.createElement("div");
       row.className = "mission-row";
+
       row.innerHTML = `
         <div class="mission-main">
           <div class="mission-name">${completed ? "✅ " : ""}${mission.name}</div>
           <div class="small">${mission.description}</div>
           <div class="progress">
-            <div class="progress-fill" style="width:${completed ? 100 : progress}%"></div>
+            <div class="progress-fill" style="width:${completed ? 100 : percent}%"></div>
           </div>
         </div>
-        <div class="reward">${completed ? "Unlocked" : "🎁 " + mission.reward}</div>
+        <div class="reward">${completed ? "Unlocked" : "🎁 "+mission.reward}</div>
       `;
 
       $("missions").appendChild(row);
     }
 
-    // Best scores saved on this device.
-    const leaderboard = $("leaderboard");
-    leaderboard.innerHTML = "";
+    $("leaderboard").innerHTML = "";
 
-    const sorted = [...(save.scores || [])]
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 5);
+    const scores = [...save.scores]
+      .sort((a,b)=>b.score-a.score)
+      .slice(0,5);
 
-    if (!sorted.length) {
-      leaderboard.innerHTML = '<div class="small">Play a run to set your first score.</div>';
+    if (!scores.length) {
+      $("leaderboard").innerHTML =
+        '<div class="small">Play a run to set your first score.</div>';
     } else {
-      sorted.forEach((entry, index) => {
+      scores.forEach((entry,index) => {
         const row = document.createElement("div");
         row.className = "leader-row";
         row.innerHTML = `
-          <span>${index + 1}. ${escapeHTML(entry.name)}</span>
+          <span>${index+1}. ${escapeHTML(entry.name)}</span>
           <strong>${entry.score}</strong>
         `;
-        leaderboard.appendChild(row);
+        $("leaderboard").appendChild(row);
       });
     }
   }
 
-  function showOverlay(title, message, buttonText, action) {
+  function showOverlay(title,message,buttonText,action) {
     $("overlay").style.display = "flex";
     $("overlay").innerHTML = `
       <h2>${title}</h2>
       <p>${message}</p>
       <button class="primary" id="overlayAction">${buttonText}</button>
     `;
+
     $("overlayAction").onclick = action;
   }
 
@@ -736,23 +841,28 @@ footer { text-align: center; color: var(--muted); font-size: .78rem; padding: 0 
   }
 
   function startGame() {
-    clearInterval(gameTimer);
+    cancelAnimationFrame(animationFrame);
 
     snake = [
-      { x: 9, y: 10 },
-      { x: 8, y: 10 },
-      { x: 7, y: 10 }
+      {x:9,y:10},
+      {x:8,y:10},
+      {x:7,y:10}
     ];
 
-    direction = { x: 1, y: 0 };
-    nextDirection = { x: 1, y: 0 };
+    previousSnake = snake.map(p=>({...p}));
+    direction = {x:1,y:0};
+    directionQueue = [];
+
     score = 0;
     apples = 0;
     active = true;
     paused = false;
-    gameOver = false;
+    ended = false;
 
-    $("score").textContent = "0";
+    accumulator = 0;
+    lastStepTime = performance.now();
+
+    $("score").textContent = 0;
     $("pauseBtn").textContent = "Ⅱ Pause";
 
     save.runs++;
@@ -761,32 +871,63 @@ footer { text-align: center; color: var(--muted); font-size: .78rem; padding: 0 
     placeApple();
     hideOverlay();
     setStatus("IN THE GROOVE");
-    refreshMissions();
+
+    updateStageUI();
+    updateMissions();
     renderPanels();
     draw();
 
-    gameTimer = setInterval(tick, 125);
-    beep(620);
+    animationFrame = requestAnimationFrame(gameLoop);
+    beep(650);
+  }
+
+  function gameLoop(timestamp) {
+    if (!active || paused || ended) return;
+
+    let delta = timestamp-lastStepTime;
+    lastStepTime = timestamp;
+
+    // Avoid a large leap after a slow frame or switching tabs.
+    delta = Math.min(delta,100);
+    accumulator += delta;
+
+    const step = currentSpeed();
+
+    if (accumulator >= step) {
+      accumulator -= step;
+      tick();
+    }
+
+    if (active && !paused && !ended) {
+      draw(timestamp);
+      animationFrame = requestAnimationFrame(gameLoop);
+    }
   }
 
   function tick() {
-    if (!active || paused || gameOver) return;
+    if (!active || paused || ended) return;
 
-    direction = nextDirection;
+    // Copy old positions for smooth interpolation.
+    previousSnake = snake.map(p=>({...p}));
+
+    if (directionQueue.length) {
+      direction = directionQueue.shift();
+    }
 
     const head = {
-      x: snake[0].x + direction.x,
-      y: snake[0].y + direction.y
+      x:snake[0].x+direction.x,
+      y:snake[0].y+direction.y
     };
 
-    const eating = apple && head.x === apple.x && head.y === apple.y;
-    const bodyToCheck = eating ? snake : snake.slice(0, -1);
+    const eating = apple && head.x===apple.x && head.y===apple.y;
 
-    // Hitting a wall or the snake itself ends the run.
+    // Moving into the old tail cell is allowed when not eating.
+    const body = eating ? snake : snake.slice(0,-1);
+
     if (
-      head.x < 0 || head.y < 0 ||
-      head.x >= CELLS || head.y >= CELLS ||
-      bodyToCheck.some(part => part.x === head.x && part.y === head.y)
+      head.x<0 || head.y<0 ||
+      head.x>=CELLS || head.y>=CELLS ||
+      body.some(part=>part.x===head.x && part.y===head.y)
     ) {
       finishGame(false);
       return;
@@ -797,195 +938,227 @@ footer { text-align: center; color: var(--muted); font-size: .78rem; padding: 0 
     if (eating) {
       score += 10;
       apples++;
+
       $("score").textContent = score;
-      beep(720, 0.06);
+
+      const oldStage = currentStage();
+      updateStageUI();
+
+      if (apples % APPLES_PER_STAGE===0) {
+        beep(980,.12);
+        setStatus("STAGE "+currentStage()+" UNLOCKED!");
+
+        // Stage changes make the snake faster.
+        renderPanels();
+      } else {
+        beep(720);
+        setStatus("IN THE GROOVE");
+      }
 
       placeApple();
-      refreshMissions();
+      updateMissions();
       renderPanels();
     } else {
       snake.pop();
     }
 
     draw();
+
+    // If the player fills all cells, reward a win.
+    if (snake.length===CELLS*CELLS) finishGame(true);
   }
 
   function finishGame(won) {
-    if (gameOver) return;
+    if (ended) return;
 
-    gameOver = true;
+    ended = true;
     active = false;
     paused = false;
-    clearInterval(gameTimer);
-    setStatus("RUN COMPLETE");
 
-    if (score > save.best) save.best = score;
+    cancelAnimationFrame(animationFrame);
+    setStatus(won ? "GRID CONQUERED" : "RUN COMPLETE");
+
+    if (score>save.best) save.best=score;
 
     save.scores.push({
-      name: save.playerName || "Player",
-      score: score,
-      date: Date.now()
+      name:save.playerName || "Player",
+      score,
+      date:Date.now()
     });
 
-    save.scores.sort((a, b) => b.score - a.score);
-    save.scores = save.scores.slice(0, 20);
+    save.scores.sort((a,b)=>b.score-a.score);
+    save.scores=save.scores.slice(0,20);
 
     persist();
-    refreshMissions();
+    updateMissions();
     renderPanels();
     draw();
 
     showOverlay(
       won ? "Grid conquered! 🏆" : "Run complete!",
-      `You scored ${score} points. Personal best: ${save.best}.`,
+      "You scored "+score+". Personal best: "+save.best+".",
       "Play again",
       startGame
     );
 
-    beep(220, 0.2);
+    beep(220,.2);
   }
 
   function togglePause() {
-    if (!active || gameOver) return;
+    if (!active || ended) return;
 
     paused = !paused;
 
     if (paused) {
+      cancelAnimationFrame(animationFrame);
       setStatus("PAUSED");
-      $("pauseBtn").textContent = "▶ Resume";
-      showOverlay("Paused", "Ready to get back in the game?", "Resume", togglePause);
+      $("pauseBtn").textContent="▶ Resume";
+
+      showOverlay(
+        "Paused",
+        "Ready to get back in the game?",
+        "Resume",
+        togglePause
+      );
     } else {
-      setStatus("IN THE GROOVE");
-      $("pauseBtn").textContent = "Ⅱ Pause";
       hideOverlay();
+      setStatus("IN THE GROOVE");
+      $("pauseBtn").textContent="Ⅱ Pause";
+
+      lastStepTime = performance.now();
+      animationFrame = requestAnimationFrame(gameLoop);
     }
   }
 
-  function changeDirection(newDirection) {
-    if (!active || paused || gameOver) return;
+  // Queue quick inputs so rapid button presses register immediately.
+  function changeDirection(next) {
+    if (!active || paused || ended) return;
 
-    // The snake cannot instantly reverse into itself.
-    if (
-      newDirection.x === -direction.x &&
-      newDirection.y === -direction.y
-    ) return;
+    const reference = directionQueue.length
+      ? directionQueue[directionQueue.length-1]
+      : direction;
 
-    nextDirection = newDirection;
+    if (next.x===-reference.x && next.y===-reference.y) return;
+
+    // At most two turns buffered to preserve responsiveness.
+    if (directionQueue.length<2) {
+      directionQueue.push(next);
+    } else {
+      directionQueue[directionQueue.length-1] = next;
+    }
   }
 
   function toggleFullscreen() {
     if (!document.fullscreenElement) {
       const request = wrap.requestFullscreen || wrap.webkitRequestFullscreen;
       if (request) {
-        const result = request.call(wrap);
-        if (result && result.catch) result.catch(() => {});
+        const result=request.call(wrap);
+        if (result && result.catch) result.catch(()=>{});
       }
     } else {
-      const exit = document.exitFullscreen || document.webkitExitFullscreen;
+      const exit=document.exitFullscreen || document.webkitExitFullscreen;
       if (exit) exit.call(document);
     }
   }
 
-  // Main buttons.
-  $("overlayStart").onclick = startGame;
-  $("newBtn").onclick = startGame;
-  $("restartBtn").onclick = startGame;
-  $("pauseBtn").onclick = togglePause;
-  $("fullscreenBtn").onclick = toggleFullscreen;
+  $("overlayStart").onclick=startGame;
+  $("newBtn").onclick=startGame;
+  $("restartBtn").onclick=startGame;
+  $("pauseBtn").onclick=togglePause;
+  $("fullscreenBtn").onclick=toggleFullscreen;
 
-  $("themeBtn").onclick = () => {
-    const themes = ["light", "blue", "dark"];
-    const index = themes.indexOf(save.theme);
-    save.theme = themes[(index + 1) % themes.length];
+  $("themeBtn").onclick=()=>{
+    const themes=["light","blue","dark"];
+    save.theme=themes[(themes.indexOf(save.theme)+1)%themes.length];
     persist();
     renderPanels();
     draw();
   };
 
-  $("soundBtn").onclick = () => {
-    save.soundOn = !save.soundOn;
+  $("soundBtn").onclick=()=>{
+    save.soundOn=!save.soundOn;
     persist();
     renderPanels();
     beep(650);
   };
 
-  $("saveName").onclick = () => {
-    save.playerName = $("playerName").value.trim().slice(0, 16) || "Player";
+  $("saveName").onclick=()=>{
+    save.playerName=$("playerName").value.trim().slice(0,16)||"Player";
     persist();
     renderPanels();
   };
 
-  $("playerName").addEventListener("keydown", event => {
-    if (event.key === "Enter") $("saveName").click();
+  $("playerName").addEventListener("keydown",event=>{
+    if (event.key==="Enter") $("saveName").click();
   });
 
-  document.addEventListener("fullscreenchange", () => {
-    $("fullscreenBtn").textContent = document.fullscreenElement
+  document.addEventListener("fullscreenchange",()=>{
+    $("fullscreenBtn").textContent=document.fullscreenElement
       ? "⛶ Exit full screen"
       : "⛶ Full screen";
   });
 
-  // Keyboard controls.
-  document.addEventListener("keydown", event => {
-    const key = event.key.toLowerCase();
-    const gameKeys = [
-      "arrowup", "arrowdown", "arrowleft", "arrowright", " "
-    ];
+  // Keyboard responds on keydown, not on a slow repeated key timer.
+  document.addEventListener("keydown",event=>{
+    const key=event.key.toLowerCase();
 
-    if (gameKeys.includes(key)) event.preventDefault();
+    if ([
+      "arrowup","arrowdown","arrowleft","arrowright"," "
+    ].includes(key)) event.preventDefault();
 
-    if (key === "arrowup" || key === "w") changeDirection({ x: 0, y: -1 });
-    if (key === "arrowdown" || key === "s") changeDirection({ x: 0, y: 1 });
-    if (key === "arrowleft" || key === "a") changeDirection({ x: -1, y: 0 });
-    if (key === "arrowright" || key === "d") changeDirection({ x: 1, y: 0 });
+    if (key==="arrowup" || key==="w") changeDirection({x:0,y:-1});
+    if (key==="arrowdown" || key==="s") changeDirection({x:0,y:1});
+    if (key==="arrowleft" || key==="a") changeDirection({x:-1,y:0});
+    if (key==="arrowright" || key==="d") changeDirection({x:1,y:0});
 
-    if (key === " " && active) togglePause();
-    if (key === "r") startGame();
-    if (key === "f") toggleFullscreen();
+    if (key===" " && !event.repeat) togglePause();
+    if (key==="r" && !event.repeat) startGame();
+    if (key==="f" && !event.repeat) toggleFullscreen();
   });
 
-  // Mobile touch buttons.
-  const directions = {
-    up: { x: 0, y: -1 },
-    down: { x: 0, y: 1 },
-    left: { x: -1, y: 0 },
-    right: { x: 1, y: 0 }
+  // Pointer events respond faster than waiting for a mobile click.
+  const directions={
+    up:{x:0,y:-1},
+    down:{x:0,y:1},
+    left:{x:-1,y:0},
+    right:{x:1,y:0}
   };
 
-  document.querySelectorAll("[data-direction]").forEach(button => {
-    button.addEventListener("click", () => {
+  document.querySelectorAll("[data-direction]").forEach(button=>{
+    button.addEventListener("pointerdown",event=>{
+      event.preventDefault();
       changeDirection(directions[button.dataset.direction]);
     });
   });
 
-  // Swipe to steer on a phone or tablet.
-  let touchStart = null;
+  // Swipe steering for touchscreens.
+  let touchStart=null;
 
-  canvas.addEventListener("touchstart", event => {
-    const touch = event.changedTouches[0];
-    touchStart = { x: touch.clientX, y: touch.clientY };
-  }, { passive: true });
+  canvas.addEventListener("touchstart",event=>{
+    const touch=event.changedTouches[0];
+    touchStart={x:touch.clientX,y:touch.clientY};
+  },{passive:true});
 
-  canvas.addEventListener("touchend", event => {
+  canvas.addEventListener("touchend",event=>{
     if (!touchStart) return;
 
-    const touch = event.changedTouches[0];
-    const dx = touch.clientX - touchStart.x;
-    const dy = touch.clientY - touchStart.y;
+    const touch=event.changedTouches[0];
+    const dx=touch.clientX-touchStart.x;
+    const dy=touch.clientY-touchStart.y;
 
-    if (Math.max(Math.abs(dx), Math.abs(dy)) > 25) {
-      if (Math.abs(dx) > Math.abs(dy)) {
-        changeDirection({ x: dx > 0 ? 1 : -1, y: 0 });
+    if (Math.max(Math.abs(dx),Math.abs(dy))>20) {
+      if (Math.abs(dx)>Math.abs(dy)) {
+        changeDirection({x:dx>0?1:-1,y:0});
       } else {
-        changeDirection({ x: 0, y: dy > 0 ? 1 : -1 });
+        changeDirection({x:0,y:dy>0?1:-1});
       }
     }
 
-    touchStart = null;
-  }, { passive: true });
+    touchStart=null;
+  },{passive:true});
 
-  // Initial page setup.
   renderPanels();
+  updateStageUI();
   draw();
 })();
 </script>
