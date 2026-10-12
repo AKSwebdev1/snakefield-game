@@ -60,7 +60,7 @@ button {
 }
 button:hover { border-color:var(--accent); }
 button:active { filter:brightness(.92); }
-button.primary { background:var(--accent); color:white; border-color:transparent; }
+button.primary { background:var(--accent); color:#fff; border-color:transparent; }
 button:disabled { opacity:.55; cursor:not-allowed; }
 
 header {
@@ -73,7 +73,6 @@ header {
   gap:15px;
   flex-wrap:wrap;
 }
-
 .logo { font-size:1.5rem; font-weight:900; letter-spacing:-1px; }
 .logo span { color:var(--accent); }
 .subtitle { color:var(--muted); font-size:.82rem; margin-top:3px; }
@@ -96,7 +95,6 @@ main {
   border-radius:22px;
   box-shadow:0 8px 28px #18345c08;
 }
-
 .game-heading {
   display:flex;
   justify-content:space-between;
@@ -104,7 +102,6 @@ main {
   gap:10px;
   margin-bottom:14px;
 }
-
 .status {
   color:var(--accent);
   font-size:.76rem;
@@ -123,8 +120,8 @@ main {
 .stage-line {
   display:flex;
   justify-content:space-between;
-  gap:10px;
   align-items:center;
+  gap:10px;
   font-size:.88rem;
   font-weight:850;
 }
@@ -156,7 +153,6 @@ main {
   border-radius:16px;
   background:var(--panel);
 }
-
 canvas {
   display:block;
   width:100%;
@@ -182,11 +178,7 @@ canvas {
   font-size:clamp(1.6rem,4vw,2.7rem);
   letter-spacing:-1.5px;
 }
-.overlay p {
-  max-width:330px;
-  color:var(--muted);
-  margin:0 0 18px;
-}
+.overlay p { max-width:330px; color:var(--muted); margin:0 0 18px; }
 
 .controls {
   display:flex;
@@ -195,23 +187,12 @@ canvas {
   gap:8px;
   margin-top:14px;
 }
-.hint {
-  color:var(--muted);
-  text-align:center;
-  font-size:.78rem;
-  margin-top:12px;
-}
+.hint { color:var(--muted); text-align:center; font-size:.78rem; margin-top:12px; }
 
 .side { display:flex; flex-direction:column; gap:15px; }
 .section-title { margin:0 0 13px; font-size:1rem; font-weight:900; }
-
 .stats { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.stat {
-  background:var(--bg);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:12px;
-}
+.stat { background:var(--bg); border:1px solid var(--border); border-radius:14px; padding:12px; }
 .stat small { display:block; color:var(--muted); }
 .stat strong { display:block; margin-top:4px; font-size:1.5rem; }
 
@@ -226,11 +207,7 @@ canvas {
   padding:10px;
 }
 
-.skin-list,.missions,.leaderboard {
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
+.skin-list,.missions,.leaderboard { display:flex; flex-direction:column; gap:8px; }
 .skin-row,.mission-row,.leader-row {
   display:flex;
   justify-content:space-between;
@@ -288,7 +265,6 @@ footer {
   .side { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); }
   .side>.panel:first-child { grid-column:1/-1; }
 }
-
 @media(max-width:550px) {
   header { padding:16px 12px 10px; }
   main { padding:8px 10px 22px; }
@@ -318,7 +294,6 @@ footer {
 
 <main>
   <section class="panel">
-
     <div class="game-heading">
       <div>
         <div class="status" id="status">READY TO PLAY</div>
@@ -332,9 +307,7 @@ footer {
         <span id="stageNumber">STAGE 1</span>
         <span id="applesLeft">🍎 60 apples left</span>
       </div>
-      <div class="stage-detail" id="stageDetail">
-        Eat 60 apples to reach Stage 2.
-      </div>
+      <div class="stage-detail" id="stageDetail">Eat 60 apples to reach Stage 2.</div>
       <div class="progress">
         <div class="progress-fill" id="stageProgress"></div>
       </div>
@@ -366,18 +339,11 @@ footer {
   </section>
 
   <aside class="side">
-
     <section class="panel">
       <h3 class="section-title">📊 Your stats</h3>
       <div class="stats">
-        <div class="stat">
-          <small>Personal best</small>
-          <strong id="best">0</strong>
-        </div>
-        <div class="stat">
-          <small>Runs played</small>
-          <strong id="runs">0</strong>
-        </div>
+        <div class="stat"><small>Personal best</small><strong id="best">0</strong></div>
+        <div class="stat"><small>Runs played</small><strong id="runs">0</strong></div>
       </div>
       <div class="name-row">
         <input id="playerName" maxlength="16" placeholder="Player name">
@@ -401,7 +367,6 @@ footer {
       <div class="leaderboard" id="leaderboard"></div>
       <div class="small">Local leaderboard saved on this device.</div>
     </section>
-
   </aside>
 </main>
 
@@ -419,7 +384,9 @@ footer {
   const CELLS = 20;
   const SIZE = canvas.width / CELLS;
 
-  // Stage 1 uses Google's reported Normal speed as the baseline.
+  // 60 apples per stage.
+  // Google Snake's speed settings can vary; 135ms is used as
+  // a Normal-speed baseline. Stages get gradually faster.
   const APPLES_PER_STAGE = 60;
   const START_SPEED = 135;
   const SPEED_PER_STAGE = 3;
@@ -436,38 +403,30 @@ footer {
 
   const missionDefinitions = [
     {
-      id:"first",
-      name:"First bite",
+      id:"first",name:"First bite",
       description:"Collect 3 apples in one run",
-      reward:"Ocean",
-      target:3,
+      reward:"Ocean",target:3,
       progress:()=>Math.min(apples,3),
       condition:()=>apples>=3
     },
     {
-      id:"chaser",
-      name:"Score chaser",
+      id:"chaser",name:"Score chaser",
       description:"Reach 100 points in one run",
-      reward:"Berry",
-      target:100,
+      reward:"Berry",target:100,
       progress:()=>Math.min(score,100),
       condition:()=>score>=100
     },
     {
-      id:"regular",
-      name:"Back for more",
+      id:"regular",name:"Back for more",
       description:"Play 5 runs in total",
-      reward:"Sunset",
-      target:5,
+      reward:"Sunset",target:5,
       progress:()=>Math.min(save.runs,5),
       condition:()=>save.runs>=5
     },
     {
-      id:"legend",
-      name:"Snake legend",
+      id:"legend",name:"Snake legend",
       description:"Reach 250 points in one run",
-      reward:"Midnight",
-      target:250,
+      reward:"Midnight",target:250,
       progress:()=>Math.min(score,250),
       condition:()=>score>=250
     }
@@ -500,28 +459,27 @@ footer {
   save.completed=save.completed||[];
   save.scores=save.scores||[];
 
-  if(!["light","blue","dark"].includes(save.theme)) {
-    save.theme="light";
-  }
-
+  if(!["light","blue","dark"].includes(save.theme)) save.theme="light";
   if(!skins.some(s=>s.id===save.selected&&save.unlocked.includes(s.id))) {
     save.selected="mint";
   }
 
   let snake=[];
-  let previousSnake=[];
+  let history=[];
   let apple=null;
-
   let direction={x:1,y:0};
-  let directionQueue=[];
+
+  // Keep ONE pending turn, not a long queue of old key presses.
+  let pendingDirection=null;
+
   let score=0;
   let apples=0;
-
   let active=false;
   let paused=false;
   let ended=false;
+  let hasMoved=false;
 
-  let lastStepTime=0;
+  let lastFrameTime=0;
   let accumulator=0;
   let animationFrame=0;
   let audioContext=null;
@@ -558,7 +516,6 @@ footer {
 
     try {
       audioContext ||= new (window.AudioContext||window.webkitAudioContext)();
-
       const oscillator=audioContext.createOscillator();
       const gain=audioContext.createGain();
 
@@ -568,7 +525,6 @@ footer {
 
       oscillator.connect(gain);
       gain.connect(audioContext.destination);
-
       oscillator.start();
       oscillator.stop(audioContext.currentTime+duration);
     } catch {}
@@ -584,8 +540,7 @@ footer {
       (remaining===1?" apple left":" apples left");
 
     $("stageDetail").textContent=
-      "Eat "+remaining+" more "+
-      (remaining===1?"apple":"apples")+
+      "Eat "+remaining+" more "+(remaining===1?"apple":"apples")+
       " to reach Stage "+(stage+1)+".";
 
     $("stageProgress").style.width=percent+"%";
@@ -610,8 +565,7 @@ footer {
     apple=empty[Math.floor(Math.random()*empty.length)];
   }
 
-  // Draw a curved continuous line through the snake's segment centres.
-  function roundedPath(points) {
+  function smoothPath(points) {
     if(!points.length) return;
 
     ctx.beginPath();
@@ -626,19 +580,14 @@ footer {
       const mx=(points[i].x+points[i+1].x)/2;
       const my=(points[i].y+points[i+1].y)/2;
 
-      ctx.quadraticCurveTo(
-        points[i].x,
-        points[i].y,
-        mx,
-        my
-      );
+      ctx.quadraticCurveTo(points[i].x,points[i].y,mx,my);
     }
 
     const last=points[points.length-1];
     ctx.lineTo(last.x,last.y);
   }
 
-  // Rendering is managed by one animation loop only.
+  // A single animation loop calls draw(). draw() never creates another loop.
   function draw() {
     const styles=getComputedStyle(document.body);
     const panel=styles.getPropertyValue("--panel").trim();
@@ -648,7 +597,6 @@ footer {
     ctx.fillStyle=panel;
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    // Classic 20 by 20 board.
     ctx.strokeStyle=grid;
     ctx.lineWidth=1;
 
@@ -682,39 +630,45 @@ footer {
 
     if(!snake.length) return;
 
-    // IMPORTANT: each segment interpolates from its own previous position.
-    const alpha=active&&!paused
+    const alpha=hasMoved&&active&&!paused
       ?Math.min(1,accumulator/currentSpeed())
       :1;
 
+    // The history records where the head has been.
+    // Each body point smoothly follows the position in front of it.
     const points=snake.map((part,index)=>{
-      const old=previousSnake[index]||part;
+      if(!hasMoved) {
+        return {
+          x:part.x*SIZE+SIZE/2,
+          y:part.y*SIZE+SIZE/2
+        };
+      }
+
+      const current=history[index]||part;
+      const previous=history[index+1]||current;
 
       return {
-        x:(old.x+(part.x-old.x)*alpha)*SIZE+SIZE/2,
-        y:(old.y+(part.y-old.y)*alpha)*SIZE+SIZE/2
+        x:(previous.x+(current.x-previous.x)*alpha)*SIZE+SIZE/2,
+        y:(previous.y+(current.y-previous.y)*alpha)*SIZE+SIZE/2
       };
     });
 
     const skin=getSkin();
 
-    // A thick stroke with rounded caps avoids gaps between segments.
     if(points.length>1) {
-      roundedPath(points);
+      smoothPath(points);
       ctx.lineCap="round";
       ctx.lineJoin="round";
       ctx.strokeStyle=skin.color;
       ctx.lineWidth=30;
       ctx.stroke();
 
-      // Gentle shine.
-      roundedPath(points);
+      smoothPath(points);
       ctx.strokeStyle="rgba(255,255,255,.14)";
       ctx.lineWidth=3;
       ctx.stroke();
     }
 
-    // Round head rather than a square tile.
     const head=points[0];
 
     ctx.fillStyle=skin.color;
@@ -727,15 +681,16 @@ footer {
     ctx.arc(head.x-3,head.y-4,5,0,Math.PI*2);
     ctx.fill();
 
-    // Eyes turn with the snake.
+    // Eyes face the direction currently being requested.
+    const face=pendingDirection||direction;
     let eye1,eye2;
 
-    if(direction.x!==0) {
-      eye1={x:head.x+direction.x*5,y:head.y-5};
-      eye2={x:head.x+direction.x*5,y:head.y+5};
+    if(face.x!==0) {
+      eye1={x:head.x+face.x*5,y:head.y-5};
+      eye2={x:head.x+face.x*5,y:head.y+5};
     } else {
-      eye1={x:head.x-5,y:head.y+direction.y*5};
-      eye2={x:head.x+5,y:head.y+direction.y*5};
+      eye1={x:head.x-5,y:head.y+face.y*5};
+      eye2={x:head.x+5,y:head.y+face.y*5};
     }
 
     ctx.fillStyle="#fff";
@@ -755,7 +710,6 @@ footer {
         save.completed.push(mission.id);
 
         const reward=skins.find(s=>s.name===mission.reward);
-
         if(reward&&!save.unlocked.includes(reward.id)) {
           save.unlocked.push(reward.id);
         }
@@ -786,7 +740,6 @@ footer {
     $("soundBtn").textContent=save.soundOn?"🔊 Sound":"🔇 Sound off";
 
     document.body.dataset.theme=save.theme;
-
     $("skins").innerHTML="";
 
     for(const skin of skins) {
@@ -812,7 +765,6 @@ footer {
 
       row.querySelector("button").addEventListener("click",()=>{
         if(!save.unlocked.includes(skin.id)) return;
-
         save.selected=skin.id;
         persist();
         renderPanels();
@@ -826,14 +778,10 @@ footer {
 
     for(const mission of missionDefinitions) {
       const completed=save.completed.includes(mission.id);
-      const percent=Math.min(
-        100,
-        mission.progress()/mission.target*100
-      );
-
+      const percent=Math.min(100,mission.progress()/mission.target*100);
       const row=document.createElement("div");
-      row.className="mission-row";
 
+      row.className="mission-row";
       row.innerHTML=`
         <div class="mission-main">
           <div class="mission-name">${completed?"✅ ":""}${mission.name}</div>
@@ -893,19 +841,19 @@ footer {
       {x:7,y:10}
     ];
 
-    previousSnake=snake.map(p=>({...p}));
+    history=snake.map(p=>({...p}));
     direction={x:1,y:0};
-    directionQueue=[];
+    pendingDirection=null;
 
     score=0;
     apples=0;
     active=true;
     paused=false;
     ended=false;
-
+    hasMoved=false;
     accumulator=0;
-    lastStepTime=performance.now();
 
+    lastFrameTime=performance.now();
     $("score").textContent="0";
     $("pauseBtn").textContent="Ⅱ Pause";
 
@@ -928,15 +876,18 @@ footer {
   function gameLoop(timestamp) {
     if(!active||paused||ended) return;
 
-    const delta=Math.min(timestamp-lastStepTime,100);
-    lastStepTime=timestamp;
-    accumulator+=Math.max(0,delta);
+    // A single requestAnimationFrame loop controls both timing and drawing.
+    const elapsed=Math.max(0,Math.min(timestamp-lastFrameTime,100));
+    lastFrameTime=timestamp;
+    accumulator+=elapsed;
 
-    const step=currentSpeed();
+    let steps=0;
 
-    if(accumulator>=step) {
-      accumulator-=step;
+    // Never process a large backlog after a slow browser frame.
+    while(accumulator>=currentSpeed()&&steps<2&&active&&!paused&&!ended) {
+      accumulator-=currentSpeed();
       tick();
+      steps++;
     }
 
     if(active&&!paused&&!ended) {
@@ -948,11 +899,10 @@ footer {
   function tick() {
     if(!active||paused||ended) return;
 
-    // Keep the previous positions for the animation between tiles.
-    previousSnake=snake.map(p=>({...p}));
-
-    if(directionQueue.length) {
-      direction=directionQueue.shift();
+    // Apply the newest valid keydown request at the next grid position.
+    if(pendingDirection) {
+      direction=pendingDirection;
+      pendingDirection=null;
     }
 
     const head={
@@ -963,7 +913,6 @@ footer {
     const eating=apple&&head.x===apple.x&&head.y===apple.y;
     const body=eating?snake:snake.slice(0,-1);
 
-    // Classic Snake wall and self-collision behaviour.
     if(
       head.x<0||head.y<0||
       head.x>=CELLS||head.y>=CELLS||
@@ -975,11 +924,24 @@ footer {
 
     snake.unshift(head);
 
-    if(eating) {
+    if(!eating) {
+      snake.pop();
+    } else {
       score+=10;
       apples++;
-
       $("score").textContent=score;
+    }
+
+    // Store the route travelled by the head.
+    // The body is drawn from this route, giving smooth connected motion.
+    history.unshift({...head});
+    hasMoved=true;
+
+    while(history.length>snake.length+1) {
+      history.pop();
+    }
+
+    if(eating) {
       updateStageUI();
 
       if(apples%APPLES_PER_STAGE===0) {
@@ -993,8 +955,6 @@ footer {
       placeApple();
       refreshMissions();
       renderPanels();
-    } else {
-      snake.pop();
     }
 
     if(snake.length===CELLS*CELLS) {
@@ -1008,8 +968,8 @@ footer {
     ended=true;
     active=false;
     paused=false;
-
     cancelAnimationFrame(animationFrame);
+
     setStatus(won?"GRID CONQUERED":"RUN COMPLETE");
 
     if(score>save.best) save.best=score;
@@ -1051,7 +1011,6 @@ footer {
       cancelAnimationFrame(animationFrame);
       setStatus("PAUSED");
       $("pauseBtn").textContent="▶ Resume";
-
       showOverlay(
         "Paused",
         "Ready to get back in the game?",
@@ -1062,27 +1021,24 @@ footer {
       hideOverlay();
       setStatus("IN THE GROOVE");
       $("pauseBtn").textContent="Ⅱ Pause";
-
-      lastStepTime=performance.now();
+      lastFrameTime=performance.now();
       animationFrame=requestAnimationFrame(gameLoop);
     }
   }
 
-  // Responsive input queue: reject direct reversals.
+  // Capture the keydown event immediately. No waiting for keyup,
+  // and no queue of old turns to make the snake feel delayed.
   function changeDirection(next) {
     if(!active||paused||ended) return;
 
-    const reference=directionQueue.length
-      ?directionQueue[directionQueue.length-1]
-      :direction;
+    // Reject turns directly opposite to the current movement.
+    if(next.x===-direction.x&&next.y===-direction.y) return;
 
-    if(next.x===-reference.x&&next.y===-reference.y) return;
+    // Keep only the newest valid direction request.
+    pendingDirection=next;
 
-    if(directionQueue.length<2) {
-      directionQueue.push(next);
-    } else {
-      directionQueue[directionQueue.length-1]=next;
-    }
+    // Update the eyes at once to show the requested direction.
+    draw();
   }
 
   function toggleFullscreen() {
@@ -1136,22 +1092,32 @@ footer {
       :"⛶ Full screen";
   });
 
+  // Use keydown, which fires as soon as the key is actuated.
+  // Ignore browser auto-repeat; one press is one input.
   document.addEventListener("keydown",event=>{
-    const key=event.key.toLowerCase();
+    if(event.target instanceof HTMLInputElement) return;
 
-    if(["arrowup","arrowdown","arrowleft","arrowright"," "].includes(key)) {
+    const key=event.key.toLowerCase();
+    const movementKeys=[
+      "arrowup","arrowdown","arrowleft","arrowright",
+      "w","a","s","d"," "
+    ];
+
+    if(movementKeys.includes(key)) {
       event.preventDefault();
     }
 
-    if(key==="arrowup"||key==="w") changeDirection({x:0,y:-1});
-    if(key==="arrowdown"||key==="s") changeDirection({x:0,y:1});
-    if(key==="arrowleft"||key==="a") changeDirection({x:-1,y:0});
-    if(key==="arrowright"||key==="d") changeDirection({x:1,y:0});
+    if(!event.repeat) {
+      if(key==="arrowup"||key==="w") changeDirection({x:0,y:-1});
+      if(key==="arrowdown"||key==="s") changeDirection({x:0,y:1});
+      if(key==="arrowleft"||key==="a") changeDirection({x:-1,y:0});
+      if(key==="arrowright"||key==="d") changeDirection({x:1,y:0});
 
-    if(key===" "&&!event.repeat) togglePause();
-    if(key==="r"&&!event.repeat) startGame();
-    if(key==="f"&&!event.repeat) toggleFullscreen();
-  });
+      if(key===" "&&active) togglePause();
+      if(key==="r") startGame();
+      if(key==="f") toggleFullscreen();
+    }
+  },{capture:true});
 
   const directions={
     up:{x:0,y:-1},
@@ -1167,7 +1133,6 @@ footer {
     });
   });
 
-  // Swipe control for touchscreens.
   let touchStart=null;
 
   canvas.addEventListener("touchstart",event=>{
