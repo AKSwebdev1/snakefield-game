@@ -3,13 +3,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#eef5ff">
 <title>Snakefield — Play</title>
 
-<!-- Browser favicon: an original Snakefield icon drawn in SVG -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23e5efff'/%3E%3Cpath d='M12 42 C12 22 32 20 34 34 S53 44 51 23' fill='none' stroke='%2322b876' stroke-width='10' stroke-linecap='round'/%3E%3Ccircle cx='49' cy='17' r='8' fill='%23ff4b61'/%3E%3Cpath d='M48 9 Q53 3 57 8' fill='none' stroke='%23299b58' stroke-width='3'/%3E%3C/svg%3E">
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23e5efff'/%3E%3Cpath d='M12 42 C12 22 32 20 34 34 S53 44 51 23' fill='none' stroke='%2322b876' stroke-width='10' stroke-linecap='round'/%3E%3Ccircle cx='49' cy='17' r='8' fill='%23ff4b61'/%3E%3Cpath d='M48 9 Q53 3 57 8' fill='none' stroke='%23299b58' stroke-width='3'/%3E%3C/svg%3E">
 
 <style>
 :root {
@@ -22,128 +20,77 @@
   --border:#dfe8f4;
 }
 body[data-theme="blue"] {
-  --bg:#dcecff;
-  --panel:#edf5ff;
-  --text:#102c54;
-  --muted:#58779f;
-  --grid:#c8dcf6;
-  --accent:#1769e8;
-  --border:#c6daf3;
+  --bg:#dcecff;--panel:#edf5ff;--text:#102c54;
+  --muted:#58779f;--grid:#c8dcf6;--accent:#1769e8;--border:#c6daf3;
 }
 body[data-theme="dark"] {
-  --bg:#0c1423;
-  --panel:#172338;
-  --text:#edf4ff;
-  --muted:#a2b3cb;
-  --grid:#293950;
-  --accent:#4e91ff;
-  --border:#2b3b52;
+  --bg:#0c1423;--panel:#172338;--text:#edf4ff;
+  --muted:#a2b3cb;--grid:#293950;--accent:#4e91ff;--border:#2b3b52;
 }
-* { box-sizing:border-box; }
-
+* {box-sizing:border-box}
 body {
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
+  margin:0;background:var(--bg);color:var(--text);
   font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
 }
-button,input { font:inherit; }
+button,input {font:inherit}
 button {
-  border:1px solid var(--border);
-  background:var(--panel);
-  color:var(--text);
-  padding:10px 14px;
-  border-radius:12px;
-  font-weight:750;
-  cursor:pointer;
-  touch-action:manipulation;
-  user-select:none;
-  -webkit-tap-highlight-color:transparent;
+  border:1px solid var(--border);background:var(--panel);color:var(--text);
+  padding:10px 14px;border-radius:12px;font-weight:750;cursor:pointer;
+  touch-action:manipulation;user-select:none;-webkit-tap-highlight-color:transparent;
 }
-button:hover { border-color:var(--accent); }
-button:active { transform:scale(.98); }
-button:disabled { opacity:.5;cursor:not-allowed; }
-.primary { background:var(--accent)!important;color:white!important;border-color:transparent!important; }
-.small { color:var(--muted);font-size:.77rem;line-height:1.5; }
-.hidden { display:none!important; }
+button:hover {border-color:var(--accent)}
+button:active {transform:scale(.98)}
+button:disabled {opacity:.5;cursor:not-allowed}
+.primary {background:var(--accent)!important;color:#fff!important;border-color:transparent!important}
+.small {color:var(--muted);font-size:.77rem;line-height:1.5}
+.hidden {display:none!important}
 
 header {
-  max-width:1300px;
-  padding:17px 22px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  flex-wrap:wrap;
+  max-width:1300px;margin:auto;padding:17px 22px;display:flex;
+  align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
 }
-.logo { font-size:1.35rem;font-weight:950;letter-spacing:-1px; }
-.logo span { color:var(--accent); }
-.subtitle { color:var(--muted);font-size:.82rem;margin-top:3px; }
-.header-buttons { display:flex;gap:7px;flex-wrap:wrap; }
-.header-buttons button { padding:9px 12px;font-size:.83rem; }
+.logo {font-size:1.35rem;font-weight:950;letter-spacing:-1px}
+.logo span {color:var(--accent)}
+.subtitle {color:var(--muted);font-size:.82rem;margin-top:3px}
+.header-buttons {display:flex;gap:7px;flex-wrap:wrap}
+.header-buttons button {padding:9px 12px;font-size:.83rem}
 
 main {
-  max-width:1300px;
-  padding:8px 22px 30px;
-  margin:auto;
-  display:grid;
-  grid-template-columns:minmax(0,1.4fr) minmax(275px,.75fr);
-  gap:17px;
+  max-width:1300px;padding:8px 22px 30px;margin:auto;
+  display:grid;grid-template-columns:minmax(0,1.4fr) minmax(275px,.75fr);gap:17px;
 }
 .panel {
-  min-width:0;
-  padding:17px;
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:21px;
+  min-width:0;padding:17px;background:var(--panel);
+  border:1px solid var(--border);border-radius:21px;
   box-shadow:0 8px 30px #19365a08;
 }
-.game-heading {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  margin-bottom:13px;
-}
-.status { color:var(--accent);font-size:.75rem;font-weight:900;letter-spacing:1.2px; }
-.score { font-size:1.25rem;font-weight:900; }
+.game-heading {display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px}
+.status {color:var(--accent);font-size:.75rem;font-weight:900;letter-spacing:1.2px}
+.score {font-size:1.25rem;font-weight:900}
 
-.stage-info {
-  padding:12px 14px;
-  margin-bottom:12px;
-  border:1px solid var(--border);
-  border-radius:13px;
-  background:var(--bg);
-}
-.stage-line { display:flex;justify-content:space-between;gap:10px;font-weight:850;font-size:.86rem; }
-.stage-detail { margin-top:5px;color:var(--muted);font-size:.77rem; }
-.progress { height:6px;background:var(--grid);border-radius:20px;overflow:hidden;margin-top:9px; }
-.progress-fill { height:100%;width:0;background:var(--accent);border-radius:20px; }
+.stage-info {padding:12px 14px;margin-bottom:12px;border:1px solid var(--border);border-radius:13px;background:var(--bg)}
+.stage-line {display:flex;justify-content:space-between;gap:10px;font-weight:850;font-size:.86rem}
+.stage-detail {margin-top:5px;color:var(--muted);font-size:.77rem}
+.progress {height:6px;background:var(--grid);border-radius:20px;overflow:hidden;margin-top:9px}
+.progress-fill {height:100%;width:0;background:var(--accent);border-radius:20px;transition:width .1s}
 
 .board-wrap {
-  position:relative;
-  width:100%;
-  max-width:680px;
-  aspect-ratio:1;
-  overflow:hidden;
-  margin:auto;
-  border:1px solid var(--border);
-  border-radius:16px;
-  background:white;
+  position:relative;width:100%;max-width:680px;aspect-ratio:1;
+  overflow:hidden;margin:auto;border:1px solid var(--border);
+  border-radius:16px;background:white;
 }
-canvas { width:100%;height:100%;display:block;touch-action:none; }
+canvas {width:100%;height:100%;display:block;touch-action:none}
 
-.controls { display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:13px; }
-.hint { text-align:center;color:var(--muted);font-size:.77rem;margin-top:11px; }
+.controls {display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:13px}
+.hint {text-align:center;color:var(--muted);font-size:.77rem;margin-top:11px}
 
-.side { display:flex;flex-direction:column;gap:14px; }
-.section-title { font-size:1rem;font-weight:900;margin:0 0 12px; }
-.stats { display:grid;grid-template-columns:1fr 1fr;gap:9px; }
-.stat { background:var(--bg);border:1px solid var(--border);border-radius:13px;padding:12px; }
-.stat small { color:var(--muted);display:block; }
-.stat strong { font-size:1.4rem;display:block;margin-top:4px; }
-.name-row { display:flex;gap:7px;margin-top:10px; }
+.side {display:flex;flex-direction:column;gap:14px}
+.section-title {font-size:1rem;font-weight:900;margin:0 0 12px}
+.stats {display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.stat {background:var(--bg);border:1px solid var(--border);border-radius:13px;padding:12px}
+.stat small {color:var(--muted);display:block}
+.stat strong {font-size:1.4rem;display:block;margin-top:4px}
+.name-row {display:flex;gap:7px;margin-top:10px}
 .name-row input {
   width:100%;min-width:0;padding:10px;
   background:var(--bg);color:var(--text);
@@ -151,96 +98,60 @@ canvas { width:100%;height:100%;display:block;touch-action:none; }
 }
 
 .weekly-card {
-  border:1px solid #bcd4ff;
-  border-radius:15px;
-  padding:13px;
-  background:linear-gradient(135deg,#edf4ff,#f9fbff);
-  color:#172640;
+  border:1px solid #bcd4ff;border-radius:15px;padding:13px;
+  background:linear-gradient(135deg,#edf4ff,#f9fbff);color:#172640;
 }
-.weekly-title { display:flex;align-items:center;justify-content:space-between;gap:8px; }
-.weekly-title strong { font-size:.91rem; }
-.weekly-reward { font-size:.78rem;margin-top:7px;font-weight:800; }
-.weekly-card .progress { background:#d8e5f7; }
-.weekly-card .progress-fill { background:#2877f6; }
-.weekly-card .small { color:#667894; }
+.weekly-title {display:flex;align-items:center;justify-content:space-between;gap:8px}
+.weekly-title strong {font-size:.91rem}
+.weekly-reward {font-size:.78rem;margin-top:7px;font-weight:800}
+.weekly-card .progress {background:#d8e5f7}
+.weekly-card .progress-fill {background:#2877f6}
+.weekly-card .small {color:#667894}
 
-.collection { display:flex;flex-direction:column;gap:8px; }
+.collection {display:flex;flex-direction:column;gap:8px}
 .collection-row {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:9px;
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:9px;
+  display:flex;align-items:center;justify-content:space-between;gap:9px;
+  border:1px solid var(--border);border-radius:12px;padding:9px;
 }
-.collection-info { display:flex;align-items:center;gap:9px;min-width:0; }
-.swatch { width:23px;height:23px;border-radius:8px;flex-shrink:0;border:1px solid #00000010; }
-.collection-name { font-size:.85rem;font-weight:850; }
-.collection-row button { font-size:.75rem;padding:7px 9px;white-space:nowrap; }
+.collection-info {display:flex;align-items:center;gap:9px;min-width:0}
+.swatch {width:23px;height:23px;border-radius:8px;flex-shrink:0;border:1px solid #00000010}
+.collection-name {font-size:.85rem;font-weight:850}
+.collection-row button {font-size:.75rem;padding:7px 9px;white-space:nowrap}
 .mission-row {
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:10px;
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:8px;
+  border:1px solid var(--border);border-radius:12px;padding:10px;
+  display:flex;justify-content:space-between;align-items:flex-start;gap:8px;
 }
-.mission-main { flex:1;min-width:0; }
-.mission-name { font-size:.85rem;font-weight:850; }
-.reward { color:var(--muted);font-size:.75rem;white-space:nowrap; }
+.mission-main {flex:1;min-width:0}
+.mission-name {font-size:.85rem;font-weight:850}
+.reward {color:var(--muted);font-size:.75rem;white-space:nowrap}
 .leader-row {
-  display:flex;
-  justify-content:space-between;
-  border:1px solid var(--border);
-  border-radius:11px;
-  padding:10px;
-  font-size:.85rem;
+  display:flex;justify-content:space-between;border:1px solid var(--border);
+  border-radius:11px;padding:10px;font-size:.85rem;
 }
-footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25px; }
+footer {text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25px}
 
 .mobile-pad {
-  display:none;
-  grid-template-columns:repeat(3,49px);
-  gap:6px;
-  justify-content:center;
-  margin-top:15px;
+  display:none;grid-template-columns:repeat(3,49px);gap:6px;
+  justify-content:center;margin-top:15px;
 }
-.mobile-pad button { height:45px;padding:0;font-size:1.2rem; }
+.mobile-pad button {height:45px;padding:0;font-size:1.2rem}
 
 .screen {
-  position:fixed;
-  inset:0;
-  z-index:100;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:auto;
-  padding:22px;
+  position:fixed;inset:0;z-index:100;display:flex;
+  align-items:center;justify-content:center;overflow:auto;padding:22px;
   background:
     radial-gradient(ellipse at 20% 15%,#cfe2ff 0,transparent 42%),
     radial-gradient(ellipse at 90% 80%,#d9f5e7 0,transparent 38%),
     #f5f8ff;
 }
-/* When the board enters fullscreen, the result overlay moves INSIDE it.
-   A fullscreen element hides regular page siblings, which caused the freeze. */
 .screen.fullscreen-result {
-  position:absolute;
-  inset:0;
-  z-index:1000;
-  overflow:auto;
-  background:#eaf1f5ed;
-  backdrop-filter:blur(8px);
+  position:absolute;inset:0;z-index:1000;overflow:auto;
+  background:#eaf1f5ed;backdrop-filter:blur(8px);
 }
 .screen-card {
-  width:min(100%,460px);
-  padding:32px;
-  background:rgba(255,255,255,.94);
-  border:1px solid white;
-  box-shadow:0 25px 90px #214b831c;
-  border-radius:28px;
-  text-align:center;
+  width:min(100%,460px);padding:32px;background:rgba(255,255,255,.94);
+  border:1px solid white;box-shadow:0 25px 90px #214b831c;
+  border-radius:28px;text-align:center;
 }
 .hero-icon {
   width:92px;height:92px;display:grid;place-items:center;
@@ -248,86 +159,74 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
   background:linear-gradient(145deg,#e3f5e8,#d9eaff);
   box-shadow:0 12px 35px #5083b018;
 }
-.hero-title { font-size:clamp(2.4rem,8vw,3.7rem);font-weight:1000;letter-spacing:-3px;line-height:1;margin:0; }
-.hero-subtitle { color:#718096;margin:12px 0 23px;line-height:1.5; }
-.play-button { min-width:190px;padding:15px 30px;border-radius:16px;font-size:1.12rem;box-shadow:0 9px 22px #3478f632; }
-.hero-weekly { text-align:left;margin-top:24px; }
-.hero-bottom { margin-top:18px;color:#8290a4;font-size:.76rem; }
-.final-score { font-size:3.5rem;font-weight:1000;letter-spacing:-2px;margin:8px 0; }
-.final-label { color:#718096;font-size:.8rem;font-weight:850;letter-spacing:1.5px; }
-.end-buttons { display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:20px; }
-.end-buttons button { padding:13px 9px; }
-.end-buttons .wide { grid-column:1/-1; }
+.hero-title {font-size:clamp(2.4rem,8vw,3.7rem);font-weight:1000;letter-spacing:-3px;line-height:1;margin:0}
+.hero-subtitle {color:#718096;margin:12px 0 23px;line-height:1.5}
+.play-button {min-width:190px;padding:15px 30px;border-radius:16px;font-size:1.12rem;box-shadow:0 9px 22px #3478f632}
+.hero-weekly {text-align:left;margin-top:24px}
+.hero-bottom {margin-top:18px;color:#8290a4;font-size:.76rem}
+.final-score {font-size:3.5rem;font-weight:1000;letter-spacing:-2px;margin:8px 0}
+.final-label {color:#718096;font-size:.8rem;font-weight:850;letter-spacing:1.5px}
+.end-buttons {display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:20px}
+.end-buttons button {padding:13px 9px}
+.end-buttons .wide {grid-column:1/-1}
 
 .modal-layer {
-  position:fixed;
-  inset:0;
-  z-index:2000;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:15px;
-  background:#0b1734a8;
-  backdrop-filter:blur(5px);
+  position:fixed;inset:0;z-index:2000;display:flex;
+  justify-content:center;align-items:center;padding:15px;
+  background:#0b1734a8;backdrop-filter:blur(5px);
 }
+.modal-layer.fullscreen-modal {position:absolute;inset:0;z-index:2000}
 .modal {
-  width:min(100%,650px);
-  max-height:min(86vh,850px);
-  overflow:auto;
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:22px;
-  padding:19px;
-  box-shadow:0 25px 90px #08152a35;
+  width:min(100%,650px);max-height:min(86vh,850px);overflow:auto;
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:22px;padding:19px;box-shadow:0 25px 90px #08152a35;
 }
-.modal-heading { display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px; }
-.modal-heading h2 { font-size:1.25rem;margin:0;letter-spacing:-.5px; }
-.modal-intro { color:var(--muted);font-size:.82rem;margin:0 0 15px;line-height:1.5; }
-.modal-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px; }
-.option-card { min-width:0;padding:11px;border:1px solid var(--border);border-radius:13px;background:var(--panel); }
-.option-preview { height:55px;border-radius:9px;margin-bottom:9px;border:1px solid #00000012; }
-.option-name { font-size:.84rem;font-weight:850; }
-.option-description { font-size:.73rem;color:var(--muted);margin:3px 0 8px;line-height:1.4; }
-.option-card button { width:100%;padding:8px;font-size:.76rem; }
-.share-fallback { display:flex;flex-direction:column;gap:9px; }
-.share-fallback button { width:100%;text-align:center; }
-.close-button { padding:7px 11px; }
+.modal-heading {display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+.modal-heading h2 {font-size:1.25rem;margin:0;letter-spacing:-.5px}
+.modal-intro {color:var(--muted);font-size:.82rem;margin:0 0 15px;line-height:1.5}
+.modal-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.option-card {min-width:0;padding:11px;border:1px solid var(--border);border-radius:13px;background:var(--panel)}
+.option-preview {height:55px;border-radius:9px;margin-bottom:9px;border:1px solid #00000012}
+.option-name {font-size:.84rem;font-weight:850}
+.option-description {font-size:.73rem;color:var(--muted);margin:3px 0 8px;line-height:1.4}
+.option-card button {width:100%;padding:8px;font-size:.76rem}
+.share-fallback {display:flex;flex-direction:column;gap:9px}
+.share-fallback button {width:100%;text-align:center}
+.close-button {padding:7px 11px}
 .pause-banner {
-  position:absolute;
-  inset:0;
-  z-index:20;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  align-items:center;
-  justify-content:center;
-  background:#eaf1f5e8;
-  color:#172640;
+  position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;
+  gap:12px;align-items:center;justify-content:center;
+  background:#eaf1f5e8;color:#172640;
 }
-.pause-banner strong { font-size:2rem; }
+.pause-banner strong {font-size:2rem}
 
 .board-wrap:fullscreen {
   width:100vw;height:100vh;max-width:none;aspect-ratio:auto;
   border:0;border-radius:0;display:grid;place-items:center;background:var(--bg);
 }
-.board-wrap:fullscreen canvas { width:min(100vw,100vh);height:min(100vw,100vh); }
+.board-wrap:fullscreen canvas {width:min(100vw,100vh);height:min(100vw,100vh)}
+.fullscreen-exit {
+  display:none;position:absolute;top:12px;right:12px;z-index:30;
+  background:#fff;color:#172640;border:1px solid #dfe8f4;
+}
+.board-wrap:fullscreen .fullscreen-exit {display:block}
 
 @media(max-width:850px) {
-  main { grid-template-columns:1fr; }
-  .side { display:grid;grid-template-columns:repeat(2,minmax(0,1fr)); }
-  .side>.panel:first-child { grid-column:1/-1; }
+  main {grid-template-columns:1fr}
+  .side {display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .side>.panel:first-child {grid-column:1/-1}
 }
 @media(max-width:550px) {
-  header { padding:13px 12px; }
-  main { padding:8px 10px 22px; }
-  .panel { padding:13px;border-radius:17px; }
-  .side { display:flex; }
-  .mobile-pad { display:grid; }
-  .hint { display:none; }
-  .logo { font-size:1.2rem; }
-  .header-buttons button { font-size:.73rem;padding:8px; }
-  .screen-card { padding:25px 19px;border-radius:23px; }
-  .modal-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  header {padding:13px 12px}
+  main {padding:8px 10px 22px}
+  .panel {padding:13px;border-radius:17px}
+  .side {display:flex}
+  .mobile-pad {display:grid}
+  .hint {display:none}
+  .logo {font-size:1.2rem}
+  .header-buttons button {font-size:.73rem;padding:8px}
+  .screen-card {padding:25px 19px;border-radius:23px}
+  .modal-grid {grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 </style>
 </head>
@@ -368,6 +267,7 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
 
     <div class="board-wrap" id="boardWrap">
       <canvas id="game" width="600" height="600" aria-label="Snakefield game board"></canvas>
+      <button class="fullscreen-exit" id="fullscreenExit">⛶ Exit full screen</button>
     </div>
 
     <div class="controls">
@@ -397,7 +297,7 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
         <input id="playerName" maxlength="16" placeholder="Player name">
         <button id="saveNameButton">Save</button>
       </div>
-      <div class="small">Scores are saved in this browser.</div>
+      <div class="small">Saved locally in this browser.</div>
     </section>
 
     <section class="panel">
@@ -411,17 +311,15 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
     </section>
 
     <section class="panel">
-      <h3 class="section-title">🌍 Global leaderboard</h3>
-      <div id="leaderboardStatus" class="small" style="margin-bottom:9px"></div>
+      <h3 class="section-title">🏆 Local leaderboard</h3>
+      <div class="small" style="margin-bottom:9px">Your five best player records on this browser.</div>
       <div id="leaderboard" class="collection"></div>
-      <div class="small" style="margin-top:9px">One best score per player. Global rankings require the backend setup below.</div>
     </section>
   </aside>
 </main>
 
 <footer>Snakefield · Play, beat your best, challenge your friends.</footer>
 
-<!-- Opening screen -->
 <div class="screen" id="startScreen">
   <div class="screen-card">
     <div class="hero-icon">🍏</div>
@@ -433,7 +331,6 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
   </div>
 </div>
 
-<!-- This overlay moves into boardWrap while it is fullscreen. -->
 <div class="screen hidden" id="gameOverScreen">
   <div class="screen-card">
     <div class="hero-icon" style="background:linear-gradient(145deg,#ffe7e6,#fff0d9)">😵</div>
@@ -452,7 +349,6 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
   </div>
 </div>
 
-<!-- Shared collection and sharing modal -->
 <div id="modalLayer" class="modal-layer hidden">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-heading">
@@ -464,9 +360,6 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
   </div>
 </div>
 
-<!-- Supabase browser SDK. Global leaderboard activates after configuration. -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
 (() => {
   "use strict";
@@ -476,39 +369,17 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
   const ctx = canvas.getContext("2d");
   const boardWrap = $("boardWrap");
   const gameOverScreen = $("gameOverScreen");
+  const modalLayer = $("modalLayer");
 
   const CELLS = 20;
   const SIZE = canvas.width / CELLS;
   const APPLES_PER_STAGE = 60;
+
+  // Moderate initial speed; each completed stage gets slightly faster.
   const START_SPEED = 110;
   const SPEED_INCREASE = 2;
   const MIN_SPEED = 88;
   const WEEKLY_TARGET = 25;
-
-  /*
-    GLOBAL LEADERBOARD SETUP
-
-    1. Create a Supabase project.
-    2. Enable anonymous sign-ins.
-    3. Run the SQL provided after this HTML in SQL Editor.
-    4. Put your project URL and publishable/anon key below.
-
-    Never put a service_role or secret key in a webpage.
-  */
-  const SUPABASE_URL = "https://dnqpcsbfvjcrklynkxog.supabase.co";
-  const SUPABASE_PUBLIC_KEY = "sb_publishable_5SL3JsYMCNEDKp5uLuRDwA_EQ9HV0nN";
-
-  const supabaseConfigured =
-    !SUPABASE_URL.startsWith("PASTE_") &&
-    !SUPABASE_PUBLIC_KEY.startsWith("PASTE_") &&
-    window.supabase &&
-    typeof window.supabase.createClient === "function";
-
-  let db = null;
-
-  if (supabaseConfigured) {
-    db = window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLIC_KEY);
-  }
 
   const skinNames = [
     "Mint","Lime","Ocean","Berry","Sunset","Midnight","Golden Apple","Coral","Galaxy","Sakura",
@@ -544,30 +415,27 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
     "Rainforest","Icy Lavender","Lunar Blue","Citrus","Rainbow Mist"
   ];
 
-  // Exactly 50 skins.
+  // Exactly 50 snake skins.
   const skins = skinNames.map((name,i) => ({
     id:"skin-"+(i+1),
     name,
     color:skinColors[i],
     kind:i<2?"basic":i<6?"mission":i<30?"progress":"weekly",
-    unlockAt:i<6?0:i<30?(i-5)*20:null
+    unlockAt:i>=6&&i<30?(i-5)*20:null
   }));
 
-  // Exactly 50 backgrounds, each with a distinct colour and grid.
+  // Exactly 50 backgrounds.
   const backgrounds = backgroundNames.map((name,i) => {
     const hue=(i*47+195)%360;
     const dark=[2,6,15,25,30,34,40,45,47].includes(i);
+
     return {
       id:"bg-"+(i+1),
       name,
-      color:dark
-        ?`hsl(${hue} 36% 15%)`
-        :`hsl(${hue} 76% 96%)`,
-      grid:dark
-        ?`hsl(${hue} 32% 27%)`
-        :`hsl(${hue} 48% 84%)`,
+      color:dark?`hsl(${hue} 36% 15%)`:`hsl(${hue} 76% 96%)`,
+      grid:dark?`hsl(${hue} 32% 27%)`:`hsl(${hue} 48% 84%)`,
       kind:i<4?"basic":i<30?"progress":"weekly",
-      unlockAt:i<4?0:i<30?(i-3)*25:null
+      unlockAt:i>=4&&i<30?(i-3)*25:null
     };
   });
 
@@ -603,6 +471,7 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
     runs:0,
     totalApples:0,
     playerName:"",
+    playerId:"",
     soundOn:true,
     theme:"light",
     selectedSkin:"skin-1",
@@ -615,7 +484,6 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
   };
 
   let save;
-
   try {
     save=Object.assign(
       {},
@@ -626,18 +494,22 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
     save=Object.assign({},defaults);
   }
 
-  // Carry forward settings from earlier Snakefield versions.
+  function makeId() {
+    return window.crypto?.randomUUID
+      ?window.crypto.randomUUID()
+      :"player-"+Math.random().toString(36).slice(2)+Date.now().toString(36);
+  }
+
+  function normalizedName(name) {
+    return String(name||"").trim().toLocaleLowerCase().replace(/\s+/g," ").slice(0,32);
+  }
+
+  // Migrate older saves without resetting their scores or skins.
   const oldUnlocked=save.unlocked||[];
-
-  if (save.selected && !save.selectedSkin) {
-    const oldIndex=["mint","lime","ocean","berry","sunset","midnight"].indexOf(save.selected);
-    if(oldIndex>=0) save.selectedSkin="skin-"+(oldIndex+1);
+  if(save.selected&&!save.selectedSkin) {
+    const index=["mint","lime","ocean","berry","sunset","midnight"].indexOf(save.selected);
+    if(index>=0) save.selectedSkin="skin-"+(index+1);
   }
-
-  if (save.selectedSkin && skins.some(s=>s.id===save.selectedSkin)) {
-    save.unlockedSkins.push(save.selectedSkin);
-  }
-
   for(const oldName of oldUnlocked) {
     const index=["mint","lime","ocean","berry","sunset","midnight"].indexOf(oldName);
     if(index>=0) save.unlockedSkins.push("skin-"+(index+1));
@@ -651,27 +523,26 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
   ])];
   save.scores=Array.isArray(save.scores)?save.scores:[];
   save.totalApples=Number(save.totalApples)||0;
+  save.playerId=save.playerId||makeId();
 
-  if(!save.playerName || save.playerName==="Player") {
+  if(!save.playerName||save.playerName==="Player") {
     save.playerName="SnakePlayer-"+Math.random().toString(36).slice(2,6).toUpperCase();
   }
-
   if(!skins.some(s=>s.id===save.selectedSkin)) save.selectedSkin="skin-1";
   if(!backgrounds.some(b=>b.id===save.selectedBackground)) save.selectedBackground="bg-1";
 
-  // Only the first two skins and first four backgrounds are free.
-  for(const item of skins) {
-    if(item.kind==="basic") save.unlockedSkins.push(item.id);
+  for(const s of skins) {
+    if(s.kind==="basic") save.unlockedSkins.push(s.id);
   }
-  for(const item of backgrounds) {
-    if(item.kind==="basic") save.unlockedBackgrounds.push(item.id);
+  for(const b of backgrounds) {
+    if(b.kind==="basic") save.unlockedBackgrounds.push(b.id);
   }
 
   save.unlockedSkins=[...new Set(save.unlockedSkins)];
   save.unlockedBackgrounds=[...new Set(save.unlockedBackgrounds)];
 
   let snake=[];
-  let headHistory=[];
+  let previousSnake=[];
   let apple=null;
   let direction={x:1,y:0};
   let pendingDirection=null;
@@ -680,15 +551,12 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
   let active=false;
   let paused=false;
   let ended=false;
-  let hasMoved=false;
   let accumulator=0;
   let lastFrame=0;
   let animation=0;
   let audioContext=null;
   let lastResult=null;
   let shareCardBlob=null;
-  let globalUser=null;
-  let globalReady=false;
 
   function persist() {
     try {
@@ -698,16 +566,8 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
     }
   }
 
-  function normalizedName(name) {
-    return String(name||"Player")
-      .trim()
-      .toLocaleLowerCase()
-      .replace(/\s+/g," ")
-      .slice(0,32);
-  }
-
   function currentStage() {
-    return Math.floor(apples/60)+1;
+    return Math.floor(apples/APPLES_PER_STAGE)+1;
   }
 
   function currentSpeed() {
@@ -715,7 +575,7 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
   }
 
   function applesRemaining() {
-    return 60-(apples%60);
+    return APPLES_PER_STAGE-(apples%APPLES_PER_STAGE);
   }
 
   function getSkin() {
@@ -753,17 +613,17 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
     $("stageDetail").textContent=
       "Eat "+left+" more "+(left===1?"apple":"apples")+
       " to reach Stage "+(currentStage()+1)+".";
-    $("stageProgress").style.width=(apples%60)/60*100+"%";
+    $("stageProgress").style.width=(apples%APPLES_PER_STAGE)/APPLES_PER_STAGE*100+"%";
   }
 
   function unlockProgressRewards() {
     for(const s of skins) {
-      if(s.kind==="progress" && save.totalApples>=s.unlockAt) {
+      if(s.kind==="progress"&&save.totalApples>=s.unlockAt) {
         save.unlockedSkins.push(s.id);
       }
     }
     for(const b of backgrounds) {
-      if(b.kind==="progress" && save.totalApples>=b.unlockAt) {
+      if(b.kind==="progress"&&save.totalApples>=b.unlockAt) {
         save.unlockedBackgrounds.push(b.id);
       }
     }
@@ -803,6 +663,7 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
     ctx.lineTo(last.x,last.y);
   }
 
+  // One animation loop manages all drawing and movement.
   function draw() {
     const board=getBackground();
 
@@ -812,13 +673,11 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
 
     ctx.strokeStyle=board.grid;
     ctx.lineWidth=1;
-
     for(let i=0;i<=CELLS;i++) {
       ctx.beginPath();
       ctx.moveTo(i*SIZE,0);
       ctx.lineTo(i*SIZE,600);
       ctx.stroke();
-
       ctx.beginPath();
       ctx.moveTo(0,i*SIZE);
       ctx.lineTo(600,i*SIZE);
@@ -832,7 +691,6 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
       ctx.beginPath();
       ctx.arc(x,y+2,11,0,Math.PI*2);
       ctx.fill();
-
       ctx.fillStyle="#299b58";
       ctx.beginPath();
       ctx.ellipse(x+5,y-10,5,2.5,-.65,0,Math.PI*2);
@@ -841,19 +699,15 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
 
     if(!snake.length) return;
 
-    const alpha=active&&!paused&&hasMoved
+    const alpha=active&&!paused
       ?Math.min(1,accumulator/currentSpeed())
       :1;
 
     const points=snake.map((part,index)=>{
-      if(!hasMoved) {
-        return {x:part.x*SIZE+SIZE/2,y:part.y*SIZE+SIZE/2};
-      }
-      const current=headHistory[index]||part;
-      const previous=headHistory[index+1]||current;
+      const old=previousSnake[index]||part;
       return {
-        x:(previous.x+(current.x-previous.x)*alpha)*SIZE+SIZE/2,
-        y:(previous.y+(current.y-previous.y)*alpha)*SIZE+SIZE/2
+        x:(old.x+(part.x-old.x)*alpha)*SIZE+SIZE/2,
+        y:(old.y+(part.y-old.y)*alpha)*SIZE+SIZE/2
       };
     });
 
@@ -886,7 +740,6 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
 
     const facing=pendingDirection||direction;
     let eye1,eye2;
-
     if(facing.x!==0) {
       eye1={x:head.x+facing.x*5,y:head.y-5};
       eye2={x:head.x+facing.x*5,y:head.y+5};
@@ -911,7 +764,7 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
     return monday.getFullYear()+"-"+String(monday.getMonth()+1).padStart(2,"0")+"-"+String(monday.getDate()).padStart(2,"0");
   }
 
-  function possibleWeeklyRewards() {
+  function weeklyRewardsPool() {
     const pool=[];
     for(const s of skins) {
       if(s.kind==="weekly"&&!save.unlockedSkins.includes(s.id)) {
@@ -928,20 +781,22 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
 
   function initialiseWeekly() {
     const key=getWeekKey();
-    if(save.weekly&&save.weekly.key===key) return;
+    const old=save.weekly;
 
-    const pool=possibleWeeklyRewards();
+    const validReward = old && old.reward && (
+      (old.reward.type==="skin"&&skins.some(s=>s.id===old.reward.id)) ||
+      (old.reward.type==="background"&&backgrounds.some(b=>b.id===old.reward.id)) ||
+      old.reward.type==="bonus"
+    );
+
+    if(old&&old.key===key&&validReward) return;
+
+    const pool=weeklyRewardsPool();
     const reward=pool.length
       ?pool[Math.floor(Math.random()*pool.length)]
-      :{type:"bonus",id:"bonus",name:"Bonus reward"};
+      :{type:"bonus",id:"bonus",name:"100 bonus lifetime apples"};
 
-    save.weekly={
-      key,
-      progress:0,
-      target:25,
-      claimed:false,
-      reward
-    };
+    save.weekly={key,progress:0,target:25,claimed:false,reward};
     persist();
   }
 
@@ -950,15 +805,19 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
   function applyWeeklyReward() {
     const w=save.weekly;
     if(!w||w.claimed||w.progress<w.target) return;
-
     w.claimed=true;
 
     if(w.reward.type==="skin") {
       save.unlockedSkins.push(w.reward.id);
     } else if(w.reward.type==="background") {
       save.unlockedBackgrounds.push(w.reward.id);
+    } else {
+      save.totalApples+=100;
+      unlockProgressRewards();
     }
 
+    save.unlockedSkins=[...new Set(save.unlockedSkins)];
+    save.unlockedBackgrounds=[...new Set(save.unlockedBackgrounds)];
     persist();
     renderPanels();
     beep(950,.18);
@@ -983,11 +842,11 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
 
   function checkMissions() {
     let changed=false;
-    for(const m of missionDefinitions) {
-      if(!save.completedMissions.includes(m.id)&&m.complete()) {
-        save.completedMissions.push(m.id);
-        const skin=skins.find(s=>s.name===m.reward);
-        if(skin) save.unlockedSkins.push(skin.id);
+    for(const mission of missionDefinitions) {
+      if(!save.completedMissions.includes(mission.id)&&mission.complete()) {
+        save.completedMissions.push(mission.id);
+        const reward=skins.find(s=>s.name===mission.reward);
+        if(reward) save.unlockedSkins.push(reward.id);
         changed=true;
         beep(820,.12);
       }
@@ -999,10 +858,61 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
     renderPanels();
   }
 
-  function escapeHTML(s) {
-    return String(s).replace(/[&<>"']/g,c=>({
+  function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g,char=>({
       "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-    })[c]);
+    })[char]);
+  }
+
+  // Collapse old duplicate scores into one best score per name.
+  function compactScores() {
+    const map=new Map();
+    for(const item of save.scores) {
+      const name=String(item.display_name||item.name||"Player");
+      const key=normalizedName(name);
+      if(!key) continue;
+      const prior=map.get(key);
+      const candidate={
+        playerId:item.playerId||item.player_id||("legacy:"+key),
+        display_name:name,
+        score:Math.max(0,Number(item.score)||0),
+        updated_at:item.updated_at||item.date||0
+      };
+      if(!prior||candidate.score>prior.score) map.set(key,candidate);
+    }
+    save.scores=[...map.values()];
+    persist();
+  }
+
+  compactScores();
+
+  function updateLocalScore() {
+    const name=save.playerName||"Snake Player";
+    const key=normalizedName(name);
+
+    let entry=save.scores.find(row=>row.playerId===save.playerId);
+    if(!entry) {
+      entry=save.scores.find(row=>normalizedName(row.display_name)===key);
+    }
+
+    if(entry) {
+      // A personal entry is never duplicated, and only a better score replaces it.
+      if(score>entry.score) entry.score=score;
+      entry.display_name=name;
+      entry.playerId=save.playerId;
+      entry.updated_at=Date.now();
+    } else {
+      save.scores.push({
+        playerId:save.playerId,
+        display_name:name,
+        score,
+        updated_at:Date.now()
+      });
+    }
+
+    // One row per name as a second safeguard against duplicate ranks.
+    compactScores();
+    persist();
   }
 
   function renderWeekly() {
@@ -1027,6 +937,41 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
     $("startWeekly").innerHTML=markup;
   }
 
+  function renderLeaderboard() {
+    const container=$("leaderboard");
+    container.innerHTML="";
+
+    // One best entry per name. Sort by score, then take the five best.
+    const unique=new Map();
+    for(const row of save.scores) {
+      const key=normalizedName(row.display_name||row.name);
+      if(!key) continue;
+
+      const previous=unique.get(key);
+      if(!previous || Number(row.score)>Number(previous.score)) {
+        unique.set(key,row);
+      }
+    }
+
+    const top=[...unique.values()]
+      .sort((a,b)=>Number(b.score)-Number(a.score))
+      .slice(0,5);
+
+    if(!top.length) {
+      container.innerHTML='<div class="small">Play a run to set your first score.</div>';
+      return;
+    }
+
+    top.forEach((row,index)=>{
+      const div=document.createElement("div");
+      div.className="leader-row";
+      div.innerHTML=`
+        <span>${["🥇","🥈","🥉","4.","5."][index]} ${escapeHTML(row.display_name||row.name||"Player")}</span>
+        <strong>${Number(row.score)||0}</strong>`;
+      container.appendChild(div);
+    });
+  }
+
   function renderPanels() {
     $("bestScore").textContent=save.best;
     $("runsPlayed").textContent=save.runs;
@@ -1034,34 +979,34 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
     $("soundButton").textContent=save.soundOn?"🔊 Sound":"🔇 Sound off";
 
     $("missions").innerHTML="";
-    for(const m of missionDefinitions) {
-      const done=save.completedMissions.includes(m.id);
-      const percent=Math.min(100,m.progress()/m.target*100);
+    for(const mission of missionDefinitions) {
+      const done=save.completedMissions.includes(mission.id);
+      const percent=Math.min(100,mission.progress()/mission.target*100);
       const row=document.createElement("div");
       row.className="mission-row";
       row.innerHTML=`
         <div class="mission-main">
-          <div class="mission-name">${done?"✅ ":""}${m.name}</div>
-          <div class="small">${m.description}</div>
+          <div class="mission-name">${done?"✅ ":""}${mission.name}</div>
+          <div class="small">${mission.description}</div>
           <div class="progress"><div class="progress-fill" style="width:${done?100:percent}%"></div></div>
         </div>
-        <div class="reward">${done?"Unlocked":"🎁 "+m.reward}</div>`;
+        <div class="reward">${done?"Unlocked":"🎁 "+mission.reward}</div>`;
       $("missions").appendChild(row);
     }
 
     renderWeekly();
-    refreshLeaderboard();
+    renderLeaderboard();
   }
 
   function openModal(title,intro) {
     $("modalTitle").textContent=title;
     $("modalIntro").textContent=intro;
     $("modalContent").innerHTML="";
-    $("modalLayer").classList.remove("hidden");
+    modalLayer.classList.remove("hidden");
   }
 
   function closeModal() {
-    $("modalLayer").classList.add("hidden");
+    modalLayer.classList.add("hidden");
   }
 
   function showMessageModal(title,message,buttonText) {
@@ -1074,10 +1019,7 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
   }
 
   function showSkins() {
-    openModal(
-      "All 50 Snakefield Skins",
-      "Equip unlocked colours. Earn more through play, missions and weekly rewards."
-    );
+    openModal("All 50 Snakefield Skins","Equip unlocked colours. Earn more by playing, completing missions and winning weekly rewards.");
 
     const grid=document.createElement("div");
     grid.className="modal-grid";
@@ -1088,7 +1030,10 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
       let description="Weekly challenge reward";
 
       if(skin.kind==="basic") description="Available from the start";
-      if(skin.kind==="mission") description="Unlock by completing a mission";
+      if(skin.kind==="mission") {
+        const mission=missionDefinitions.find(m=>m.reward===skin.name);
+        description=mission?"Mission: "+mission.description:"Mission reward";
+      }
       if(skin.kind==="progress") description="Lifetime apples: "+skin.unlockAt;
 
       const card=document.createElement("div");
@@ -1117,35 +1062,32 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
   }
 
   function showBackgrounds() {
-    openModal(
-      "All 50 Backgrounds",
-      "Choose your game-board colour. Unlock further backgrounds as you collect apples or complete weekly challenges."
-    );
+    openModal("All 50 Backgrounds","Choose the colour of your game board. Earn more backgrounds through play and weekly challenges.");
 
     const grid=document.createElement("div");
     grid.className="modal-grid";
 
-    for(const b of backgrounds) {
-      const unlocked=save.unlockedBackgrounds.includes(b.id);
-      const selected=save.selectedBackground===b.id;
+    for(const board of backgrounds) {
+      const unlocked=save.unlockedBackgrounds.includes(board.id);
+      const selected=save.selectedBackground===board.id;
       let description="Weekly challenge reward";
 
-      if(b.kind==="basic") description="Available from the start";
-      if(b.kind==="progress") description="Lifetime apples: "+b.unlockAt;
+      if(board.kind==="basic") description="Available from the start";
+      if(board.kind==="progress") description="Lifetime apples: "+board.unlockAt;
 
       const card=document.createElement("div");
       card.className="option-card";
       card.innerHTML=`
-        <div class="option-preview" style="background:${b.color};border-color:${b.grid}">
-          <div style="height:100%;background-image:linear-gradient(${b.grid} 1px,transparent 1px),linear-gradient(90deg,${b.grid} 1px,transparent 1px);background-size:14px 14px;border-radius:8px"></div>
+        <div class="option-preview" style="background:${board.color};border-color:${board.grid}">
+          <div style="height:100%;background-image:linear-gradient(${board.grid} 1px,transparent 1px),linear-gradient(90deg,${board.grid} 1px,transparent 1px);background-size:14px 14px;border-radius:8px"></div>
         </div>
-        <div class="option-name">${b.name}</div>
+        <div class="option-name">${board.name}</div>
         <div class="option-description">${unlocked?"Unlocked":description}</div>
         <button ${unlocked?"":"disabled"}>${selected?"✓ Selected":unlocked?"Use background":"🔒 Locked"}</button>`;
 
       card.querySelector("button").onclick=()=>{
         if(!unlocked) return;
-        save.selectedBackground=b.id;
+        save.selectedBackground=board.id;
         persist();
         closeModal();
         draw();
@@ -1158,134 +1100,12 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
     $("modalContent").appendChild(grid);
   }
 
-  // ---------- GLOBAL LEADERBOARD ----------
-  async function ensureGlobalUser() {
-    if(!db) return null;
-    if(globalUser) return globalUser;
-
-    const {data:sessionData,error:sessionError}=await db.auth.getSession();
-
-    if(sessionError) throw sessionError;
-
-    if(sessionData.session?.user) {
-      globalUser=sessionData.session.user;
-      return globalUser;
-    }
-
-    // Anonymous auth gives this browser a stable user identity.
-    const {data,error}=await db.auth.signInAnonymously();
-
-    if(error) throw error;
-    globalUser=data.user;
-    return globalUser;
-  }
-
-  function renderLeaderboardRows(rows,sourceLabel) {
-    const container=$("leaderboard");
-    container.innerHTML="";
-    $("leaderboardStatus").textContent=sourceLabel;
-
-    // Sort first, then display each name only once.
-    const seen=new Set();
-    const unique=[];
-
-    for(const row of rows.sort((a,b)=>b.score-a.score)) {
-      const key=normalizedName(row.display_name);
-      if(!key||seen.has(key)) continue;
-      seen.add(key);
-      unique.push(row);
-      if(unique.length===5) break;
-    }
-
-    if(!unique.length) {
-      container.innerHTML='<div class="small">No scores yet. Be the first to set a record!</div>';
-      return;
-    }
-
-    unique.forEach((row,index)=>{
-      const div=document.createElement("div");
-      div.className="leader-row";
-      div.innerHTML=`
-        <span>${["🥇","🥈","🥉","4.","5."][index]} ${escapeHTML(row.display_name)}</span>
-        <strong>${Number(row.score)||0}</strong>`;
-      container.appendChild(div);
-    });
-  }
-
-  function renderLocalLeaderboard() {
-    renderLeaderboardRows(
-      [...save.scores],
-      db?"Global leaderboard unavailable — showing local scores.":"Local preview — configure the global leaderboard to publish scores."
-    );
-  }
-
-  async function refreshLeaderboard() {
-    if(!db) {
-      renderLocalLeaderboard();
-      return;
-    }
-
-    try {
-      const {data,error}=await db
-        .from("snakefield_scores")
-        .select("player_id,display_name,score,updated_at")
-        .order("score",{ascending:false})
-        .order("updated_at",{ascending:false})
-        .limit(50);
-
-      if(error) throw error;
-
-      renderLeaderboardRows(data||[],"Live global leaderboard");
-    } catch(error) {
-      console.warn("Global leaderboard unavailable:",error);
-      renderLocalLeaderboard();
-    }
-  }
-
-  async function submitGlobalScore() {
-    if(!db||!lastResult) return;
-
-    try {
-      const user=await ensureGlobalUser();
-      if(!user) return;
-
-      const {data:old,error:readError}=await db
-        .from("snakefield_scores")
-        .select("score")
-        .eq("player_id",user.id)
-        .maybeSingle();
-
-      if(readError) throw readError;
-
-      // Never replace a personal global record with a lower score.
-      if(old && Number(old.score)>=lastResult.score) {
-        await refreshLeaderboard();
-        return;
-      }
-
-      const {error}=await db
-        .from("snakefield_scores")
-        .upsert({
-          player_id:user.id,
-          display_name:save.playerName||"Snake Player",
-          score:lastResult.score,
-          updated_at:new Date().toISOString()
-        },{onConflict:"player_id"});
-
-      if(error) throw error;
-      await refreshLeaderboard();
-    } catch(error) {
-      console.warn("Could not submit global score:",error);
-      $("leaderboardStatus").textContent="Online score could not be submitted. Local score saved.";
-    }
-  }
-
   function startGame() {
     cancelAnimationFrame(animation);
     closeModal();
 
     snake=[{x:9,y:10},{x:8,y:10},{x:7,y:10}];
-    headHistory=snake.map(p=>({...p}));
+    previousSnake=snake.map(p=>({...p}));
 
     direction={x:1,y:0};
     pendingDirection=null;
@@ -1294,21 +1114,21 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
     active=true;
     paused=false;
     ended=false;
-    hasMoved=false;
     accumulator=0;
     lastFrame=performance.now();
 
     $("score").textContent="0";
     $("pauseButton").textContent="Ⅱ Pause";
+    $("pauseBanner")?.remove();
 
     save.runs++;
     persist();
-
     placeApple();
+
     $("startScreen").classList.add("hidden");
     gameOverScreen.classList.add("hidden");
-
     setStatus("IN THE GROOVE");
+
     updateStageUI();
     renderPanels();
     draw();
@@ -1325,7 +1145,6 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
     accumulator+=elapsed;
 
     let steps=0;
-
     while(accumulator>=currentSpeed()&&steps<2&&active&&!paused&&!ended) {
       accumulator-=currentSpeed();
       tick();
@@ -1346,6 +1165,9 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
       pendingDirection=null;
     }
 
+    // Save previous positions so every segment interpolates smoothly.
+    previousSnake=snake.map(p=>({...p}));
+
     const head={
       x:snake[0].x+direction.x,
       y:snake[0].y+direction.y
@@ -1365,15 +1187,10 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
     snake.unshift(head);
     if(!eating) snake.pop();
 
-    // Preserve a path for rounded, smooth body rendering.
-    headHistory.unshift({...head});
-    while(headHistory.length>snake.length+1) headHistory.pop();
-    hasMoved=true;
-
     if(eating) {
       score+=10;
       apples++;
-      save.totalApples=(Number(save.totalApples)||0)+1;
+      save.totalApples++;
       $("score").textContent=score;
 
       unlockProgressRewards();
@@ -1409,47 +1226,46 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
 
     if(score>save.best) save.best=score;
 
-    // One local leaderboard record per normalized player name.
-    // A higher score replaces that player's existing record.
     const name=save.playerName||"Snake Player";
     const key=normalizedName(name);
-    const existing=save.scores.find(row=>normalizedName(row.display_name||row.name)===key);
 
-    if(existing) {
-      if(score>existing.score) {
-        existing.score=score;
-        existing.display_name=name;
-        existing.updated_at=Date.now();
-      }
+    // Stable local player ID means changing display name does not create
+    // another entry for the same browser player.
+    let entry=save.scores.find(row=>row.playerId===save.playerId);
+    if(!entry) {
+      entry=save.scores.find(row=>normalizedName(row.display_name||row.name)===key);
+    }
+
+    if(entry) {
+      if(score>Number(entry.score)) entry.score=score;
+      entry.display_name=name;
+      entry.playerId=save.playerId;
+      entry.updated_at=Date.now();
     } else {
       save.scores.push({
+        playerId:save.playerId,
         display_name:name,
-        name,
         score,
         updated_at:Date.now()
       });
     }
 
-    save.scores.sort((a,b)=>b.score-a.score);
-    save.scores=save.scores.slice(0,50);
+    // Remove any duplicate name entries, keeping the higher record.
+    compactScores();
+    save.scores.sort((a,b)=>Number(b.score)-Number(a.score));
     persist();
 
     lastResult={score,best:save.best,stage:currentStage(),apples,won};
 
     $("finalScore").textContent=score;
-    $("finalBest").textContent=
-      score>=save.best?"🏆 Personal best!":"Personal best: "+save.best;
+    $("finalBest").textContent=score>=save.best?"🏆 Personal best!":"Personal best: "+save.best;
 
-    // The result layer is moved into boardWrap during fullscreen.
-    // The event handler below handles both existing and future deaths.
-    syncFullscreenResultLayer();
+    syncFullscreenLayers();
     gameOverScreen.classList.remove("hidden");
 
     renderPanels();
     draw();
     beep(200,.18);
-
-    submitGlobalScore();
   }
 
   function changeDirection(next) {
@@ -1460,8 +1276,9 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
 
     pendingDirection=next;
 
-    // Make a new turn arrive quickly without waiting for key release.
-    accumulator=Math.max(accumulator,currentSpeed()-12);
+    // Move the next grid tick close to now after a keydown, so turns
+    // respond quickly rather than waiting for a long interval.
+    accumulator=Math.max(accumulator,currentSpeed()-16);
     draw();
   }
 
@@ -1469,9 +1286,7 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
     if(!active||ended) return;
 
     paused=!paused;
-    const old=$("pauseBanner");
-
-    if(old) old.remove();
+    $("pauseBanner")?.remove();
 
     if(paused) {
       cancelAnimationFrame(animation);
@@ -1505,38 +1320,124 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
     }
   }
 
-  // Critical fix: page-level overlays are normally siblings of the fullscreen
-  // element. Move the death screen into the fullscreen element so it remains visible.
-  function syncFullscreenResultLayer() {
-    if(document.fullscreenElement===boardWrap) {
-      if(gameOverScreen.parentElement!==boardWrap) {
-        boardWrap.appendChild(gameOverScreen);
-      }
+  // CRITICAL: a fullscreen element hides its regular page siblings.
+  // Move result and modal overlays INSIDE the fullscreen board.
+  function syncFullscreenLayers() {
+    const inGameFullscreen=document.fullscreenElement===boardWrap;
+
+    if(inGameFullscreen) {
+      if(gameOverScreen.parentElement!==boardWrap) boardWrap.appendChild(gameOverScreen);
+      if(modalLayer.parentElement!==boardWrap) boardWrap.appendChild(modalLayer);
       gameOverScreen.classList.add("fullscreen-result");
+      modalLayer.classList.add("fullscreen-modal");
     } else {
-      if(gameOverScreen.parentElement!==document.body) {
-        document.body.appendChild(gameOverScreen);
-      }
+      if(gameOverScreen.parentElement!==document.body) document.body.appendChild(gameOverScreen);
+      if(modalLayer.parentElement!==document.body) document.body.appendChild(modalLayer);
       gameOverScreen.classList.remove("fullscreen-result");
+      modalLayer.classList.remove("fullscreen-modal");
     }
+
+    $("fullscreenButton").textContent=inGameFullscreen?"⛶ Exit full screen":"⛶ Full screen";
   }
 
-  document.addEventListener("fullscreenchange",()=>{
-    syncFullscreenResultLayer();
-    $("fullscreenButton").textContent=document.fullscreenElement
-      ?"⛶ Exit full screen"
-      :"⛶ Full screen";
-  });
+  function openModal(title,intro) {
+    $("modalTitle").textContent=title;
+    $("modalIntro").textContent=intro;
+    $("modalContent").innerHTML="";
+    modalLayer.classList.remove("hidden");
+  }
 
-  function openShareModal(message) {
-    openModal("Share your score","Choose how to challenge your friends.");
+  function closeModal() {
+    modalLayer.classList.add("hidden");
+  }
+
+  function showMessageModal(title,message,buttonText) {
+    openModal(title,message);
+    const button=document.createElement("button");
+    button.className="primary";
+    button.textContent=buttonText;
+    button.onclick=closeModal;
+    $("modalContent").appendChild(button);
+  }
+
+  function createShareCard() {
+    return new Promise(resolve=>{
+      const card=document.createElement("canvas");
+      card.width=1080;
+      card.height=1350;
+
+      const c=card.getContext("2d");
+      const bg=getBackground();
+
+      c.fillStyle=bg.color;
+      c.fillRect(0,0,1080,1350);
+      c.fillStyle="#182943";
+      c.font="bold 44px system-ui";
+      c.fillText("SNAKEFIELD 🍏",75,100);
+      c.fillStyle="#64748b";
+      c.font="25px system-ui";
+      c.fillText("My latest run",78,148);
+
+      c.fillStyle="#fff";
+      c.beginPath();
+      c.roundRect(65,185,950,790,28);
+      c.fill();
+
+      c.save();
+      c.beginPath();
+      c.roundRect(80,200,920,760,18);
+      c.clip();
+      c.drawImage(canvas,80,200,920,760);
+      c.restore();
+
+      const result=lastResult||{score,best:save.best,stage:currentStage()};
+      c.fillStyle="#182943";
+      c.font="bold 30px system-ui";
+      c.fillText("SCORE",80,1045);
+      c.font="900 115px system-ui";
+      c.fillText(String(result.score),75,1165);
+
+      c.font="bold 28px system-ui";
+      c.fillStyle="#526983";
+      c.fillText("STAGE "+result.stage,560,1080);
+      c.fillText("BEST "+result.best,560,1135);
+      c.fillStyle="#3478f6";
+      c.fillText("Can you beat my score?",78,1245);
+      c.font="22px system-ui";
+      c.fillStyle="#64748b";
+      c.fillText(location.href.split("#")[0],78,1295);
+
+      card.toBlob(resolve,"image/png");
+    });
+  }
+
+  function downloadBlob(blob,filename) {
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement("a");
+    link.href=url;
+    link.download=filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),30000);
+  }
+
+  function showShareOptions(message) {
+    openModal("Share your score","Choose how you want to challenge your friends.");
     const box=document.createElement("div");
     box.className="share-fallback";
 
-    const wa=document.createElement("button");
-    wa.className="primary";
-    wa.textContent="Share through WhatsApp";
-    wa.onclick=()=>window.open(
+    if(shareCardBlob) {
+      const download=document.createElement("button");
+      download.className="primary";
+      download.textContent="⬇ Download score card image";
+      download.onclick=()=>downloadBlob(shareCardBlob,"snakefield-score.png");
+      box.appendChild(download);
+    }
+
+    const whatsapp=document.createElement("button");
+    whatsapp.textContent="Share through WhatsApp";
+    whatsapp.onclick=()=>window.open(
       "https://wa.me/?text="+encodeURIComponent(message),
       "_blank","noopener,noreferrer"
     );
@@ -1560,80 +1461,20 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
       }
     };
 
-    if(shareCardBlob) {
-      const download=document.createElement("button");
-      download.textContent="⬇ Download score image";
-      download.onclick=()=>downloadBlob(shareCardBlob,"snakefield-score.png");
-      box.appendChild(download);
-    }
-
-    box.append(wa,telegram,copy);
+    box.append(whatsapp,telegram,copy);
     $("modalContent").appendChild(box);
-  }
-
-  function downloadBlob(blob,filename) {
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement("a");
-    a.href=url;
-    a.download=filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(()=>URL.revokeObjectURL(url),30000);
   }
 
   async function shareScore() {
     if(!lastResult) return;
 
-    const message=
-      "I scored "+lastResult.score+" on Snakefield! 🍏 Can you beat me? "+
-      location.href.split("#")[0];
+    const message="I scored "+lastResult.score+
+      " on Snakefield! 🍏 Can you beat me? "+location.href.split("#")[0];
 
     try {
-      // Make a branded score image from the actual game canvas.
-      const card=document.createElement("canvas");
-      card.width=1080;
-      card.height=1350;
-      const c=card.getContext("2d");
-      const bg=getBackground();
+      shareCardBlob=await createShareCard();
 
-      c.fillStyle=bg.color;
-      c.fillRect(0,0,1080,1350);
-      c.fillStyle="#182943";
-      c.font="bold 44px system-ui";
-      c.fillText("SNAKEFIELD 🍏",75,100);
-      c.font="25px system-ui";
-      c.fillStyle="#64748b";
-      c.fillText("My latest run",78,148);
-
-      c.fillStyle="#ffffff";
-      c.beginPath();
-      c.roundRect(65,185,950,790,28);
-      c.fill();
-
-      c.save();
-      c.beginPath();
-      c.roundRect(80,200,920,760,18);
-      c.clip();
-      c.drawImage(canvas,80,200,920,760);
-      c.restore();
-
-      c.fillStyle="#182943";
-      c.font="bold 30px system-ui";
-      c.fillText("SCORE",80,1045);
-      c.font="900 115px system-ui";
-      c.fillText(String(lastResult.score),75,1165);
-
-      c.font="bold 28px system-ui";
-      c.fillStyle="#526983";
-      c.fillText("STAGE "+lastResult.stage,560,1080);
-      c.fillText("BEST "+lastResult.best,560,1135);
-      c.fillStyle="#3478f6";
-      c.fillText("Can you beat my score?",78,1245);
-
-      shareCardBlob=await new Promise(resolve=>card.toBlob(resolve,"image/png"));
-
-      if(shareCardBlob && navigator.share && navigator.canShare) {
+      if(shareCardBlob&&navigator.share&&navigator.canShare) {
         const file=new File([shareCardBlob],"snakefield-score.png",{type:"image/png"});
         if(navigator.canShare({files:[file]})) {
           try {
@@ -1643,16 +1484,16 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
               files:[file]
             });
             return;
-          } catch(err) {
-            if(err.name==="AbortError") return;
+          } catch(error) {
+            if(error.name==="AbortError") return;
           }
         }
       }
 
-      openShareModal(message);
+      showShareOptions(message);
     } catch(error) {
-      console.error("Could not create score card:",error);
-      openShareModal(message);
+      console.error(error);
+      showShareOptions(message);
     }
   }
 
@@ -1660,22 +1501,25 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
   $("newButton").onclick=startGame;
   $("restartButton").onclick=startGame;
   $("retryButton").onclick=startGame;
-
-  $("menuButton").onclick=()=>{
-    gameOverScreen.classList.add("hidden");
-    $("startScreen").classList.remove("hidden");
-    renderWeekly();
-  };
-
   $("shareScoreButton").onclick=shareScore;
   $("skinsButton").onclick=showSkins;
   $("backgroundsButton").onclick=showBackgrounds;
   $("closeModalButton").onclick=closeModal;
   $("pauseButton").onclick=togglePause;
   $("fullscreenButton").onclick=toggleFullscreen;
+  $("fullscreenExit").onclick=toggleFullscreen;
+
+  $("menuButton").onclick=async()=>{
+    gameOverScreen.classList.add("hidden");
+    if(document.fullscreenElement===boardWrap) {
+      try { await document.exitFullscreen(); } catch {}
+    }
+    $("startScreen").classList.remove("hidden");
+    renderWeekly();
+  };
 
   $("modalLayer").addEventListener("click",event=>{
-    if(event.target===$("modalLayer")) closeModal();
+    if(event.target===modalLayer) closeModal();
   });
 
   $("soundButton").onclick=()=>{
@@ -1696,17 +1540,21 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
     if(event.key==="Enter") $("saveNameButton").click();
   });
 
+  document.addEventListener("fullscreenchange",syncFullscreenLayers);
+
   document.addEventListener("keydown",event=>{
     if(event.target instanceof HTMLInputElement) return;
-    if($("modalLayer").classList.contains("hidden")===false) {
-      if(event.key==="Escape") closeModal();
-      return;
-    }
 
     const key=event.key.toLowerCase();
     const keys=["arrowup","arrowdown","arrowleft","arrowright","w","a","s","d"," "];
 
     if(keys.includes(key)) event.preventDefault();
+
+    if($("modalLayer").classList.contains("hidden")===false) {
+      if(key==="escape") closeModal();
+      return;
+    }
+
     if(event.repeat) return;
 
     if(key==="arrowup"||key==="w") changeDirection({x:0,y:-1});
@@ -1719,10 +1567,7 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
   },{capture:true});
 
   const directions={
-    up:{x:0,y:-1},
-    down:{x:0,y:1},
-    left:{x:-1,y:0},
-    right:{x:1,y:0}
+    up:{x:0,y:-1},down:{x:0,y:1},left:{x:-1,y:0},right:{x:1,y:0}
   };
 
   document.querySelectorAll("[data-direction]").forEach(button=>{
@@ -1755,29 +1600,10 @@ footer { text-align:center;color:var(--muted);font-size:.78rem;padding:0 12px 25
     touchStart=null;
   },{passive:true});
 
-  function localInitialisation() {
-    unlockProgressRewards();
-    updateStageUI();
-    renderPanels();
-    draw();
-
-    if(!db) {
-      $("leaderboardStatus").textContent=
-        "Local scores only. Add Supabase settings to enable global rankings.";
-    } else {
-      $("leaderboardStatus").textContent="Connecting to the global leaderboard…";
-      ensureGlobalUser()
-        .then(()=>refreshLeaderboard())
-        .catch(error=>{
-          console.warn(error);
-          $("leaderboardStatus").textContent=
-            "Global setup incomplete. Check anonymous sign-in and database permissions.";
-          renderLocalLeaderboard();
-        });
-    }
-  }
-
-  localInitialisation();
+  unlockProgressRewards();
+  updateStageUI();
+  renderPanels();
+  draw();
 })();
 </script>
 </body>
