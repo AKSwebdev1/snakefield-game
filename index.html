@@ -25,8 +25,17 @@
   button:hover { background:#10294a; border-color:#3b79bd; }
   button:active { transform:scale(.97); }
   .iconbtn { font-size:21px; min-width:54px; height:52px; }
-  .board-wrap { padding:6px; border:2px solid #1553a8; background:#06152a; border-radius:23px; box-shadow:0 0 0 1px #0a2446,0 18px 50px #0004; position:relative; }
-  canvas { width:100%; display:block; aspect-ratio:1; border-radius:15px; touch-action:none; }
+  .board-wrap { padding:5px; border:2px solid #1553a8; background:#06152a; border-radius:20px; box-shadow:0 0 0 1px #0a2446,0 18px 50px #0004; position:relative; width:min(100%, min(76vh, 800px)); margin:0 auto; }
+  canvas { width:100%; display:block; aspect-ratio:1; border-radius:14px; touch-action:none; }
+  .customise { display:flex; justify-content:center; align-items:center; gap:10px; flex-wrap:wrap; margin:12px 0 0; }
+  .customise label { color:var(--muted); font-size:13px; }
+  .customise select { background:#0a1b31; color:var(--text); border:1px solid #204b7e; border-radius:10px; padding:10px 12px; font:inherit; }
+  .swatches { display:flex; gap:7px; }
+  .swatch { width:27px; height:27px; min-width:27px; padding:0; border-radius:50%; border:2px solid #aac8e9; }
+  .swatch[aria-pressed="true"] { outline:2px solid white; outline-offset:2px; }
+  .board-wrap:fullscreen { width:100vw; height:100vh; max-width:none; border-radius:0; padding:12px; display:flex; align-items:center; justify-content:center; background:#041124; }
+  .board-wrap:fullscreen canvas { width:min(94vmin, 94vw, 94vh); height:auto; }
+  .board-wrap:fullscreen .overlay { inset:12px; }
   .overlay { position:absolute; inset:6px; display:none; align-items:center; justify-content:center; border-radius:17px; background:#031021bd; backdrop-filter:blur(5px); text-align:center; padding:20px; }
   .overlay.show { display:flex; }
   .overlay-card { background:#07172a; border:1px solid #214c7d; padding:25px; border-radius:18px; max-width:340px; }
@@ -86,6 +95,24 @@
     <button class="right" data-dir="right" aria-label="Move right">→</button>
   </div>
 
+  <div class="customise">
+    <label for="bgSelect">Background</label>
+    <select id="bgSelect">
+      <option value="midnight">Midnight blue</option>
+      <option value="forest">Forest green</option>
+      <option value="purple">Deep purple</option>
+      <option value="sunset">Sunset dusk</option>
+      <option value="light">Soft light</option>
+    </select>
+    <label>Snake skin</label>
+    <div class="swatches" aria-label="Snake skin colour">
+      <button class="swatch" data-skin="#35eca0" style="background:#35eca0" aria-label="Mint green" aria-pressed="true"></button>
+      <button class="swatch" data-skin="#51a7ff" style="background:#51a7ff" aria-label="Ocean blue" aria-pressed="false"></button>
+      <button class="swatch" data-skin="#c084fc" style="background:#c084fc" aria-label="Purple" aria-pressed="false"></button>
+      <button class="swatch" data-skin="#ff668b" style="background:#ff668b" aria-label="Berry pink" aria-pressed="false"></button>
+      <button class="swatch" data-skin="#ffd166" style="background:#ffd166" aria-label="Golden yellow" aria-pressed="false"></button>
+    </div>
+  </div>
   <div class="controls">
     <div class="keyset"><span class="key">↑</span><span class="key">↓</span><span class="key">←</span><span class="key">→</span><span>Move</span></div>
     <div class="keyset"><span class="key">SPACE</span><span>Pause</span></div>
@@ -98,6 +125,15 @@
   const canvas = document.getElementById('game');
   const ctx = canvas.getContext('2d');
   const N = 40, CELL = canvas.width / N, TARGET = 80;
+  let skinColor = '#35eca0';
+  let backgroundTheme = 'midnight';
+  const themes = {
+    midnight: { a:'#06172b', b:'#041124', grid:'rgba(37,83,133,.30)', border:'#1553a8' },
+    forest:   { a:'#09251f', b:'#041812', grid:'rgba(73,155,119,.22)', border:'#247b5b' },
+    purple:   { a:'#1b1230', b:'#0d091c', grid:'rgba(145,103,195,.24)', border:'#6840a0' },
+    sunset:   { a:'#2b1725', b:'#130d20', grid:'rgba(204,112,118,.23)', border:'#9a466c' },
+    light:    { a:'#eaf3ff', b:'#dce9f8', grid:'rgba(46,86,132,.17)', border:'#6d95c7' }
+  };
   const stageLabel = document.getElementById('stageLabel');
   const countLabel = document.getElementById('countLabel');
   const progressBar = document.getElementById('progressBar');
@@ -181,22 +217,23 @@
   function draw() {
     const w=canvas.width, h=canvas.height;
     ctx.clearRect(0,0,w,h);
-    const bg=ctx.createLinearGradient(0,0,w,h); bg.addColorStop(0,'#06172b'); bg.addColorStop(1,'#041124');
+    const theme = themes[backgroundTheme] || themes.midnight;
+    const bg=ctx.createLinearGradient(0,0,w,h); bg.addColorStop(0,theme.a); bg.addColorStop(1,theme.b);
     ctx.fillStyle=bg; ctx.fillRect(0,0,w,h);
-    ctx.strokeStyle='rgba(37,83,133,.30)'; ctx.lineWidth=1;
+    ctx.strokeStyle=theme.grid; ctx.lineWidth=1;
     for(let i=0;i<=N;i++){let p=i*CELL;ctx.beginPath();ctx.moveTo(p,0);ctx.lineTo(p,h);ctx.stroke();ctx.beginPath();ctx.moveTo(0,p);ctx.lineTo(w,p);ctx.stroke();}
     drawApple(apple.x*CELL+CELL/2,apple.y*CELL+CELL/2);
     // A single continuous path with rounded joins makes the snake smooth and gap-free.
     ctx.save(); ctx.lineCap='round'; ctx.lineJoin='round'; ctx.lineWidth=CELL*.82;
     ctx.shadowColor='#31efa0'; ctx.shadowBlur=13;
-    const green=ctx.createLinearGradient(0,0,w,h); green.addColorStop(0,'#27d98d'); green.addColorStop(1,'#55f7b0');
+    const green=ctx.createLinearGradient(0,0,w,h); green.addColorStop(0,skinColor); green.addColorStop(1,skinColor);
     ctx.strokeStyle=green; ctx.beginPath();
     snake.forEach((s,i)=>{const x=s.x*CELL+CELL/2,y=s.y*CELL+CELL/2;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);});
     ctx.stroke(); ctx.restore();
     const head=snake[snake.length-1], hx=head.x*CELL+CELL/2, hy=head.y*CELL+CELL/2;
     // Two small eyes on the head, placed according to direction.
     const eyeOffset=CELL*.18, eyeR=CELL*.065;
-    ctx.fillStyle='#063321';
+    ctx.fillStyle=backgroundTheme==='light'?'#19324d':'#063321';
     let e1,e2;
     if(dir.x!==0){e1={x:hx+dir.x*CELL*.12,y:hy-CELL*.17};e2={x:hx+dir.x*CELL*.12,y:hy+CELL*.17};}
     else {e1={x:hx-CELL*.17,y:hy+dir.y*CELL*.12};e2={x:hx+CELL*.17,y:hy+dir.y*CELL*.12};}
@@ -218,6 +255,17 @@
     if(key==='r')reset();
   });
   document.querySelectorAll('[data-dir]').forEach(b=>b.addEventListener('click',()=>setDirection(b.dataset.dir)));
+  document.getElementById('bgSelect').addEventListener('change', e => {
+    backgroundTheme = e.target.value;
+    const theme = themes[backgroundTheme] || themes.midnight;
+    document.querySelector('.board-wrap').style.borderColor = theme.border;
+    draw();
+  });
+  document.querySelectorAll('[data-skin]').forEach(b => b.addEventListener('click', () => {
+    skinColor = b.dataset.skin;
+    document.querySelectorAll('[data-skin]').forEach(s => s.setAttribute('aria-pressed', String(s===b)));
+    draw();
+  }));
   startBtn.addEventListener('click',()=>{if(gameOver)reset();start();});
   document.getElementById('soundBtn').addEventListener('click',e=>{soundOn=!soundOn;e.currentTarget.textContent=soundOn?'🔊':'🔇';if(soundOn)beep();});
   document.getElementById('fullBtn').addEventListener('click',async()=>{
