@@ -93,6 +93,10 @@ body.fullscreen .app{max-width:none;padding:9px}
 body.fullscreen .layout{grid-template-columns:minmax(0,1fr) 280px;gap:9px}
 body.fullscreen .panel{padding:10px}
 body.fullscreen .board{max-width:min(calc(100vh - 165px),calc(100vw - 320px))}
+.board:fullscreen{position:fixed;inset:0;margin:auto;width:min(92vmin,92vh);height:min(92vmin,92vh);max-width:none;aspect-ratio:1;border:0;border-radius:0;background:#fff;display:grid;place-items:center;overflow:visible}
+.board:fullscreen::backdrop{background:#fff}
+.board:fullscreen canvas{width:100%;height:100%;aspect-ratio:1}
+.board:fullscreen .overlay{border-radius:0}
 @media(max-width:850px){.layout{grid-template-columns:1fr}.gamepanel{max-width:720px;width:100%;margin:auto}.sidebar{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:580px){
  .app{padding:10px}header{align-items:flex-start}.logo{width:39px;height:39px}
@@ -130,7 +134,7 @@ body.fullscreen .board{max-width:min(calc(100vh - 165px),calc(100vw - 320px))}
     <div class="overlay" id="overlay"><div class="overlaycard">
       <div class="big" id="overlayEmoji">🍎</div><h2 id="overlayTitle">Ready to play?</h2>
       <p id="overlayText">Eat apples, grow your snake and unlock new looks. Turns wait for the next grid crossing, so you won't skip a square.</p>
-      <div class="overlayactions"><button class="btn primary" id="playBtn">Start playing</button><button class="btn" id="chooseBtn">Choose mode</button></div>
+      <div class="overlayactions"><button class="btn primary" id="playBtn">Start playing</button><button class="btn" id="chooseBtn">Choose mode</button><button class="btn" id="retryBtn" style="display:none">Retry</button><button class="btn" id="menuBtn" style="display:none">Main menu</button></div>
     </div></div>
   </div>
   <div class="dpad">
@@ -144,7 +148,6 @@ body.fullscreen .board{max-width:min(calc(100vh - 165px),calc(100vw - 320px))}
     <div class="modes">
       <button class="mode selected" data-mode="classic"><strong>🍎 Classic</strong><span>Chase your best score</span></button>
       <button class="mode" data-mode="versus"><strong>⚔️ Local 1v1</strong><span>Two snakes, one device</span></button>
-      <button class="mode" data-mode="zen"><strong>🌊 Zen</strong><span>Wrap around the walls</span></button>
       <button class="mode" data-mode="rush"><strong>⚡ Rush</strong><span>Faster from the start</span></button>
     </div>
     <div class="row"><label for="playerName">Player name</label><input id="playerName" maxlength="16" placeholder="Snake player"></div>
@@ -218,8 +221,8 @@ const THEME_COLORS=[
 ['Moonlight','#e9edf6','rgba(90,110,150,.12)','#c6cfe0'],['Deep Space','#070718','rgba(110,100,255,.13)','#302b77'],
 ['Pistachio Light','#f5ffe9','rgba(110,160,70,.12)','#d9e9c3'],['Whiteout','#ffffff','rgba(80,100,125,.12)','#dbe3eb']
 ];
-const defaults={best:0,skin:'Mint',theme:'Midnight Blue',name:'',scores:[],sound:true,missions:{},runs:0,totalApples:0,light:false};
-let save;try{save={...defaults,...JSON.parse(localStorage.getItem('snakefieldSave')||'{}')};}catch{save={...defaults};}
+const defaults={best:0,skin:'Mint',theme:'Midnight Blue',name:'',scores:[],sound:true,missions:{},runs:0,totalApples:0,light:false,unlockedThemes:['Midnight Blue']};
+let save;try{save={...defaults,...JSON.parse(localStorage.getItem('snakefieldSave')||'{}')};}catch{save={...defaults};}save.unlockedThemes=Array.isArray(save.unlockedThemes)?save.unlockedThemes:['Midnight Blue'];if(!save.unlockedThemes.includes('Midnight Blue'))save.unlockedThemes.unshift('Midnight Blue');if(!save.unlockedThemes.includes(save.theme))save.theme='Midnight Blue';
 const persist=()=>{try{localStorage.setItem('snakefieldSave',JSON.stringify(save));}catch{}};
 let mode='classic',running=false,paused=false,over=false,score=0,stage=1,apples=0,runApples=0;
 let snake=[],oldSnake=[],direction={x:1,y:0},turnQueue=[],food={x:13,y:10};
@@ -248,43 +251,41 @@ function startSetup(){
  food=placeFood();running=false;paused=false;over=false;$('overlay').classList.remove('hide');$('status').textContent='READY TO PLAY';
  $('overlayEmoji').textContent=mode==='versus'?'⚔️':'🍎';$('overlayTitle').textContent=mode==='versus'?'Ready for a 1v1?':'Ready to play?';
  $('overlayText').textContent=mode==='versus'?'Player 1: WASD. Player 2: arrow keys. First snake to crash loses.':'Eat apples, grow your snake and unlock new looks. Turns happen at the next grid crossing without skipping a square.';
- $('playBtn').textContent='Start playing';$('modeName').textContent=mode==='versus'?'LOCAL 1V1':mode==='zen'?'ZEN RUN':mode==='rush'?'RUSH RUN':'CLASSIC RUN';$('gameTitle').textContent=mode==='versus'?'Local head-to-head':'Ready when you are.';
+ $('playBtn').textContent='Start playing';$('retryBtn').style.display='none';$('menuBtn').style.display='none';$('chooseBtn').style.display='inline-block';$('modeName').textContent=mode==='versus'?'LOCAL 1V1':mode==='rush'?'RUSH RUN':'CLASSIC RUN';$('gameTitle').textContent=mode==='versus'?'Local head-to-head':'Ready when you are.';
  updateHUD();draw();
 }
 function start(){if(over)startSetup();running=true;paused=false;over=false;$('overlay').classList.add('hide');$('status').textContent='IN THE GROOVE';last=0;requestAnimationFrame(loop);beep(520);}
 function setDir(d,player=1){
+ if(!running||over)return;
  const current=player===1?direction:direction2,q=player===1?turnQueue:turnQueue2;
  const base=q.length?q[q.length-1]:current;
  if(base.x+d.x===0&&base.y+d.y===0)return;
  if(q.length<2)q.push({...d});
- if(!running&&!over)start();
 }
 function consume(player){
  const q=player===1?turnQueue:turnQueue2;
  while(q.length){const d=q.shift();const cur=player===1?direction:direction2;if(cur.x+d.x===0&&cur.y+d.y===0)continue;if(player===1)direction=d;else direction2=d;break;}
 }
-function wrap(p){p.x=(p.x+N)%N;p.y=(p.y+N)%N;return p;}
 function step(player=1){
  const s=player===1?snake:snake2;
  if(player===1)oldSnake=snake.map(p=>({...p}));else oldSnake2=snake2.map(p=>({...p}));
  consume(player);
  const d=player===1?direction:direction2;
  let head={x:s[0].x+d.x,y:s[0].y+d.y};
- if(mode==='zen')wrap(head);
+
  const wall=head.x<0||head.x>=N||head.y<0||head.y>=N;
  const eating=same(head,food);
  const body=eating?s:s.slice(0,-1);
  const self=body.some(p=>same(p,head));
  const other=mode==='versus'&&(player===1?snake2:snake).some(p=>same(p,head));
- if(mode!=='zen'&&(wall||self||other)){finish(mode==='versus'?(player===1?'p2':'p1'):'p1');return false;}
- if(mode==='zen')wrap(head);
+ if(wall||self||other){finish(mode==='versus'?(player===1?'p2':'p1'):'p1');return false;}
+
  s.unshift(head);if(!eating)s.pop();
  if(eating){
-  score+=10;apples++;runApples++;save.totalApples=(save.totalApples||0)+1;
-  if(player===2){p2Score+=10;}
+  if(player===1){score+=10;apples++;runApples++;save.totalApples=(save.totalApples||0)+1;}else{score2+=10;}
   food=placeFood();beep(760,.045);
-  if(apples%APPLES_PER_STAGE===0){stage++;speed=Math.max(54,speed-4);toast('Stage '+stage+' — speed up!');beep(900,.12);}
-  updateDaily();
+  if(player===1&&apples%APPLES_PER_STAGE===0){stage++;speed=Math.max(54,speed-4);toast('Stage '+stage+' — speed up!');beep(900,.12);}
+  if(player===1)updateDaily();
  }
  return true;
 }
@@ -296,7 +297,7 @@ function finish(winner){
   save.scores.sort((a,b)=>b.score-a.score);save.scores=save.scores.slice(0,8);
  }else{save.best=Math.max(save.best,score,score2);}
  persist();checkMissions();renderMissions();renderLeaders();updateHUD();
- $('overlay').classList.remove('hide');$('playBtn').textContent='Play again';$('status').textContent='RUN COMPLETE';
+ $('overlay').classList.remove('hide');$('playBtn').textContent='Change Gamemode';$('retryBtn').style.display='inline-block';$('menuBtn').style.display='inline-block';$('chooseBtn').style.display='none';$('status').textContent='RUN COMPLETE';
  if(mode==='versus'){$('overlayEmoji').textContent='🏆';$('overlayTitle').textContent=winner==='p1'?'Player 1 wins!':'Player 2 wins!';$('overlayText').textContent=`Player 1: ${score} · Player 2: ${score2}. Rematch?`;}
  else{$('overlayEmoji').textContent='🍏';$('overlayTitle').textContent=score>=save.best?'New best? Nice run!':'Run complete';$('overlayText').textContent=`You scored ${score}, reached stage ${stage}, and collected ${runApples} apples. Try another run to beat your best!`;}
  beep(220,.18);
@@ -314,7 +315,7 @@ function drawSnake(s,old,alpha,color,dir){
   const o=old[i]||p;let dx=p.x-o.x,dy=p.y-o.y;
   if(Math.abs(dx)>N/2)dx=0;if(Math.abs(dy)>N/2)dy=0;
   let x=o.x+dx*alpha,y=o.y+dy*alpha;
-  if(mode==='zen'){if(x<0)x+=N;if(x>=N)x-=N;if(y<0)y+=N;if(y>=N)y-=N;}
+
   return{x:(x+.5)*cell,y:(y+.5)*cell};
  });
  ctx.save();ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle=color;ctx.lineWidth=cell*.72;ctx.beginPath();ctx.moveTo(points[0].x,points[0].y);
@@ -348,21 +349,22 @@ function renderSkins(){
 }
 function renderThemes(){
  const sel=$('theme');sel.innerHTML='';
- THEME_COLORS.forEach(t=>{const o=document.createElement('option');o.value=t[0];o.textContent=t[0];sel.appendChild(o);});
- sel.value=save.theme||'Midnight Blue';
+ const unlocked=new Set(save.unlockedThemes||['Midnight Blue']);
+ THEME_COLORS.forEach(t=>{const o=document.createElement('option');o.value=t[0];const open=unlocked.has(t[0]);o.textContent=open?t[0]:`🔒 ${t[0]} — complete a challenge`;o.disabled=!open;sel.appendChild(o);});
+ sel.value=unlocked.has(save.theme)?save.theme:'Midnight Blue';
 }
 function renderMissions(){
  let done=0;$('missions').innerHTML='';
  missions.forEach(m=>{
   const progress=Math.min(m.goal,m.progress()),complete=!!save.missions[m.id]||progress>=m.goal;
-  if(complete){done++;save.missions[m.id]=true;}
+  if(complete){done++;}
   const el=document.createElement('div');el.className='mission';
   el.innerHTML=`<div class="missiontop"><span>${complete?'✅':'🎯'} ${m.title}</span><span>${complete?'DONE':m.reward}</span></div><p>${m.desc} · ${progress}/${m.goal}</p><div class="progress"><i style="width:${progress/m.goal*100}%"></i></div>`;
   $('missions').appendChild(el);
  });
  $('missionCount').textContent=`${done}/3 DONE`;persist();
 }
-function checkMissions(){missions.forEach(m=>{if(m.progress()>=m.goal&&!save.missions[m.id]){save.missions[m.id]=true;toast('Mission complete: '+m.title+'!');}});persist();}
+function checkMissions(){missions.forEach((m,i)=>{if(m.progress()>=m.goal&&!save.missions[m.id]){save.missions[m.id]=true;const reward=['Sky Blue','Forest','Lavender'][i];save.unlockedThemes=save.unlockedThemes||['Midnight Blue'];if(!save.unlockedThemes.includes(reward))save.unlockedThemes.push(reward);toast('Mission complete: '+m.title+'! '+reward+' background unlocked.');}});persist();renderThemes();}
 function renderLeaders(){
  $('leaders').innerHTML='';
  if(!save.scores.length){$('leaders').innerHTML='<p class="smallnote">No scores yet. Finish a run to set the first record!</p>';return;}
@@ -372,7 +374,7 @@ function updateDaily(){
  if(daily.done)return;
  const v=[runApples,score,stage][Math.floor(Date.now()/86400000)%3];
  daily.count=Math.max(daily.count,v);
- if(daily.count>=dailyGoal.goal){daily.done=true;toast('Daily challenge completed!');}
+ if(daily.count>=dailyGoal.goal){daily.done=true;save.unlockedThemes=save.unlockedThemes||['Midnight Blue'];const reward=THEME_COLORS[(Math.floor(Date.now()/86400000)% (THEME_COLORS.length-1))+1][0];if(!save.unlockedThemes.includes(reward))save.unlockedThemes.push(reward);toast('Daily challenge complete! '+reward+' background unlocked.');persist();renderThemes();}
  localStorage.setItem('snakefieldDaily',JSON.stringify(daily));renderDaily();
 }
 function renderDaily(){
@@ -384,13 +386,13 @@ function applySettings(){
  save.name=$('playerName').value.trim().slice(0,16);
  const skin=SKINS.find(s=>s[0]===$('skin').value);
  if(skin&&(save.best||0)>=skin[2])save.skin=skin[0];
- save.theme=$('theme').value;
+ if((save.unlockedThemes||['Midnight Blue']).includes($('theme').value))save.theme=$('theme').value;
  save.light=['Sky Blue','Sand','Mint Light','Cloud','Ice','Cloud Blue','Arctic','Whiteout','Mint Light','Soft Lilac','Peach Light','Pistachio Light','Moonlight'].includes(save.theme);
  document.body.classList.toggle('light',save.light);persist();startSetup();toast('Settings applied');
 }
 function selectMode(m){
  mode=m;document.querySelectorAll('.mode').forEach(b=>b.classList.toggle('selected',b.dataset.mode===m));
- $('modeName').textContent=m==='versus'?'LOCAL 1V1':m==='zen'?'ZEN RUN':m==='rush'?'RUSH RUN':'CLASSIC RUN';
+ $('modeName').textContent=m==='versus'?'LOCAL 1V1':m==='rush'?'RUSH RUN':'CLASSIC RUN';
  $('controlsNote').textContent=m==='versus'?'Player 1: WASD · Player 2: arrow keys · Space: pause · R: restart':'Arrow keys or WASD to move · Space to pause · R to restart.';
  startSetup();
 }
@@ -398,7 +400,7 @@ function pause(){
  if(over)return;
  if(!running){start();return;}
  running=false;paused=true;$('status').textContent='PAUSED';$('overlay').classList.remove('hide');
- $('overlayEmoji').textContent='⏸️';$('overlayTitle').textContent='Run paused';$('overlayText').textContent='Ready when you are? Resume to keep playing.';$('playBtn').textContent='Resume';
+ $('overlayEmoji').textContent='⏸️';$('overlayTitle').textContent='Run paused';$('overlayText').textContent='Ready when you are? Resume to keep playing.';$('playBtn').textContent='Resume';$('retryBtn').style.display='inline-block';$('menuBtn').style.display='inline-block';$('chooseBtn').style.display='none';$('retryBtn').style.display='inline-block';$('menuBtn').style.display='inline-block';$('chooseBtn').style.display='none';
 }
 function share(){
  const text=`I'm playing Snakefield 🍎! My best score is ${save.best||score}. Can you beat it? ${location.href}`;
@@ -406,7 +408,9 @@ function share(){
  else if(navigator.clipboard)navigator.clipboard.writeText(text).then(()=>toast('Score link copied!')).catch(()=>prompt('Copy this link',text));
  else prompt('Copy this link',text);
 }
-$('playBtn').addEventListener('click',start);
+$('playBtn').addEventListener('click',()=>{if(over){$('modeName').scrollIntoView({behavior:'smooth',block:'center'});return;}start();});
+$('retryBtn').addEventListener('click',()=>{startSetup();start();});
+$('menuBtn').addEventListener('click',async()=>{if(document.fullscreenElement){try{await document.exitFullscreen();}catch{}}running=false;paused=false;over=false;startSetup();$('overlay').classList.remove('hide');$('overlayEmoji').textContent='🍎';$('overlayTitle').textContent='Ready to play?';$('overlayText').textContent='Choose a mode, then press Start playing when you are ready.';$('playBtn').textContent='Start playing';$('retryBtn').style.display='none';$('menuBtn').style.display='none';$('chooseBtn').style.display='inline-block';window.scrollTo({top:0,behavior:'smooth'});});
 $('newBtn').addEventListener('click',()=>{startSetup();start();});
 $('chooseBtn').addEventListener('click',()=>$('modeName').scrollIntoView({behavior:'smooth',block:'center'}));
 $('apply').addEventListener('click',applySettings);
